@@ -22,6 +22,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import com.itsx.speaktutor.R
+
 // 👈 Corrección aquí: se quitó el paréntesis en "data class"
 data class FeatureItem(
     val title: String,
@@ -92,6 +96,17 @@ fun TarjetasShaderScreen(
                 .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
         ) {
+
+            // 🖼️ Logo integrado dentro de la interfaz
+            Image(
+                painter = painterResource(id = R.drawable.speak_tutor_logo), // Nombre de tu archivo en drawable (sin extensión)
+                contentDescription = "Logo de SpeakTutor",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(90.dp) // Ajusta la altura a tu gusto
+                    .padding(bottom = 8.dp)
+            )
+
             Text(
                 text = "Herramientas Principales",
                 fontSize = 24.sp,
