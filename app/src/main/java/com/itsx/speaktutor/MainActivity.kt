@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.itsx.speaktutor.ui.navigation.Screen
 import com.itsx.speaktutor.ui.screens.MetronomoScreen
 import com.itsx.speaktutor.ui.screens.HablaEstiradaScreen
+import com.itsx.speaktutor.ui.screens.PronunciacionInstanteScreen
 import com.itsx.speaktutor.ui.screens.RitmoFluidezScreen
 import com.itsx.speaktutor.ui.screens.TarjetasShaderScreen
 import com.itsx.speaktutor.ui.screens.SimulacionSituacionesScreen
@@ -45,6 +46,7 @@ class MainActivity : ComponentActivity() {
                                 onNavigateHablaEstirada = { navController.navigate(Screen.HablaEstirada.route) },
                                 onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) },
                                 onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
+                                onNavigatePronunciacioninstante = { navController.navigate(Screen.PronunciacionInstante.route) },
                                 onBack = { finish() } // Cierra la app al salir del menú principal
                             )
                         }
@@ -63,6 +65,12 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.SimulacionSituaciones.route) {
                             SimulacionSituacionesScreen(navController = navController,
                                 onBack = { navController.popBackStack() })
+                        }
+                        composable(Screen.PronunciacionInstante.route) {
+                            PronunciacionInstanteScreen(
+                                navController = navController,
+                                onBack = { navController.popBackStack() }
+                            )
                         }
                     }
                 }

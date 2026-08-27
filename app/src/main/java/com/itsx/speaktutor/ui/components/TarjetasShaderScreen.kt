@@ -1,5 +1,7 @@
 package com.itsx.speaktutor.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,7 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import androidx.compose.foundation.Image
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import coil.compose.AsyncImage
+import coil.decode.ImageDecoderDecoder // Importante para reproducir GIFs en Android
+import coil.request.ImageRequest
 import com.itsx.speaktutor.R
 
 // 👈 Corrección aquí: se quitó el paréntesis en "data class"
@@ -35,6 +41,7 @@ data class FeatureItem(
     val onClick: () -> Unit
 )
 
+@RequiresApi(Build.VERSION_CODES.P)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TarjetasShaderScreen(
@@ -42,6 +49,7 @@ fun TarjetasShaderScreen(
     onNavigateHablaEstirada: () -> Unit,
     onNavigateRitmoFluidez: () -> Unit,
     onNavigateSimulacionSituaciones: () -> Unit,
+    onNavigatePronunciacioninstante: () -> Unit,
     onBack: () -> Unit
 ) {
     val features = listOf(
@@ -71,7 +79,14 @@ fun TarjetasShaderScreen(
             description = "Simulate en situaciones pregrabadas y entrena.",
             icon = Icons.Default.SimCard,
             colors = listOf(Color(0XFF010FFD), Color(0xFF014FFA), Color(0xFF016FFD))
-        ) { onNavigateSimulacionSituaciones() }
+        ) { onNavigateSimulacionSituaciones() },
+
+        FeatureItem(
+                title = "Pronunciación al Instante",
+            description = "Prueba tu fluidez por intervalos de tiempo y mide tus aciertos.",
+            icon = Icons.Default.CheckCircle,
+            colors = listOf(Color(0xFFE65100), Color(0xFFF57C00), Color(0xFFFFB74D))
+        ) { onNavigatePronunciacioninstante() }
     )
 
     Scaffold(
@@ -97,13 +112,15 @@ fun TarjetasShaderScreen(
                 .padding(16.dp)
         ) {
 
-            // 🖼️ Logo integrado dentro de la interfaz
-            Image(
-                painter = painterResource(id = R.drawable.speak_tutor_logo), // Nombre de tu archivo en drawable (sin extensión)
-                contentDescription = "Logo de SpeakTutor",
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(R.drawable.ascii_effect_animado) // Nombre de tu archivo gif en drawable (sin extensión)
+                    .decoderFactory(ImageDecoderDecoder.Factory()) // Activa la animación del GIF
+                    .build(),
+                contentDescription = "Logo Animado de SpeakTutor",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(90.dp) // Ajusta la altura a tu gusto
+                    .height(100.dp) // Ajusta la altura según prefieras
                     .padding(bottom = 8.dp)
             )
 

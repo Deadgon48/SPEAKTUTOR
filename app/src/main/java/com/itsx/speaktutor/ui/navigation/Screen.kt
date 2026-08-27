@@ -10,4 +10,7 @@ sealed class Screen(val route: String) {
     object RitmoFluidez : Screen("entrenamiento_ritmo")
 
     object SimulacionSituaciones : Screen("simulacion_situaciones")
+
+    // Agrega esta línea dentro de tu clase Screen sealed
+    object PronunciacionInstante : Screen("pronunciacion_instante")
 }
