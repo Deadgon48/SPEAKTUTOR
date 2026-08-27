@@ -52,6 +52,11 @@ fun MenuScreen(navController: NavController) {
             BotonPrincipal("Simulación de situaciones") {
                 navController.navigate(Screen.SimulacionSituaciones.route)
             }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            BotonPrincipal("Pronunciacion al instante") {
+                navController.navigate(Screen.PronunciacionInstante.route)
+            }
         }
     }
 }
