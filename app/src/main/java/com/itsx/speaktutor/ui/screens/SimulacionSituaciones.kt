@@ -62,270 +62,403 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
         }
     }
 
-    DisposableEffect(context) {
-        val textToSpeech = TextToSpeech(context) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                tts?.language = Locale("es", "ES")
-                ttsInitialized = true
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        // Barra de navegación rápida superior entre módulos
+        BarraNavegacionModulos(
+            onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
+            onNavigateMetronomo = { navController.navigate(Screen.Metronomo.route) },
+            onNavigateHablaEstirada = { navController.navigate(Screen.HablaEstirada.route) },
+            onNavigateRitmoFluidez = { /* Ya estás aquí */ },
+            onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
+            onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
+            onNavigateProgreso = { navController.navigate(Screen.Progreso.route) }
+        )
+
+        DisposableEffect(context) {
+            val textToSpeech = TextToSpeech(context) { status ->
+                if (status == TextToSpeech.SUCCESS) {
+                    tts?.language = Locale("es", "ES")
+                    ttsInitialized = true
+                }
             }
-        }
-        tts = textToSpeech
-        onDispose {
-            textToSpeech.stop()
-            textToSpeech.shutdown()
-            mediaRecorder?.release()
-        }
-    }
-
-    fun toggleRecording() {
-        val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-            return
-        }
-
-        if (isRecording) {
-            try {
-                mediaRecorder?.stop()
+            tts = textToSpeech
+            onDispose {
+                textToSpeech.stop()
+                textToSpeech.shutdown()
                 mediaRecorder?.release()
-                mediaRecorder = null
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
-            isRecording = false
-        } else {
-            try {
-                if (audioFile.exists()) audioFile.delete()
-                val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    MediaRecorder(context)
-                } else {
-                    @Suppress("DEPRECATION")
-                    MediaRecorder()
-                }.apply {
-                    setAudioSource(MediaRecorder.AudioSource.MIC)
-                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                    setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                    setOutputFile(audioFile.absolutePath)
-                    prepare()
-                    start()
+        }
+
+        fun toggleRecording() {
+            val permissionCheck =
+                ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                return
+            }
+
+            if (isRecording) {
+                try {
+                    mediaRecorder?.stop()
+                    mediaRecorder?.release()
+                    mediaRecorder = null
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-                mediaRecorder = recorder
-                isRecording = true
-            } catch (e: Exception) {
-                e.printStackTrace()
                 isRecording = false
+            } else {
+                try {
+                    if (audioFile.exists()) audioFile.delete()
+                    val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        MediaRecorder(context)
+                    } else {
+                        @Suppress("DEPRECATION")
+                        MediaRecorder()
+                    }.apply {
+                        setAudioSource(MediaRecorder.AudioSource.MIC)
+                        setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                        setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                        setOutputFile(audioFile.absolutePath)
+                        prepare()
+                        start()
+                    }
+                    mediaRecorder = recorder
+                    isRecording = true
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    isRecording = false
+                }
             }
         }
-    }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = when (seccionActual) {
-                            SimulacionSituaciones.MENU_PRINCIPAL -> "Simulación de Situaciones"
-                            SimulacionSituaciones.ESCENARIOS -> "Escenarios Cotidianos"
-                            SimulacionSituaciones.GUIONES -> "Práctica de Guiones e Interlocutor"
-                        }
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        if (seccionActual == SimulacionSituaciones.MENU_PRINCIPAL) {
-                            onBack()
-                        } else {
-                            if (isRecording) {
-                                mediaRecorder?.stop()
-                                mediaRecorder?.release()
-                                mediaRecorder = null
-                                isRecording = false
-                            }
-                            seccionActual = SimulacionSituaciones.MENU_PRINCIPAL
-                        }
-                    }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Regresar"
-                        )
-                    }
-                }
-            )
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp)
-        ) {
-            when (seccionActual) {
-                SimulacionSituaciones.MENU_PRINCIPAL -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
                         Text(
-                            text = "Entrena tu fluidez enfrentando situaciones reales de la vida cotidiana:",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            text = when (seccionActual) {
+                                SimulacionSituaciones.MENU_PRINCIPAL -> "Simulación de Situaciones"
+                                SimulacionSituaciones.ESCENARIOS -> "Escenarios Cotidianos"
+                                SimulacionSituaciones.GUIONES -> "Práctica de Guiones e Interlocutor"
+                            }
                         )
-
-                        // Tarjeta 1: Escenarios Cotidianos
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(100.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .background(Brush.linearGradient(listOf(Color(0xFF0277BD), Color(0xFF00ACC1))))
-                                .clickable { seccionActual = SimulacionSituaciones.ESCENARIOS }
-                                .padding(20.dp),
-                            contentAlignment = Alignment.CenterStart
-                        ) {
-                            Column {
-                                Text(
-                                    text = "🎧 Escenarios Cotidianos",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = "Escucha la situación y responde grabando tu voz",
-                                    fontSize = 13.sp,
-                                    color = Color.White.copy(alpha = 0.8f)
-                                )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            if (seccionActual == SimulacionSituaciones.MENU_PRINCIPAL) {
+                                onBack()
+                            } else {
+                                if (isRecording) {
+                                    mediaRecorder?.stop()
+                                    mediaRecorder?.release()
+                                    mediaRecorder = null
+                                    isRecording = false
+                                }
+                                seccionActual = SimulacionSituaciones.MENU_PRINCIPAL
                             }
-                        }
-
-                        // Tarjeta 2: Práctica de Guiones (Interlocutor)
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(100.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .background(Brush.linearGradient(listOf(Color(0xFFEF6C00), Color(0xFFFFA726))))
-                                .clickable { seccionActual = SimulacionSituaciones.GUIONES }
-                                .padding(20.dp),
-                            contentAlignment = Alignment.CenterStart
-                        ) {
-                            Column {
-                                Text(
-                                    text = "💬 Práctica de Guiones e Interlocutor",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = "La app actúa como interlocutor en diálogos guiados",
-                                    fontSize = 13.sp,
-                                    color = Color.White.copy(alpha = 0.8f)
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        OutlinedButton(
-                            onClick = onBack,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(text = "Regresar al Menú Principal", fontSize = 16.sp)
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Regresar"
+                            )
                         }
                     }
-                }
-
-                SimulacionSituaciones.ESCENARIOS -> {
-                    val escenarios = listOf(
-                        Triple("☕ Pedir un café en la cafetería", "Hola, buenos días. ¿Qué le gustaría ordenar hoy?", "Simula que pides tu bebida favorita con calma."),
-                        Triple("🛒 Comprar en el supermercado", "Hola, ¿encontró todo lo que buscaba o le ayudo en algo?", "Responde al cajero o dependiente de tienda."),
-                        Triple("🚌 Preguntar dirección en la calle", "Disculpe, ¿sabe por dónde queda la estación del metro más cercana?", "Indica una dirección de forma fluida y pausada.")
-                    )
-
-                    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Text(text = "Escucha el planteamiento del interlocutor y graba tu respuesta de forma natural:", fontSize = 14.sp)
-
-                        // Controles globales de grabación para escenarios
-                        Button(
-                            onClick = { toggleRecording() },
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = if (isRecording) Color.Red else Color(0xFF0277BD)
-                            )
+                )
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(16.dp)
+            ) {
+                when (seccionActual) {
+                    SimulacionSituaciones.MENU_PRINCIPAL -> {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            Text(if (isRecording) "⏹️ Detener Respuesta" else "🔴 Grabar mi Respuesta al Escenario")
+                            Text(
+                                text = "Entrena tu fluidez enfrentando situaciones reales de la vida cotidiana:",
+                                fontSize = 14.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+
+                            // Tarjeta 1: Escenarios Cotidianos
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(100.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(
+                                        Brush.linearGradient(
+                                            listOf(
+                                                Color(0xFF0277BD),
+                                                Color(0xFF00ACC1)
+                                            )
+                                        )
+                                    )
+                                    .clickable { seccionActual = SimulacionSituaciones.ESCENARIOS }
+                                    .padding(20.dp),
+                                contentAlignment = Alignment.CenterStart
+                            ) {
+                                Column {
+                                    Text(
+                                        text = "🎧 Escenarios Cotidianos",
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
+                                    )
+                                    Text(
+                                        text = "Escucha la situación y responde grabando tu voz",
+                                        fontSize = 13.sp,
+                                        color = Color.White.copy(alpha = 0.8f)
+                                    )
+                                }
+                            }
+
+                            // Tarjeta 2: Práctica de Guiones (Interlocutor)
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(100.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(
+                                        Brush.linearGradient(
+                                            listOf(
+                                                Color(0xFFEF6C00),
+                                                Color(0xFFFFA726)
+                                            )
+                                        )
+                                    )
+                                    .clickable { seccionActual = SimulacionSituaciones.GUIONES }
+                                    .padding(20.dp),
+                                contentAlignment = Alignment.CenterStart
+                            ) {
+                                Column {
+                                    Text(
+                                        text = "💬 Práctica de Guiones e Interlocutor",
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
+                                    )
+                                    Text(
+                                        text = "La app actúa como interlocutor en diálogos guiados",
+                                        fontSize = 13.sp,
+                                        color = Color.White.copy(alpha = 0.8f)
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            OutlinedButton(
+                                onClick = onBack,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(text = "Regresar al Menú Principal", fontSize = 16.sp)
+                            }
                         }
+                    }
 
-                        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                            items(escenarios) { (titulo, audioSimulado, instruccion) ->
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clip(RoundedCornerShape(14.dp))
-                                        .background(Brush.linearGradient(listOf(Color(0xFF0277BD), Color(0xFF00ACC1))))
-                                        .padding(16.dp)
-                                ) {
-                                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                        Text(text = titulo, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                                        Text(text = "🗣️ Interlocutor: \"$audioSimulado\"", fontSize = 14.sp, color = Color.White.copy(alpha = 0.9f))
-                                        Text(text = instruccion, fontSize = 12.sp, color = Color.White.copy(alpha = 0.7f))
+                    SimulacionSituaciones.ESCENARIOS -> {
+                        val escenarios = listOf(
+                            Triple(
+                                "☕ Pedir un café en la cafetería",
+                                "Hola, buenos días. ¿Qué le gustaría ordenar hoy?",
+                                "Simula que pides tu bebida favorita con calma."
+                            ),
+                            Triple(
+                                "🛒 Comprar en el supermercado",
+                                "Hola, ¿encontró todo lo que buscaba o le ayudo en algo?",
+                                "Responde al cajero o dependiente de tienda."
+                            ),
+                            Triple(
+                                "🚌 Preguntar dirección en la calle",
+                                "Disculpe, ¿sabe por dónde queda la estación del metro más cercana?",
+                                "Indica una dirección de forma fluida y pausada."
+                            )
+                        )
 
-                                        Button(
-                                            onClick = {
-                                                if (ttsInitialized) {
-                                                    tts?.speak(audioSimulado, TextToSpeech.QUEUE_FLUSH, null, null)
-                                                }
-                                            },
-                                            colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f))
-                                        ) {
-                                            Text("🔊 Reproducir Situación", color = Color.White)
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            Text(
+                                text = "Escucha el planteamiento del interlocutor y graba tu respuesta de forma natural:",
+                                fontSize = 14.sp
+                            )
+
+                            // Controles globales de grabación para escenarios
+                            Button(
+                                onClick = { toggleRecording() },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (isRecording) Color.Red else Color(
+                                        0xFF0277BD
+                                    )
+                                )
+                            ) {
+                                Text(if (isRecording) "⏹️ Detener Respuesta" else "🔴 Grabar mi Respuesta al Escenario")
+                            }
+
+                            LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                items(escenarios) { (titulo, audioSimulado, instruccion) ->
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(14.dp))
+                                            .background(
+                                                Brush.linearGradient(
+                                                    listOf(
+                                                        Color(0xFF0277BD),
+                                                        Color(0xFF00ACC1)
+                                                    )
+                                                )
+                                            )
+                                            .padding(16.dp)
+                                    ) {
+                                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                            Text(
+                                                text = titulo,
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.White
+                                            )
+                                            Text(
+                                                text = "🗣️ Interlocutor: \"$audioSimulado\"",
+                                                fontSize = 14.sp,
+                                                color = Color.White.copy(alpha = 0.9f)
+                                            )
+                                            Text(
+                                                text = instruccion,
+                                                fontSize = 12.sp,
+                                                color = Color.White.copy(alpha = 0.7f)
+                                            )
+
+                                            Button(
+                                                onClick = {
+                                                    if (ttsInitialized) {
+                                                        tts?.speak(
+                                                            audioSimulado,
+                                                            TextToSpeech.QUEUE_FLUSH,
+                                                            null,
+                                                            null
+                                                        )
+                                                    }
+                                                },
+                                                colors = ButtonDefaults.buttonColors(
+                                                    containerColor = Color.White.copy(
+                                                        alpha = 0.2f
+                                                    )
+                                                )
+                                            ) {
+                                                Text("🔊 Reproducir Situación", color = Color.White)
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-                SimulacionSituaciones.GUIONES -> {
-                    val dialogos = listOf(
-                        Pair("App (Recepcionista):", "Bienvenido al hotel. ¿Tiene una reserva a su nombre?"),
-                        Pair("Tú (Huésped):", "Sí, reservé una habitación individual para dos noches."),
-                        Pair("App (Recepcionista):", "Perfecto, ¿me podría proporcionar una identificación por favor?"),
-                        Pair("Tú (Huésped):", "Claro que sí, aquí tiene mi credencial de elector.")
-                    )
+                    SimulacionSituaciones.GUIONES -> {
+                        val dialogos = listOf(
+                            Pair(
+                                "App (Recepcionista):",
+                                "Bienvenido al hotel. ¿Tiene una reserva a su nombre?"
+                            ),
+                            Pair(
+                                "Tú (Huésped):",
+                                "Sí, reservé una habitación individual para dos noches."
+                            ),
+                            Pair(
+                                "App (Recepcionista):",
+                                "Perfecto, ¿me podría proporcionar una identificación por favor?"
+                            ),
+                            Pair(
+                                "Tú (Huésped):",
+                                "Claro que sí, aquí tiene mi credencial de elector."
+                            )
+                        )
 
-                    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Text(text = "Practica un diálogo guiado donde la app toma un rol y tú respondes paso a paso:", fontSize = 14.sp)
-
-                        LazyColumn(
-                            modifier = Modifier.weight(1f),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            items(dialogos) { (rol, linea) ->
-                                val esApp = rol.contains("App")
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clip(RoundedCornerShape(14.dp))
-                                        .background(
-                                            if (esApp) Brush.linearGradient(listOf(Color(0xFFEF6C00), Color(0xFFFFA726)))
-                                            else Brush.linearGradient(listOf(Color(0xFF37474F), Color(0xFF546E7A)))
-                                        )
-                                        .padding(16.dp)
-                                ) {
-                                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                        Text(text = rol, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.8f))
-                                        Text(text = linea, fontSize = 16.sp, fontWeight = FontWeight.Medium, color = Color.White)
-                                        if (esApp) {
-                                            Button(
-                                                onClick = {
-                                                    if (ttsInitialized) {
-                                                        tts?.speak(linea, TextToSpeech.QUEUE_FLUSH, null, null)
-                                                    }
-                                                },
-                                                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f))
-                                            ) {
-                                                Text("🔊 Escuchar Interlocutor", color = Color.White)
+                            Text(
+                                text = "Practica un diálogo guiado donde la app toma un rol y tú respondes paso a paso:",
+                                fontSize = 14.sp
+                            )
+
+                            LazyColumn(
+                                modifier = Modifier.weight(1f),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                items(dialogos) { (rol, linea) ->
+                                    val esApp = rol.contains("App")
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(14.dp))
+                                            .background(
+                                                if (esApp) Brush.linearGradient(
+                                                    listOf(
+                                                        Color(
+                                                            0xFFEF6C00
+                                                        ), Color(0xFFFFA726)
+                                                    )
+                                                )
+                                                else Brush.linearGradient(
+                                                    listOf(
+                                                        Color(0xFF37474F),
+                                                        Color(0xFF546E7A)
+                                                    )
+                                                )
+                                            )
+                                            .padding(16.dp)
+                                    ) {
+                                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                            Text(
+                                                text = rol,
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.White.copy(alpha = 0.8f)
+                                            )
+                                            Text(
+                                                text = linea,
+                                                fontSize = 16.sp,
+                                                fontWeight = FontWeight.Medium,
+                                                color = Color.White
+                                            )
+                                            if (esApp) {
+                                                Button(
+                                                    onClick = {
+                                                        if (ttsInitialized) {
+                                                            tts?.speak(
+                                                                linea,
+                                                                TextToSpeech.QUEUE_FLUSH,
+                                                                null,
+                                                                null
+                                                            )
+                                                        }
+                                                    },
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = Color.White.copy(alpha = 0.2f)
+                                                    )
+                                                ) {
+                                                    Text(
+                                                        "🔊 Escuchar Interlocutor",
+                                                        color = Color.White
+                                                    )
+                                                }
                                             }
                                         }
                                     }

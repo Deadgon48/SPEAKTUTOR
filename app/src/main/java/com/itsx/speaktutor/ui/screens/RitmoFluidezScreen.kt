@@ -215,7 +215,10 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                 onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
                 onNavigateMetronomo = { navController.navigate(Screen.Metronomo.route) },
                 onNavigateHablaEstirada = { navController.navigate(Screen.HablaEstirada.route) },
-                onNavigateRitmoFluidez = { /* Ya estás aquí */ }
+                onNavigateRitmoFluidez = { /* Ya estás aquí */ },
+                onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
+                onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
+                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) }
             )
 
             Spacer(modifier = Modifier.height(12.dp))

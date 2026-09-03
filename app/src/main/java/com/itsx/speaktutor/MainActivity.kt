@@ -1,9 +1,11 @@
 package com.itsx.speaktutor
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -23,8 +25,10 @@ import com.itsx.speaktutor.ui.screens.PronunciacionInstanteScreen
 import com.itsx.speaktutor.ui.screens.RitmoFluidezScreen
 import com.itsx.speaktutor.ui.screens.TarjetasShaderScreen
 import com.itsx.speaktutor.ui.screens.SimulacionSituacionesScreen
+import com.itsx.speaktutor.ui.screens.ProgresoScreen
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -47,6 +51,7 @@ class MainActivity : ComponentActivity() {
                                 onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) },
                                 onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
                                 onNavigatePronunciacioninstante = { navController.navigate(Screen.PronunciacionInstante.route) },
+                                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                                 onBack = { finish() } // Cierra la app al salir del menú principal
                             )
                         }
@@ -68,6 +73,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Screen.PronunciacionInstante.route) {
                             PronunciacionInstanteScreen(
+                                navController = navController,
+                                onBack = { navController.popBackStack() })
+                        }
+
+                        composable(Screen.Progreso.route) { // 👈 Composable de la pantalla de Progreso
+                            ProgresoScreen(
                                 navController = navController,
                                 onBack = { navController.popBackStack() }
                             )

@@ -38,7 +38,10 @@ fun MetronomoScreen(navController: NavController, onBack: () -> Unit) {
             onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
             onNavigateMetronomo = { /* Ya estás aquí */ },
             onNavigateHablaEstirada = { navController.navigate(Screen.HablaEstirada.route) },
-            onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) }
+            onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) },
+            onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
+            onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
+            onNavigateProgreso = { navController.navigate(Screen.Progreso.route) }
         )
 
         Spacer(modifier = Modifier.height(8.dp))

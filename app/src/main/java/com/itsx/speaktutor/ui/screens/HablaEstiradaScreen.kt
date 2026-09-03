@@ -88,7 +88,10 @@ fun HablaEstiradaScreen(navController: NavController, onBack: () -> Unit) {
             onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
             onNavigateMetronomo = { navController.navigate(Screen.Metronomo.route) },
             onNavigateHablaEstirada = { /* Ya estás aquí */ },
-            onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) }
+            onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) },
+            onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
+            onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
+            onNavigateProgreso = { navController.navigate(Screen.Progreso.route) }
         )
 
         Spacer(modifier = Modifier.height(12.dp))

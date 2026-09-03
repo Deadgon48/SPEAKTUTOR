@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
+import com.itsx.speaktutor.ui.navigation.Screen
 import kotlinx.coroutines.delay
 import java.util.*
 
@@ -209,6 +211,18 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
+            // Barra de navegación rápida superior entre módulos
+            BarraNavegacionModulos(
+                onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
+                onNavigateMetronomo = { navController.navigate(Screen.Metronomo.route) },
+                onNavigateHablaEstirada = { navController.navigate(Screen.HablaEstirada.route) },
+                onNavigateRitmoFluidez = { /* Ya estás aquí */ },
+                onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
+                onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
+                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) }
+            )
+
             when (estadoActual) {
                 EstadoPronunciacion.SELECCION_DIFICULTAD -> {
                     Text(text = "Selecciona el nivel de dificultad:", fontSize = 16.sp, fontWeight = FontWeight.Bold)
@@ -352,6 +366,15 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
 
                                 val totalIntentos = aciertos + errores
                                 val calificacionFinal = if (totalIntentos > 0) (aciertos * 100) / totalIntentos else 0
+
+                                // Llama a esto para registrar la sesión en el almacenamiento local:
+                                ProgresoStorage.guardarSesion(
+                                    context = context,
+                                    dificultad = dificultadSeleccionada.titulo,
+                                    aciertos = aciertos,
+                                    errores = errores,
+                                    calificacion = calificacionFinal
+                                )
 
                                 Spacer(modifier = Modifier.height(6.dp))
                                 Text(text = "⭐ Calificación: $calificacionFinal / 100 pts", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
