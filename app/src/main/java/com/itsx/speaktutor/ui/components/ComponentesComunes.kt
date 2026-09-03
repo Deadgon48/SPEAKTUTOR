@@ -302,7 +302,10 @@ fun BarraNavegacionModulos(
     onNavigateTarjetas: () -> Unit,
     onNavigateMetronomo: () -> Unit,
     onNavigateHablaEstirada: () -> Unit,
-    onNavigateRitmoFluidez: () -> Unit
+    onNavigateRitmoFluidez: () -> Unit,
+    onNavigateSimulacionSituaciones: () -> Unit,
+    onNavigatePronunciacionInstante: () -> Unit,
+    onNavigateProgreso: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -333,6 +336,22 @@ fun BarraNavegacionModulos(
             colorFondo = listOf(Color(0xFF1B5E20), Color(0xFF43A047)),
             onClick = onNavigateRitmoFluidez
         )
+        MiniTarjetaBoton(
+            titulo = "Simulación",
+            colorFondo = listOf(Color(0xFF010FFD), Color(0xFF014FFA)),
+            onClick = onNavigateSimulacionSituaciones
+        )
+        MiniTarjetaBoton(
+            titulo = "Pronunciación",
+            colorFondo = listOf(Color(0xFFE65100), Color(0xFFF57C00)),
+            onClick = onNavigatePronunciacionInstante
+        )
+        MiniTarjetaBoton(
+            titulo = "Mi Progreso",
+            colorFondo = listOf(Color(0xFF00695C), Color(0xFF00897B)),
+            onClick = onNavigateProgreso
+        )
+
     }
 }
 

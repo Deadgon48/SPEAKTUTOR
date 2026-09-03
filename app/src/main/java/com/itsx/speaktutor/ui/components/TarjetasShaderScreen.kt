@@ -1,5 +1,6 @@
 package com.itsx.speaktutor.ui.screens
 
+import android.R.attr.title
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -50,6 +51,7 @@ fun TarjetasShaderScreen(
     onNavigateRitmoFluidez: () -> Unit,
     onNavigateSimulacionSituaciones: () -> Unit,
     onNavigatePronunciacioninstante: () -> Unit,
+    onNavigateProgreso: () -> Unit,
     onBack: () -> Unit
 ) {
     val features = listOf(
@@ -86,8 +88,16 @@ fun TarjetasShaderScreen(
             description = "Prueba tu fluidez por intervalos de tiempo y mide tus aciertos.",
             icon = Icons.Default.CheckCircle,
             colors = listOf(Color(0xFFE65100), Color(0xFFF57C00), Color(0xFFFFB74D))
-        ) { onNavigatePronunciacioninstante() }
+        ) { onNavigatePronunciacioninstante() },
+
+        FeatureItem(
+                title = "Mi Progreso y Estadísticas",
+            description = "Consulta tu historial de práctica, aciertos y promedio general.",
+            icon = Icons.Default.Assessment,
+            colors = listOf(Color(0xFF00695C), Color(0xFF00897B), Color(0xFF4DB6AC))
+        ) { onNavigateProgreso() }
     )
+
 
     Scaffold(
         topBar = {

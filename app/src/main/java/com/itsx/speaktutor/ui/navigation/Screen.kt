@@ -13,4 +13,6 @@ sealed class Screen(val route: String) {
 
     // Agrega esta línea dentro de tu clase Screen sealed
     object PronunciacionInstante : Screen("pronunciacion_instante")
+
+    object Progreso : Screen("progreso")
 }
