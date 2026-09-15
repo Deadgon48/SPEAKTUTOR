@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Assessment
@@ -16,6 +17,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.itsx.speaktutor.logic.AdaptadorEjercicios
+import com.itsx.speaktutor.model.EjercicioPersonalizado
+import com.itsx.speaktutor.model.TipoModulo
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
 import com.itsx.speaktutor.ui.navigation.Screen
 import java.text.SimpleDateFormat
@@ -170,6 +174,20 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                 }
             }
 
+
+            SeccionEjercicioRecomendado(
+                porcentajeHistorial = promedioCalificacion.toFloat()
+            ) { ejercicioSeleccionado ->
+                // Aquí defines a qué pantalla quieres que navegue al hacer clic en "Comenzar Práctica"
+                when (ejercicioSeleccionado.modulo) {
+                    TipoModulo.METRONOMO -> navController.navigate(Screen.Metronomo.route)
+                    TipoModulo.HABLA_ESTIRADA -> navController.navigate(Screen.HablaEstirada.route)
+                    TipoModulo.RITMO_FLUIDEZ -> navController.navigate(Screen.RitmoFluidez.route)
+                    TipoModulo.SIMULACION -> navController.navigate(Screen.SimulacionSituaciones.route)
+                    TipoModulo.PRONUNCIACION_INSTANTE -> navController.navigate(Screen.PronunciacionInstante.route)
+                }
+            }
+
             Text(text = "Historial de Prácticas", fontSize = 16.sp, fontWeight = FontWeight.Bold)
 
             if (historialSesiones.isEmpty()) {
@@ -226,6 +244,63 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun SeccionEjercicioRecomendado(
+    porcentajeHistorial: Float,
+    onIniciarEjercicio: (EjercicioPersonalizado) -> Unit
+) {
+    // Obtenemos el ejercicio adaptado a su realidad actual
+    val ejercicioIdeal = remember(porcentajeHistorial) {
+        AdaptadorEjercicios.generarEjercicioSugerido(porcentajeHistorial)
+    }
+
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "🎯 Recomendado para ti hoy",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+                Badge { Text("Nivel ${ejercicioIdeal.nivelDificultad}") }
+            }
+
+            Text(
+                text = ejercicioIdeal.titulo,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = ejercicioIdeal.descripcionAdaptativa,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Button(
+                onClick = { onIniciarEjercicio(ejercicioIdeal) },
+                modifier = Modifier.align(Alignment.End)
+            ) {
+                Text("Comenzar Práctica")
             }
         }
     }
