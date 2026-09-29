@@ -20,10 +20,13 @@ import androidx.navigation.NavController
 import com.itsx.speaktutor.logic.AdaptadorEjercicios
 import com.itsx.speaktutor.model.EjercicioPersonalizado
 import com.itsx.speaktutor.model.TipoModulo
+import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
+import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.navigation.Screen
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 // Estructura de datos de la sesión de práctica
 data class SesionProgreso(
@@ -111,10 +114,42 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                 title = { Text("Seguimiento de Progreso") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Regresar")
+                        Icon(imageVector = ArrowLeftCircleIcon, contentDescription = "Regresar", tint = MaterialTheme.colorScheme.onSurface)
                     }
                 }
             )
+        },
+        bottomBar = {
+            // Este contenedor anclará tu botón perfectamente a la parte inferior
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Button(
+                    onClick = onBack,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Icon(
+                        imageVector = HomeIcon,
+                        contentDescription = "Menú Principal",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Regresar al Menú Principal",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
     ) { innerPadding ->
         Column(
@@ -133,7 +168,8 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                 onNavigateRitmoFluidez = { /* Ya estás aquí */ },
                 onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
                 onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
-                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) }
+                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
+                onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) }
             )
             // Tarjeta de Resumen General
             Card(
@@ -253,7 +289,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
 @Composable
 fun SeccionEjercicioRecomendado(
     porcentajeHistorial: Float,
-    onIniciarEjercicio: (EjercicioPersonalizado) -> Unit
+    onIniciarEjercicio: (EjercicioPersonalizado) -> Unit,
 ) {
     // Obtenemos el ejercicio adaptado a su realidad actual
     val ejercicioIdeal = remember(porcentajeHistorial) {

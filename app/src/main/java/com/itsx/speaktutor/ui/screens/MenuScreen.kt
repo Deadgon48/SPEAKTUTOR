@@ -57,6 +57,12 @@ fun MenuScreen(navController: NavController) {
             BotonPrincipal("Pronunciacion al instante") {
                 navController.navigate(Screen.PronunciacionInstante.route)
             }
+            BotonPrincipal("Progreso") {
+                navController.navigate(Screen.Progreso.route)
+            }
+            BotonPrincipal("Ejericios adaptativos") {
+                navController.navigate(Screen.EjerciciosAdaptativos.route)
+            }
         }
     }
 }

@@ -34,6 +34,14 @@ import com.itsx.speaktutor.ui.navigation.Screen
 import kotlinx.coroutines.delay
 import java.util.*
 
+// *** INICIO IMPORTACIONES DSP ***
+import com.itsx.speaktutor.logic.MotorAudioDSP
+import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
+import com.itsx.speaktutor.ui.components.BiofeedbackVisualAvanzadoDSP
+import com.itsx.speaktutor.ui.components.HomeIcon
+
+// *** FIN IMPORTACIONES DSP ***
+
 enum class DificultadPronunciacion(val titulo: String, val segundos: Int, val color: Color) {
     FACIL("Fácil", 150, Color(0xFF2E7D32)),
     MEDIO("Medio", 90, Color(0xFFEF6C00)),
@@ -51,27 +59,51 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
     var estadoActual by remember { mutableStateOf(EstadoPronunciacion.SELECCION_DIFICULTAD) }
     var dificultadSeleccionada by remember { mutableStateOf(DificultadPronunciacion.FACIL) }
 
-    val palabrasFaciles = listOf("Casa", "Sol", "Agua", "Mesa", "Flor")
-    val palabrasMedias = listOf("Caminar", "Espejo", "Ventana", "Musica", "Viaje")
-    val palabrasDificiles = listOf("Ferrocarril", "Constitución", "Paralelepípedo", "Estetoscopio", "Murciélago")
+    val palabrasFaciles = listOf(
+        "Casa", "Sol", "Agua", "Mesa", "Flor", "Color",
+        "Luz", "Pan", "Mar", "Luna", "Cielo", "Gato",
+        "Perro", "Río", "Viento", "Nube", "Fuego", "Tierra",
+        "Hoja", "Pez", "Ojo", "Mano", "Pie", "Día",
+        "Pera", "Miel", "Sal", "Vino", "Tren", "Flor"
+    )
+
+    val palabrasMedias = listOf(
+        "Caminar", "Espejo", "Ventana", "Música", "Viaje",
+        "Escuela", "Jardín", "Puerta", "Camino", "Reloj",
+        "Estrella", "Montaña", "Pintura", "Guitarra", "Cuaderno",
+        "Lápiz", "Mañana", "Silencio", "Planeta", "Océano",
+        "Bicicleta", "Carpeta", "Sombrero", "Zapato", "Camisa",
+        "Pared", "Cocina", "Espejo", "Camino", "Invierno"
+    )
+
+    val palabrasDificiles = listOf(
+        "Ferrocarril", "Constitución", "Paralelepípedo", "Estetoscopio", "Murciélago",
+        "Electroencefalograma", "Otorrinolaringólogo", "Desoxirribonucleico", "Inconstitucional", "Esternocleidomastoideo",
+        "Arquitectura", "Trabalenguas", "Biodiversidad", "Infraestructura", "Psicopedagogía",
+        "Característica", "Refrigerador", "Meteorología", "Paleontología", "Telecomunicación",
+        "Otorrinolaringología", "Paralelepípedo", "Electrodoméstico", "Desoxirribonucleico", "Responsabilidad"
+    )
 
     var listaPalabrasActual by remember { mutableStateOf(palabrasFaciles) }
     var indicePalabra by remember { mutableIntStateOf(0) }
     var tiempoRestante by remember { mutableIntStateOf(150) }
 
-    // Estadísticas
     var aciertos by remember { mutableIntStateOf(0) }
     var errores by remember { mutableIntStateOf(0) }
 
-    // Control de voz e interfaz
     var estadoVozTexto by remember { mutableStateOf("Presiona el micrófono y habla") }
     var isListening by remember { mutableStateOf(false) }
 
-    // TTS y SpeechRecognizer
     var tts by remember { mutableStateOf<TextToSpeech?>(null) }
     var ttsInitialized by remember { mutableStateOf(false) }
 
     val speechRecognizer = remember { SpeechRecognizer.createSpeechRecognizer(context) }
+
+    // *** INICIO INSTANCIACIÓN ESTADOS DSP ***
+    val motorDSP = remember { MotorAudioDSP() }
+    val metricasDSP by motorDSP.metricasAcusticas.collectAsState()
+    var isDSPActive by remember { mutableStateOf(false) }
+    // *** FIN INSTANCIACIÓN ESTADOS DSP ***
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -81,7 +113,6 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
         }
     }
 
-    // Configuración y limpieza segura de recursos
     DisposableEffect(context) {
         val textToSpeech = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
@@ -96,13 +127,13 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
             textToSpeech.shutdown()
             try {
                 speechRecognizer.destroy()
-            } catch (e: Exception) {
-                // Excepción controlada de cierre
-            }
+            } catch (e: Exception) {}
+            // *** INICIO LIMPIEZA DSP ***
+            motorDSP.detenerAnalisis(null)
+            // *** FIN LIMPIEZA DSP ***
         }
     }
 
-    // Temporizador principal de cuenta regresiva
     LaunchedEffect(estadoActual, tiempoRestante) {
         if (estadoActual == EstadoPronunciacion.JUGANDO) {
             if (tiempoRestante > 0) {
@@ -111,15 +142,14 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
             } else {
                 try {
                     speechRecognizer.stopListening()
-                } catch (e: Exception) {
-                    // Ignorar si ya estaba cerrado
-                }
+                    if (isDSPActive) motorDSP.detenerAnalisis(context, "DSP (Pronunciación)")
+                    isDSPActive = false
+                } catch (e: Exception) {}
                 estadoActual = EstadoPronunciacion.RESULTADOS
             }
         }
     }
 
-    // Función para iniciar el reconocimiento de voz
     fun iniciarReconocimientoVoz(palabraEsperada: String) {
         val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -141,9 +171,7 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
             override fun onBeginningOfSpeech() {}
             override fun onRmsChanged(rmsdB: Float) {}
             override fun onBufferReceived(buffer: ByteArray?) {}
-            override fun onEndOfSpeech() {
-                isListening = false
-            }
+            override fun onEndOfSpeech() { isListening = false }
             override fun onError(error: Int) {
                 isListening = false
                 estadoVozTexto = "No se distinguió con claridad. Intenta de nuevo."
@@ -194,13 +222,48 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                         if (estadoActual == EstadoPronunciacion.SELECCION_DIFICULTAD) {
                             onBack()
                         } else {
+                            motorDSP.detenerAnalisis(null)
+                            isDSPActive = false
                             estadoActual = EstadoPronunciacion.SELECCION_DIFICULTAD
                         }
                     }) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Regresar")
+                        Icon(imageVector = ArrowLeftCircleIcon, contentDescription = "Regresar", tint = MaterialTheme.colorScheme.onSurface)
                     }
                 }
             )
+        },
+
+        bottomBar = {
+            // Este contenedor anclará tu botón perfectamente a la parte inferior
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Button(
+                    onClick = onBack,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Icon(
+                        imageVector = HomeIcon,
+                        contentDescription = "Menú Principal",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Regresar al Menú Principal",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
     ) { innerPadding ->
         Column(
@@ -211,8 +274,6 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-
-            // Barra de navegación rápida superior entre módulos
             BarraNavegacionModulos(
                 onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
                 onNavigateMetronomo = { navController.navigate(Screen.Metronomo.route) },
@@ -220,7 +281,8 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                 onNavigateRitmoFluidez = { /* Ya estás aquí */ },
                 onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
                 onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
-                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) }
+                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
+                onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) }
             )
 
             when (estadoActual) {
@@ -308,25 +370,53 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    Button(
-                        onClick = {
-                            if (!isListening) {
-                                iniciarReconocimientoVoz(palabraActual)
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth().height(55.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = if (isListening) Color(0xFFC62828) else MaterialTheme.colorScheme.secondary
-                        )
+                    if (isDSPActive) {
+                        BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP)
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Icon(imageVector = if (isListening) Icons.Default.MicOff else Icons.Default.Mic, contentDescription = null)
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = if (isListening) "Escuchando voz..." else "🎤 Hablar y Evaluar",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    } // <-- LLAVE CERRADA CORRECTAMENTE AQUÍ
+                        Button(
+                            onClick = {
+                                if (isListening) speechRecognizer.stopListening() else iniciarReconocimientoVoz(palabraActual)
+                            },
+                            modifier = Modifier.weight(1f).height(55.dp),
+                            enabled = !isDSPActive,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (isListening) Color(0xFFC62828) else MaterialTheme.colorScheme.secondary
+                            )
+                        ) {
+                            Text(if (isListening) "⏹️ Voz" else "📝 Texto")
+                        }
+
+                        Button(
+                            onClick = {
+                                val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
+                                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                                    permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                                    return@Button
+                                }
+                                if (isDSPActive) {
+                                    motorDSP.detenerAnalisis(context, "DSP (Pronunciación)")
+                                    isDSPActive = false
+                                } else {
+                                    motorDSP.detenerAnalisis(null)
+                                    motorDSP.iniciarAnalisisDSP()
+                                    isDSPActive = true
+                                }
+                            },
+                            modifier = Modifier.weight(1f).height(55.dp),
+                            enabled = !isListening,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (isDSPActive) Color(0xFFD32F2F) else Color(0xFF00897B)
+                            )
+                        ) {
+                            Text(if (isDSPActive) "⏹️ DSP" else "🎛️ DSP")
+                        }
+                    }
 
                     Spacer(modifier = Modifier.height(14.dp))
 
@@ -367,7 +457,6 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                                 val totalIntentos = aciertos + errores
                                 val calificacionFinal = if (totalIntentos > 0) (aciertos * 100) / totalIntentos else 0
 
-                                // Llama a esto para registrar la sesión en el almacenamiento local:
                                 ProgresoStorage.guardarSesion(
                                     context = context,
                                     dificultad = dificultadSeleccionada.titulo,
@@ -402,3 +491,4 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
         }
     }
 }
+
