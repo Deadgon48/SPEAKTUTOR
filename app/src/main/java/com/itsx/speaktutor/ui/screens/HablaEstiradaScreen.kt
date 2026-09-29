@@ -24,8 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
 import com.itsx.speaktutor.ui.components.ControlVelocidadTts
+import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.navigation.Screen
 import java.util.*
 
@@ -39,6 +41,7 @@ enum class SeccionHabla {
     CATEGORIAS, LETRAS, PALABRAS
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HablaEstiradaScreen(navController: NavController, onBack: () -> Unit) {
     val context = LocalContext.current
@@ -77,261 +80,298 @@ fun HablaEstiradaScreen(navController: NavController, onBack: () -> Unit) {
     var categoriaSeleccionada by remember { mutableStateOf<CategoriaArticulacion?>(null) }
     var letraSeleccionada by remember { mutableStateOf<String?>(null) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()
-            .padding(16.dp)
-    ) {
-        // Barra de navegación rápida superior entre módulos
-        BarraNavegacionModulos(
-            onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
-            onNavigateMetronomo = { navController.navigate(Screen.Metronomo.route) },
-            onNavigateHablaEstirada = { /* Ya estás aquí */ },
-            onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) },
-            onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
-            onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
-            onNavigateProgreso = { navController.navigate(Screen.Progreso.route) }
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Título del módulo
-        Text(
-            text = "Habla Estirada",
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = "Practica la pronunciación por modo de articulación y escucha los ejemplos.",
-            fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Componente de control de velocidad de TextToSpeech
-        ControlVelocidadTts(
-            velocidadActual = velocidadHabla,
-            onVelocidadChange = { nuevaVelocidad ->
-                velocidadHabla = nuevaVelocidad
-                tts?.setSpeechRate(nuevaVelocidad)
-            }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        when (seccionActual) {
-            // VISTA 3: Mostrar Lista de Palabras para la letra seleccionada (en Tarjetas Degradadas)
-            SeccionHabla.PALABRAS -> {
-                Button(
-                    onClick = { seccionActual = SeccionHabla.LETRAS },
-                    modifier = Modifier.padding(bottom = 8.dp)
-                ) {
-                    Text(text = "← Volver a Letras")
-                }
-
-                val colorPalabrasFondo = when (categoriaSeleccionada?.nombre) {
-                    "Oclusivas" -> listOf(Color(0xFF4A148C), Color(0xFF8E24AA))
-                    "Nasales" -> listOf(Color(0xFF006064), Color(0xFF00ACC1))
-                    "Semivocales" -> listOf(Color(0xFF1B5E20), Color(0xFF43A047))
-                    "Vocales" -> listOf(Color(0xFFE65100), Color(0xFFF57C00))
-                    else -> listOf(Color(0xFF37474F), Color(0xFF546E7A))
-                }
-
-                Text(
-                    text = "Letra: $letraSeleccionada",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorPalabrasFondo[1]
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-
-                val palabras = obtenerPalabrasPorLetra(letraSeleccionada ?: "")
-
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    items(palabras) { palabra ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(80.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .background(Brush.linearGradient(colorPalabrasFondo))
-                                .padding(horizontal = 20.dp),
-                            contentAlignment = Alignment.CenterStart
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = palabra,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-
-                                Button(
-                                    onClick = {
-                                        if (ttsInitialized) {
-                                            tts?.speak(palabra, TextToSpeech.QUEUE_FLUSH, null, null)
-                                        }
-                                    },
-                                    colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f))
-                                ) {
-                                    Text(text = "🔊 Escuchar", fontSize = 14.sp, color = Color.White)
-                                }
-                            }
-                        }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Habla Estirada") },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = ArrowLeftCircleIcon,
+                            contentDescription = "Regresar",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
                     }
                 }
-            }
-
-            // VISTA 2: Mostrar Letras de la categoría seleccionada (en Tarjetas Degradadas Grid)
-            SeccionHabla.LETRAS -> {
+            )
+        },
+        bottomBar = {
+            // Este contenedor anclará tu botón perfectamente a la parte inferior
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
                 Button(
-                    onClick = { seccionActual = SeccionHabla.CATEGORIAS },
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    onClick = onBack,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
                 ) {
-                    Text(text = "← Volver a Categorías")
-                }
-
-                val colorLetraFondoGrid = when (categoriaSeleccionada?.nombre) {
-                    "Oclusivas" -> listOf(Color(0xFF4A148C), Color(0xFF8E24AA))
-                    "Nasales" -> listOf(Color(0xFF006064), Color(0xFF00ACC1))
-                    "Semivocales" -> listOf(Color(0xFF1B5E20), Color(0xFF43A047))
-                    "Vocales" -> listOf(Color(0xFFE65100), Color(0xFFF57C00))
-                    else -> listOf(Color(0xFF37474F), Color(0xFF546E7A))
-                }
-
-                Text(
-                    text = categoriaSeleccionada?.nombre ?: "",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorLetraFondoGrid[1]
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier.weight(1f),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    items(categoriaSeleccionada?.letras ?: emptyList()) { letra ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(90.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .background(Brush.linearGradient(colorLetraFondoGrid))
-                                .clickable {
-                                    letraSeleccionada = letra
-                                    seccionActual = SeccionHabla.PALABRAS
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = letra,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            )
-                        }
-                    }
+                    Icon(
+                        imageVector = HomeIcon,
+                        contentDescription = "Menú Principal",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Regresar al Menú Principal",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
+        }
 
-            // VISTA 1: Mostrar Categorías de Articulación iniciales (en Tarjetas Degradadas)
-            SeccionHabla.CATEGORIAS -> {
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(categorias) { cat ->
-                        val colorLetraFondo = when (cat.nombre) {
-                            "Oclusivas" -> listOf(Color(0xFF4A148C), Color(0xFF8E24AA))
-                            "Nasales" -> listOf(Color(0xFF006064), Color(0xFF00ACC1))
-                            "Semivocales" -> listOf(Color(0xFF1B5E20), Color(0xFF43A047))
-                            "Vocales" -> listOf(Color(0xFFE65100), Color(0xFFF57C00))
-                            else -> listOf(Color(0xFF37474F), Color(0xFF546E7A))
-                        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            // Barra de navegación rápida superior entre módulos
+            BarraNavegacionModulos(
+                onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
+                onNavigateMetronomo = { navController.navigate(Screen.Metronomo.route) },
+                onNavigateHablaEstirada = { /* Ya estás aquí */ },
+                onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) },
+                onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
+                onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
+                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
+                onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) }
+            )
 
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            Text(
-                                text = cat.nombre,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = colorLetraFondo[1]
-                            )
+            Spacer(modifier = Modifier.height(12.dp))
 
+            // Título del módulo
+            Text(
+                text = "Habla Estirada",
+                fontSize = 26.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = "Practica la pronunciación por modo de articulación y escucha los ejemplos.",
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Componente de control de velocidad de TextToSpeech
+            ControlVelocidadTts(
+                velocidadActual = velocidadHabla,
+                onVelocidadChange = { nuevaVelocidad ->
+                    velocidadHabla = nuevaVelocidad
+                    tts?.setSpeechRate(nuevaVelocidad)
+                }
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            when (seccionActual) {
+                // VISTA 3: Mostrar Lista de Palabras para la letra seleccionada (en Tarjetas Degradadas)
+                SeccionHabla.PALABRAS -> {
+                    Button(
+                        onClick = { seccionActual = SeccionHabla.LETRAS },
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    ) {
+                        Text(text = "← Volver a Letras")
+                    }
+
+                    val colorPalabrasFondo = when (categoriaSeleccionada?.nombre) {
+                        "Oclusivas" -> listOf(Color(0xFF4A148C), Color(0xFF8E24AA))
+                        "Nasales" -> listOf(Color(0xFF006064), Color(0xFF00ACC1))
+                        "Semivocales" -> listOf(Color(0xFF1B5E20), Color(0xFF43A047))
+                        "Vocales" -> listOf(Color(0xFFE65100), Color(0xFFF57C00))
+                        else -> listOf(Color(0xFF37474F), Color(0xFF546E7A))
+                    }
+
+                    Text(
+                        text = "Letra: $letraSeleccionada",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = colorPalabrasFondo[1]
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    val palabras = obtenerPalabrasPorLetra(letraSeleccionada ?: "")
+
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(palabras) { palabra ->
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(90.dp)
+                                    .height(80.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(Brush.linearGradient(colorLetraFondo))
-                                    .clickable {
-                                        categoriaSeleccionada = cat
-                                        seccionActual = SeccionHabla.LETRAS
-                                    }
+                                    .background(Brush.linearGradient(colorPalabrasFondo))
                                     .padding(horizontal = 20.dp),
-                                contentAlignment = Alignment.Center
+                                contentAlignment = Alignment.CenterStart
                             ) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Column {
-                                        Text(
-                                            text = cat.nombre,
-                                            fontSize = 22.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.White
-                                        )
-                                        Text(
-                                            text = "${cat.letras.size} fonemas",
-                                            fontSize = 13.sp,
-                                            color = Color.White.copy(alpha = 0.8f)
-                                        )
-                                    }
-                                    Icon(
-                                        imageVector = Icons.Default.ArrowForward,
-                                        contentDescription = null,
-                                        tint = Color.White
+                                    Text(
+                                        text = palabra,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
                                     )
+
+                                    Button(
+                                        onClick = {
+                                            if (ttsInitialized) {
+                                                tts?.speak(palabra, TextToSpeech.QUEUE_FLUSH, null, null)
+                                            }
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f))
+                                    ) {
+                                        Text(text = "🔊 Escuchar", fontSize = 14.sp, color = Color.White)
+                                    }
                                 }
                             }
                         }
                     }
+                }
 
-                    item {
-                        Spacer(modifier = Modifier.height(8.dp))
-                        OutlinedButton(
-                            onClick = onBack,
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                            )
-                        ) {
-                            Text(text = "Regresar al Menú Principal", fontSize = 16.sp)
+                // VISTA 2: Mostrar Letras de la categoría seleccionada (en Tarjetas Degradadas Grid)
+                SeccionHabla.LETRAS -> {
+                    Button(
+                        onClick = { seccionActual = SeccionHabla.CATEGORIAS },
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    ) {
+                        Text(text = "← Volver a Categorías")
+                    }
+
+                    val colorLetraFondoGrid = when (categoriaSeleccionada?.nombre) {
+                        "Oclusivas" -> listOf(Color(0xFF4A148C), Color(0xFF8E24AA))
+                        "Nasales" -> listOf(Color(0xFF006064), Color(0xFF00ACC1))
+                        "Semivocales" -> listOf(Color(0xFF1B5E20), Color(0xFF43A047))
+                        "Vocales" -> listOf(Color(0xFFE65100), Color(0xFFF57C00))
+                        else -> listOf(Color(0xFF37474F), Color(0xFF546E7A))
+                    }
+
+                    Text(
+                        text = categoriaSeleccionada?.nombre ?: "",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = colorLetraFondoGrid[1]
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier.weight(1f),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(categoriaSeleccionada?.letras ?: emptyList()) { letra ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(90.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(Brush.linearGradient(colorLetraFondoGrid))
+                                    .clickable {
+                                        letraSeleccionada = letra
+                                        seccionActual = SeccionHabla.PALABRAS
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = letra,
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // VISTA 1: Mostrar Categorías de Articulación iniciales (en Tarjetas Degradadas)
+                SeccionHabla.CATEGORIAS -> {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(categorias) { cat ->
+                            val colorLetraFondo = when (cat.nombre) {
+                                "Oclusivas" -> listOf(Color(0xFF4A148C), Color(0xFF8E24AA))
+                                "Nasales" -> listOf(Color(0xFF006064), Color(0xFF00ACC1))
+                                "Semivocales" -> listOf(Color(0xFF1B5E20), Color(0xFF43A047))
+                                "Vocales" -> listOf(Color(0xFFE65100), Color(0xFFF57C00))
+                                else -> listOf(Color(0xFF37474F), Color(0xFF546E7A))
+                            }
+
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Text(
+                                    text = cat.nombre,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colorLetraFondo[1]
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(90.dp)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .background(Brush.linearGradient(colorLetraFondo))
+                                        .clickable {
+                                            categoriaSeleccionada = cat
+                                            seccionActual = SeccionHabla.LETRAS
+                                        }
+                                        .padding(horizontal = 20.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column {
+                                            Text(
+                                                text = cat.nombre,
+                                                fontSize = 22.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.White
+                                            )
+                                            Text(
+                                                text = "${cat.letras.size} fonemas",
+                                                fontSize = 13.sp,
+                                                color = Color.White.copy(alpha = 0.8f)
+                                            )
+                                        }
+                                        Icon(
+                                            imageVector = Icons.Default.ArrowForward,
+                                            contentDescription = null,
+                                            tint = Color.White
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
+} // <--- ¡AQUÍ ESTÁ LA LLAVE QUE FALTABA! Soluciona todos los errores rojos.
 
 // Banco de palabras de ejemplo clasificadas por letra para la práctica
 fun obtenerPalabrasPorLetra(letra: String): List<String> {

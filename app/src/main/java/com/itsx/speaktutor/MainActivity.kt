@@ -26,6 +26,7 @@ import com.itsx.speaktutor.ui.screens.RitmoFluidezScreen
 import com.itsx.speaktutor.ui.screens.TarjetasShaderScreen
 import com.itsx.speaktutor.ui.screens.SimulacionSituacionesScreen
 import com.itsx.speaktutor.ui.screens.ProgresoScreen
+import com.itsx.speaktutor.ui.screens.EjerciciosAdaptativosScreen
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.P)
@@ -52,6 +53,7 @@ class MainActivity : ComponentActivity() {
                                 onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
                                 onNavigatePronunciacioninstante = { navController.navigate(Screen.PronunciacionInstante.route) },
                                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
+                                onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
                                 onBack = { finish() } // Cierra la app al salir del menú principal
                             )
                         }
@@ -79,6 +81,13 @@ class MainActivity : ComponentActivity() {
 
                         composable(Screen.Progreso.route) { // 👈 Composable de la pantalla de Progreso
                             ProgresoScreen(
+                                navController = navController,
+                                onBack = { navController.popBackStack() }
+                            )
+                        }
+
+                        composable(Screen.EjerciciosAdaptativos.route) { // 👈 Composable de la pantalla de Progreso
+                            EjerciciosAdaptativosScreen(
                                 navController = navController,
                                 onBack = { navController.popBackStack() }
                             )

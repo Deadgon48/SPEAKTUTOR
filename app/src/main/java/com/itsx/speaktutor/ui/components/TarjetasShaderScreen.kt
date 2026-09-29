@@ -32,6 +32,7 @@ import coil.compose.AsyncImage
 import coil.decode.ImageDecoderDecoder // Importante para reproducir GIFs en Android
 import coil.request.ImageRequest
 import com.itsx.speaktutor.R
+import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 
 // 👈 Corrección aquí: se quitó el paréntesis en "data class"
 data class FeatureItem(
@@ -52,6 +53,7 @@ fun TarjetasShaderScreen(
     onNavigateSimulacionSituaciones: () -> Unit,
     onNavigatePronunciacioninstante: () -> Unit,
     onNavigateProgreso: () -> Unit,
+    onNavigateEjerciciosAdaptativos: () -> Unit,
     onBack: () -> Unit
 ) {
     val features = listOf(
@@ -95,7 +97,14 @@ fun TarjetasShaderScreen(
             description = "Consulta tu historial de práctica, aciertos y promedio general.",
             icon = Icons.Default.Assessment,
             colors = listOf(Color(0xFF00695C), Color(0xFF00897B), Color(0xFF4DB6AC))
-        ) { onNavigateProgreso() }
+        ) { onNavigateProgreso() },
+
+    FeatureItem(
+        title = "Ejercicios Adaptativos",
+        description = "Acceda a ejecricios basados en su historial de progreso y promedio general.",
+        icon = Icons.Default.Assessment,
+        colors = listOf(Color(0xFF00356B), Color(0xFF00897B), Color(0xFF4DB6AC))
+    ) { onNavigateEjerciciosAdaptativos() }
     )
 
 
@@ -106,8 +115,7 @@ fun TarjetasShaderScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Regresar"
+                            imageVector = ArrowLeftCircleIcon, contentDescription = "Regresar", tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
