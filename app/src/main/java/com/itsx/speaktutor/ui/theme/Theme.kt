@@ -1,54 +1,37 @@
 package com.itsx.speaktutor.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
+// Creamos un único esquema de color oscuro basado en Pizarra
+private val PizarraColorScheme = darkColorScheme(
+    primary = AzulPrincipal,
+    secondary = AzulSecundario,
+    tertiary = AzulClaro,
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    // Aquí pintamos la "Pizarra" en el fondo de toda la app
+    background = PizarraFondo,
+    surface = PizarraTarjeta,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    // Colores de los textos para que contrasten bien
     onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    onBackground = TizaTexto,
+    onSurface = TizaTexto
 )
 
 @Composable
 fun SPEAKTUTORTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // APAGADO para evitar que Android 12+ cambie tus colores
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    // Forzamos la paleta de Pizarra sin importar si el celular está en modo claro u oscuro
+    val colorScheme = PizarraColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,

@@ -20,6 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ListAlt
+import androidx.compose.material.icons.filled.Assessment
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ListAlt
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.SimCard
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -306,7 +317,8 @@ fun BarraNavegacionModulos(
     onNavigateSimulacionSituaciones: () -> Unit,
     onNavigatePronunciacionInstante: () -> Unit,
     onNavigateProgreso: () -> Unit,
-    onNavigateEjerciciosAdaptativos: () -> Unit
+    onNavigateEjerciciosAdaptativos: () -> Unit,
+    onNavigateBio: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -316,47 +328,53 @@ fun BarraNavegacionModulos(
             .horizontalScroll(scrollState)
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
+    )
+    {
         MiniTarjetaBoton(
             titulo = "Panel Principal",
-            colorFondo = listOf(Color(0xFF37474F), Color(0xFF546E7A)),
-            onClick = onNavigateTarjetas
-        )
-        MiniTarjetaBoton(
-            titulo = "Metrónomo",
-            colorFondo = listOf(Color(0xFF4A148C), Color(0xFF8E24AA)),
-            onClick = onNavigateMetronomo
-        )
-        MiniTarjetaBoton(
-            titulo = "Habla Estirada",
-            colorFondo = listOf(Color(0xFF006064), Color(0xFF00ACC1)),
-            onClick = onNavigateHablaEstirada
-        )
-        MiniTarjetaBoton(
-            titulo = "Ritmo y Fluidez",
-            colorFondo = listOf(Color(0xFF1B5E20), Color(0xFF43A047)),
-            onClick = onNavigateRitmoFluidez
-        )
-        MiniTarjetaBoton(
-            titulo = "Simulación",
-            colorFondo = listOf(Color(0xFF010FFD), Color(0xFF014FFA)),
-            onClick = onNavigateSimulacionSituaciones
-        )
-        MiniTarjetaBoton(
-            titulo = "Pronunciación",
-            colorFondo = listOf(Color(0xFFE65100), Color(0xFFF57C00)),
-            onClick = onNavigatePronunciacionInstante
-        )
-        MiniTarjetaBoton(
-            titulo = "Mi Progreso",
-            colorFondo = listOf(Color(0xFF00695C), Color(0xFF00897B)),
-            onClick = onNavigateProgreso
-        )
-        MiniTarjetaBoton(
-            titulo = "Ejercicios adaptativos",
-            colorFondo = listOf(Color(0xFF00356B), Color(0xFF00897B)),
-            onClick = onNavigateEjerciciosAdaptativos
-        )
+    colorFondo = listOf(Color(0xFF37474F), Color(0xFF546E7A)),
+    onClick = onNavigateTarjetas
+    )
+    MiniTarjetaBoton(
+        titulo = "Metrónomo",
+        colorFondo = listOf(Color(0xFF4A148C), Color(0xFF8E24AA)),
+        onClick = onNavigateMetronomo
+    )
+    MiniTarjetaBoton(
+        titulo = "Habla Estirada",
+        colorFondo = listOf(Color(0xFF006064), Color(0xFF00ACC1)),
+        onClick = onNavigateHablaEstirada
+    )
+    MiniTarjetaBoton(
+        titulo = "Ritmo y Fluidez",
+        colorFondo = listOf(Color(0xFF1B5E20), Color(0xFF43A047)),
+        onClick = onNavigateRitmoFluidez
+    )
+    MiniTarjetaBoton(
+        titulo = "Simulación",
+        colorFondo = listOf(Color(0xFF010FFD), Color(0xFF014FFA)),
+        onClick = onNavigateSimulacionSituaciones
+    )
+    MiniTarjetaBoton(
+        titulo = "Pronunciación",
+        colorFondo = listOf(Color(0xFFE65100), Color(0xFFF57C00)),
+        onClick = onNavigatePronunciacionInstante
+    )
+    MiniTarjetaBoton(
+        titulo = "Biofeedback",
+        colorFondo = listOf(Color(0xFFC2185B), Color(0xFFE91E63)),
+        onClick = onNavigateBio
+    )
+    MiniTarjetaBoton(
+        titulo = "Mi Progreso",
+        colorFondo = listOf(Color(0xFF00695C), Color(0xFF00897B)),
+        onClick = onNavigateProgreso
+    )
+    MiniTarjetaBoton(
+        titulo = "Ejercicios adaptativos",
+        colorFondo = listOf(Color(0xFF00356B), Color(0xFF00897B)),
+        onClick = onNavigateEjerciciosAdaptativos
+    )
 
     }
 }

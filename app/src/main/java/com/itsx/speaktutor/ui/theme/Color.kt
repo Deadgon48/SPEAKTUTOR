@@ -2,10 +2,12 @@ package com.itsx.speaktutor.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// --- FONDO TIPO PIZARRA (Slate) ---
+val PizarraFondo = Color(0xFF263238)      // Gris oscuro mate (Tipo Pizarra)
+val PizarraTarjeta = Color(0xFF37474F)    // Un poco más claro para las tarjetas
+val TizaTexto = Color(0xFFECEFF1)         // Blanco "Tiza" para que resalte el texto
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// --- BOTONES AZULES (Tus colores originales) ---
+val AzulPrincipal = Color(0xFF1976D2)     // Azul brillante original
+val AzulSecundario = Color(0xFF0277BD)    // Azul un poco más profundo
+val AzulClaro = Color(0xFF03A9F4)         // Azul claro para detalles
