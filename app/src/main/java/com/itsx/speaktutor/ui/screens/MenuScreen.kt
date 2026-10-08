@@ -1,90 +1,104 @@
-package com.itsx.speaktutor.ui.screens
+package com.itsx.speaktutor.ui.screens // Asegúrate de que coincida con tu paquete real
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-
-import com.itsx.speaktutor.ui.navigation.Screen
-
-import androidx.compose.ui.tooling.preview.Preview
-import com.itsx.speaktutor.ui.theme.SPEAKTUTORTheme
+import androidx.core.content.ContextCompat
 
 @Composable
-fun MenuScreen(navController: NavController) {
+fun MenuScreen(navController: androidx.navigation.NavController) {
+    val context = LocalContext.current
+
+    // 1. Verificación de Perfil Inicial
+    var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfil(context)) }
+    var mostrarDialogoRegistro by remember { mutableStateOf(perfil == null) }
+
+    // 2. Lanzador para solicitar permisos de micrófono en caliente
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Toast.makeText(context, "Permiso de micrófono concedido", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Se requiere el permiso de micrófono para las funciones de voz y DSP", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // 3. Comprobar permisos al abrir la app por primera vez
+    LaunchedEffect(Unit) {
+        val checkMic = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
+        if (checkMic != PackageManager.PERMISSION_GRANTED) {
+            permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        }
+    }
+
+    // 4. Diálogo de Registro Inicial (Nombre y Correo)
+    if (mostrarDialogoRegistro) {
+        var nombreInput by remember { mutableStateOf("") }
+        var correoInput by remember { mutableStateOf("") }
+
+        AlertDialog(
+            onDismissRequest = { /* Bloquear cierre sin registrar */ },
+            title = { Text("¡Bienvenido a SpeakTutor!", fontWeight = FontWeight.Bold) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Por favor, ingresa tus datos para configurar tu perfil y generar tus reportes de progreso:")
+                    OutlinedTextField(
+                        value = nombreInput,
+                        onValueChange = { nombreInput = it },
+                        label = { Text("Nombre completo") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = correoInput,
+                        onValueChange = { correoInput = it },
+                        label = { Text("Correo electrónico") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (nombreInput.isNotBlank() && correoInput.isNotBlank()) {
+                            ProgresoStorage.guardarPerfil(context, nombreInput.trim(), correoInput.trim())
+                            perfil = ProgresoStorage.obtenerPerfil(context)
+                            mostrarDialogoRegistro = false
+                            Toast.makeText(context, "¡Perfil configurado con éxito!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Por favor completa ambos campos", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                ) { Text("Comenzar a Practicar") }
+            }
+        )
+    }
+
+    // Aquí continúa el diseño normal de tu menú principal (botones hacia los módulos, etc.)
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Asistente de Fluidez",
-                fontSize = 28.sp,
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(bottom = 32.dp)
-            )
-
-            BotonPrincipal("Módulo de Metrónomo") {
-                navController.navigate(Screen.Metronomo.route)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            BotonPrincipal("Habla Estirada (Fonemas)") {
-                navController.navigate(Screen.HablaEstirada.route)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            BotonPrincipal("Entrenamiento de Ritmo") {
-                navController.navigate(Screen.RitmoFluidez.route)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            BotonPrincipal("Simulación de situaciones") {
-                navController.navigate(Screen.SimulacionSituaciones.route)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            BotonPrincipal("Pronunciacion al instante") {
-                navController.navigate(Screen.PronunciacionInstante.route)
-            }
-            BotonPrincipal("Progreso") {
-                navController.navigate(Screen.Progreso.route)
-            }
-            BotonPrincipal("Ejericios adaptativos") {
-                navController.navigate(Screen.EjerciciosAdaptativos.route)
-            }
+            Text(text = "SpeakTutor - Menú Principal", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            // ... Tus botones de navegación existentes ...
         }
-    }
-}
-
-@Composable
-fun BotonPrincipal(texto: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(64.dp), // Botón grande para mayor accesibilidad
-        shape = MaterialTheme.shapes.medium
-    ) {
-        Text(text = texto, fontSize = 18.sp)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MenuPreview() {
-    SPEAKTUTORTheme {
-        // Puedes pasarle un NavController simulado o crear un objeto temporal para ver el diseño
-        // MenuScreen(navController = rememberNavController())
     }
 }

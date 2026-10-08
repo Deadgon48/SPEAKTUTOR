@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.itsx.speaktutor.ui.navigation.Screen
+import com.itsx.speaktutor.ui.screens.ContenedorMetronomo
 import com.itsx.speaktutor.ui.screens.MetronomoScreen
 import com.itsx.speaktutor.ui.screens.HablaEstiradaScreen
 import com.itsx.speaktutor.ui.screens.PronunciacionInstanteScreen
@@ -27,9 +28,10 @@ import com.itsx.speaktutor.ui.screens.TarjetasShaderScreen
 import com.itsx.speaktutor.ui.screens.SimulacionSituacionesScreen
 import com.itsx.speaktutor.ui.screens.ProgresoScreen
 import com.itsx.speaktutor.ui.screens.EjerciciosAdaptativosScreen
+import com.itsx.speaktutor.ui.screens.ContenedorBiofeedback
 
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.P)
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -54,12 +56,22 @@ class MainActivity : ComponentActivity() {
                                 onNavigatePronunciacioninstante = { navController.navigate(Screen.PronunciacionInstante.route) },
                                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
+                                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
                                 onBack = { finish() } // Cierra la app al salir del menú principal
                             )
                         }
                         composable(Screen.Metronomo.route) {
-                            MetronomoScreen(navController = navController,
-                                onBack = { navController.popBackStack() })
+                            ContenedorMetronomo(
+                                navController = navController,
+                                onBack = { navController.popBackStack() }
+                            )
+                        }
+                        // Nueva ruta clínica de Biofeedback (Koeppen, Soplido, Pluma)
+                        composable(Screen.Biofeedback.route) {
+                            ContenedorBiofeedback(
+                                navController = navController,
+                                onBack = { navController.popBackStack()}
+                            )
                         }
                         composable(Screen.HablaEstirada.route) {
                             HablaEstiradaScreen(navController = navController,

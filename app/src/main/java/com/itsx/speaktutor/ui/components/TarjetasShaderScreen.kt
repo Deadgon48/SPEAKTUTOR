@@ -1,7 +1,11 @@
 package com.itsx.speaktutor.ui.screens
 
-import android.R.attr.title
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,10 +15,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,17 +27,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-import androidx.compose.foundation.Image
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.core.content.ContextCompat
 import coil.compose.AsyncImage
-import coil.decode.ImageDecoderDecoder // Importante para reproducir GIFs en Android
+import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import com.itsx.speaktutor.R
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 
-// 👈 Corrección aquí: se quitó el paréntesis en "data class"
 data class FeatureItem(
     val title: String,
     val description: String,
@@ -54,8 +54,77 @@ fun TarjetasShaderScreen(
     onNavigatePronunciacioninstante: () -> Unit,
     onNavigateProgreso: () -> Unit,
     onNavigateEjerciciosAdaptativos: () -> Unit,
+    onNavigateBio: () -> Unit,
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+
+    // --- ESTADOS DE PERFIL Y REGISTRO INICIAL ---
+    var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfil(context)) }
+    var mostrarDialogoRegistro by remember { mutableStateOf(perfil == null) }
+
+    // Lanzador para solicitar permisos de micrófono al abrir la app
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Toast.makeText(context, "Permiso de micrófono concedido", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Se requiere permiso de micrófono para las funciones de voz", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        val checkMic = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
+        if (checkMic != PackageManager.PERMISSION_GRANTED) {
+            permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        }
+    }
+
+    // DIÁLOGO DE PRIMERA VEZ (ONBOARDING)
+    if (mostrarDialogoRegistro) {
+        var nombreInput by remember { mutableStateOf("") }
+        var correoInput by remember { mutableStateOf("") }
+
+        AlertDialog(
+            onDismissRequest = { /* Bloquear cierre sin registrar */ },
+            title = { Text("¡Bienvenido a SpeakTutor!", fontWeight = FontWeight.Bold) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Por favor, ingresa tus datos para configurar tu perfil y generar tus reportes de progreso:")
+                    OutlinedTextField(
+                        value = nombreInput,
+                        onValueChange = { nombreInput = it },
+                        label = { Text("Nombre completo") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = correoInput,
+                        onValueChange = { correoInput = it },
+                        label = { Text("Correo electrónico") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (nombreInput.isNotBlank() && correoInput.isNotBlank()) {
+                            ProgresoStorage.guardarPerfil(context, nombreInput.trim(), correoInput.trim())
+                            perfil = ProgresoStorage.obtenerPerfil(context)
+                            mostrarDialogoRegistro = false
+                            Toast.makeText(context, "¡Perfil configurado con éxito!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Por favor completa ambos campos", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                ) { Text("Comenzar a Practicar") }
+            }
+        )
+    }
+
     val features = listOf(
         FeatureItem(
             title = "Metrónomo de Ritmo",
@@ -86,27 +155,34 @@ fun TarjetasShaderScreen(
         ) { onNavigateSimulacionSituaciones() },
 
         FeatureItem(
-                title = "Pronunciación al Instante",
+            title = "Pronunciación al Instante",
             description = "Prueba tu fluidez por intervalos de tiempo y mide tus aciertos.",
             icon = Icons.Default.CheckCircle,
             colors = listOf(Color(0xFFE65100), Color(0xFFF57C00), Color(0xFFFFB74D))
         ) { onNavigatePronunciacioninstante() },
 
+        // NUEVA TARJETA: Biofeedback y Autorregulación
         FeatureItem(
-                title = "Mi Progreso y Estadísticas",
+            title = "Biofeedback y Relajación",
+            description = "Ejercicios clínicos de control respiratorio, tensión-distensión y toque de pluma.",
+            icon = Icons.Default.Favorite,
+            colors = listOf(Color(0xFFC2185B), Color(0xFFE91E63), Color(0xFFF06292))
+        ) { onNavigateBio() },
+
+        FeatureItem(
+            title = "Mi Progreso y Estadísticas",
             description = "Consulta tu historial de práctica, aciertos y promedio general.",
             icon = Icons.Default.Assessment,
             colors = listOf(Color(0xFF00695C), Color(0xFF00897B), Color(0xFF4DB6AC))
         ) { onNavigateProgreso() },
 
-    FeatureItem(
-        title = "Ejercicios Adaptativos",
-        description = "Acceda a ejecricios basados en su historial de progreso y promedio general.",
-        icon = Icons.Default.Assessment,
-        colors = listOf(Color(0xFF00356B), Color(0xFF00897B), Color(0xFF4DB6AC))
-    ) { onNavigateEjerciciosAdaptativos() }
+        FeatureItem(
+            title = "Ejercicios Adaptativos",
+            description = "Acceda a ejecricios basados en su historial de progreso y promedio general.",
+            icon = Icons.Default.Assessment,
+            colors = listOf(Color(0xFF00356B), Color(0xFF00897B), Color(0xFF4DB6AC))
+        ) { onNavigateEjerciciosAdaptativos() }
     )
-
 
     Scaffold(
         topBar = {
@@ -132,13 +208,13 @@ fun TarjetasShaderScreen(
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.ascii_effect_animado) // Nombre de tu archivo gif en drawable (sin extensión)
-                    .decoderFactory(ImageDecoderDecoder.Factory()) // Activa la animación del GIF
+                    .data(R.drawable.ascii_effect_animado)
+                    .decoderFactory(ImageDecoderDecoder.Factory())
                     .build(),
                 contentDescription = "Logo Animado de SpeakTutor",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp) // Ajusta la altura según prefieras
+                    .height(100.dp)
                     .padding(bottom = 8.dp)
             )
 

@@ -29,7 +29,7 @@ fun BiofeedbackVisualAvanzadoDSP(metricas: ParametrosAcusticos) {
     val nivelNormalizado = (metricas.rmsEnergia / 10000f).coerceIn(0f, 1f)
     val suavizadoEnergia by animateFloatAsState(
         targetValue = nivelNormalizado,
-        animationSpec = tween(durationMillis = 80),
+        animationSpec = tween(durationMillis = 30),
         label = "energiaDSP"
     )
 
