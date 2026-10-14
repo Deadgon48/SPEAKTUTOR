@@ -55,6 +55,7 @@ import com.itsx.speaktutor.ui.components.BiofeedbackVisualAvanzadoDSP
 import com.itsx.speaktutor.ui.components.ControlVelocidadTts
 import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.components.MetronomoReutilizableComponent
+import com.itsx.speaktutor.ui.components.MonitorFonologicoYCAA
 import com.itsx.speaktutor.ui.navigation.Screen
 
 enum class SeccionRitmo { MENU_PRINCIPAL, BLOQUES, LECTURA, GRABADORA }
@@ -121,14 +122,50 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
         }
     }
 
-    val bloquesPrincipiante = listOf("El / pe / rro / de / San / ro / que", "Ca / mi / na / ba / sin / gen / te", "Pau / sa / y / res / pi / ra / bien", "Un / pa / so / a / la / vez")
-    val bloquesIntermedio = listOf("La / cons / tan / cia / me / jo / ra / tu / ha / bla", "El / a / i / re / fluye / con / na / tu / ra / li / dad", "Hab / lar / des / pa / cio / te / da / con / fianza")
-    val bloquesAvanzado = listOf("La / ar / ti / cu / la / ción / cla / ra / fa / ci / li / ta / la / co / mu / ni / ca / ción", "E / je / cu / tar / pau / sas / es / trug / tu / ras / re / du / ce / los / blo / que / os")
+    val bloquesPrincipiante = listOf(
+        "El / pe / rro / de / San / ro / que",
+        "Ca / mi / na / ba / sin / gen / te",
+        "Pau / sa / y / res / pi / ra / bien",
+        "Un / pa / so / a / la / vez",
+        "El / sol / bri / lla / hoy",
+        "Me / gus / ta / can / tar",
+        "Voy / a / la / ciu / dad",
+        "La / me / sa / es / ro / ja",
+        "Quie / ro / un / ca / fé",
+        "Bue / nos / dí / as / hoy"
+    )
+
+    val bloquesIntermedio = listOf(
+        "La / cons / tan / cia / me / jo / ra / tu / ha / bla",
+        "El / a / i / re / flu / ye / con / na / tu / ra / li / dad",
+        "Ha / blar / des / pa / cio / te / da / con / fianza",
+        "Res / pi / ra / pro / fun / do / an / tes / de / ha / blar",
+        "Las / o / las / del / mar / son / re / la / jan / tes",
+        "El / a / pren / di / za / je / to / ma / su / tiem / po",
+        "Man / tén / el / rit / mo / con / el / me / tró / no / mo",
+        "To / ma / te / tu / tiem / po / pa / ra / res / pon / der"
+    )
+
+    val bloquesAvanzado = listOf(
+        "La / ar / ti / cu / la / ción / cla / ra / fa / ci / li / ta / la / co / mu / ni / ca / ción",
+        "E / je / cu / tar / pau / sas / es / truc / tu / ra / das / re / du / ce / los / blo / que / os",
+        "El / pen / sa / mien / to / po / si / ti / vo / trans / for / ma / nues / tra / vi / da / dia / ria",
+        "La / tec / no / lo / gí / a / a / van / za / de / for / ma / in / con / te / ni / ble / men / te",
+        "De / sa / rro / llar / u / na / bue / na / res / pi / ra / ción / dia / frag / má / ti / ca / es / cla / ve",
+        "La / in / te / li / gen / cia / ar / ti / fi / cial / o / fre / ce / nue / vas / he / rra / mien / tas"
+    )
 
     val lecturasExtensas = listOf(
         Pair("🌊 El curso del río", "Un río nunca se detiene ante las rocas; simplemente encuentra la forma de rodearlas y continuar su camino. De la misma manera, al hablar no debemos apresurar las palabras ni temer a las pausas. El secreto de una fluidez serena reside en permitir que el aire fluya sin prisa."),
         Pair("🌳 La fuerza del árbol", "En medio del bosque, un viejo roble enseñaba a los árboles jóvenes el arte de resistir las tormentas. Les decía que el árbol que intenta ser rígido frente al viento termina por romperse, mientras que aquel que se mece suavemente al ritmo de la brisa permanece siempre firme."),
-        Pair("💡 El valor de la pausa", "Hacer una pausa antes de hablar no es un signo de duda, sino una muestra de dominio y serenidad. Cuando hacemos un alto para inhalar aire de forma diafragmática, preparamos las cuerdas vocales para articular cada sílaba con precisión.")
+        Pair("💡 El valor de la pausa", "Hacer una pausa antes de hablar no es un signo de duda, sino una muestra de dominio y serenidad. Cuando hacemos un alto para inhalar aire de forma diafragmática, preparamos las cuerdas vocales para articular cada sílaba con precisión."),
+        Pair("🌅 La rutina matutina", "Caminar por la mañana temprano ayuda a despejar la mente de las preocupaciones y te prepara para un día muy productivo. Observar el amanecer nos recuerda que cada día es una nueva oportunidad para avanzar a nuestro propio ritmo."),
+        Pair("☁️ La computación en la nube", "En el mundo de la tecnología actual, la computación en la nube permite a las empresas escalar sus recursos de forma inmediata y segura. Los servidores distribuidos garantizan que la información siempre esté disponible."),
+        Pair("🍂 El paisaje de otoño", "Durante la temporada de otoño en el bosque, las hojas caen lentamente sobre los senderos formando un hermoso paisaje de colores cálidos. El crujir de las ramas secas bajo los zapatos anuncia la llegada del frío."),
+        Pair("📱 El desarrollo de software", "El desarrollo de aplicaciones móviles requiere paciencia, dedicación y una constante adaptación a los nuevos sistemas operativos. El código limpio y bien estructurado es el equivalente a una mente clara y organizada."),
+        Pair("🌬️ La respiración diafragmática", "La respiración diafragmática es fundamental no solo para cantar o actuar, sino para mantener una fonación relajada y libre de tensión. Controlar el flujo de aire nos permite proyectar la voz sin lastimar las cuerdas vocales."),
+        Pair("🚀 El viaje espacial", "La exploración del espacio exterior siempre ha fascinado a la humanidad. Las estrellas distantes nos invitan a soñar en grande y a recordar que nuestros problemas cotidianos son pequeños en comparación con la inmensidad del universo."),
+        Pair("🧠 La plasticidad cerebral", "Nuestro cerebro tiene la increíble capacidad de adaptarse y aprender nuevas habilidades a lo largo de toda la vida. Esta plasticidad neuronal nos demuestra que siempre podemos superar nuestros propios límites con práctica constante.")
     )
 
     DisposableEffect(context) {
@@ -158,7 +195,7 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 textoEscuchado = matches?.get(0) ?: ""
                 ultimaCalificacion = calcularPrecisionRitmo(textoObjetivo, textoEscuchado)
-                ProgresoStorage.guardarSesion(context, nombreModulo, if (ultimaCalificacion >= 60) 1 else 0, if (ultimaCalificacion < 60) 1 else 0, ultimaCalificacion)
+                ProgresoStorage.guardarSesionMultidimensional(context, nombreModulo, if (ultimaCalificacion >= 60) 1 else 0, if (ultimaCalificacion < 60) 1 else 0, ultimaCalificacion)
             }
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
@@ -201,7 +238,8 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                 onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
-                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) }
+                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
             )
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -267,6 +305,12 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                                         if (isThisDSPActive) {
                                             BiofeedbackVisualAvanzadoDSP(metricasDSP)
                                             Text(feedbackDSP, color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+
+                                            MonitorFonologicoYCAA(
+                                                motorDSP = motorDSP,
+                                                palabraObjetivoActual = contenido, // "contenido" tiene el texto del bloque o párrafo
+                                                textoEscuchado = textoEscuchado
+                                                )
                                         }
 
                                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {

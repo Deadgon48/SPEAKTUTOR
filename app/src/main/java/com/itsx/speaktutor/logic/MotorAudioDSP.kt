@@ -5,6 +5,14 @@ import com.itsx.speaktutor.ui.screens.ProgresoStorage
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 
+private var bloqueosTonicos = 0
+private var bloqueosClonicos = 0
+private var iniciosSuaves = 0
+private var iniciosBruscos = 0
+private var tiempoInicioMs = 0L
+private var latenciaAlcanzadaMs = 0L
+private var fonacionIniciada = false
+
 enum class EstadoVozDSP {
     SILENCIO, FLUIDO, BLOQUEO
 }
@@ -15,13 +23,15 @@ data class ParametrosAcusticos(
     val estado: EstadoVozDSP = EstadoVozDSP.SILENCIO,
     val tramasVocales: Int = 0,
     val tramasBloqueo: Int = 0,
-    val ataqueBrusco: Float = 0f
+    val ataqueBrusco: Float = 0f,
+    // --- NUEVAS MÉTRICAS EXPUESTAS EN TIEMPO REAL ---
+    val tonicosActuales: Int = 0,
+    val clonicosActuales: Int = 0,
+    val esClonico: Boolean = false
 )
 
 class MotorAudioDSP {
-    init {
-        System.loadLibrary("oboe_dsp")
-    }
+    init { System.loadLibrary("oboe_dsp") }
 
     external fun startOboe()
     external fun stopOboe()
@@ -39,9 +49,14 @@ class MotorAudioDSP {
     fun iniciarAnalisisDSP() {
         if (isRecording) return
         isRecording = true
+        tiempoInicioMs = System.currentTimeMillis()
+        fonacionIniciada = false
         startOboe()
 
         pollingJob = coroutineScope.launch {
+            var bloqueosConsecutivos = 0 // Filtro anti-rebotes
+            var ultimoEstadoVoz = 0
+
             while (isActive && isRecording) {
                 val metrics = getMetrics()
 
@@ -58,18 +73,63 @@ class MotorAudioDSP {
                     else -> EstadoVozDSP.SILENCIO
                 }
 
+                // 1. Cálculo de latencia (Solo ocurre la primera vez que hay voz)
+                if (!fonacionIniciada && estadoInt != 0) {
+                    latenciaAlcanzadaMs = System.currentTimeMillis() - tiempoInicioMs
+                    fonacionIniciada = true
+                }
+
+                // 2. Registro inmediato de cómo inicia la voz desde el silencio
+                if (estadoInt == 2 && ultimoEstadoVoz == 0) {
+                    iniciosBruscos++
+                } else if (estadoInt == 1 && ultimoEstadoVoz == 0) {
+                    iniciosSuaves++
+                }
+
+                // FILTRO ANTI-REBOTES CLÍNICO
+                var esClonicoActual = false
+                if (estadoInt == 2) {
+                    bloqueosConsecutivos++
+                    // Solo contamos el bloqueo si persiste por al menos 3 ciclos seguidos (~50ms)
+                    if (bloqueosConsecutivos == 3) {
+                        if (zcr > 25) { // El umbral ZCR clónico bajó gracias a la varianza en C++
+                            bloqueosClonicos++; esClonicoActual = true
+                        } else {
+                            bloqueosTonicos++; esClonicoActual = false
+                    }
+                }
+            } else {
+            bloqueosConsecutivos = 0
+            }
+
+                ultimoEstadoVoz = estadoInt
+
                 metricasAcusticas.value = ParametrosAcusticos(
                     rmsEnergia = rms,
                     zeroCrossingRate = zcr,
                     estado = estado,
                     tramasVocales = tramasVocalesTotales,
                     tramasBloqueo = tramasConBloqueo,
-                    ataqueBrusco = ataqueBruscoVal
+                    ataqueBrusco = ataqueBruscoVal,
+                    tonicosActuales = bloqueosTonicos,
+                    clonicosActuales = bloqueosClonicos,
+                    esClonico = esClonicoActual
                 )
-
-                delay(16)
+                delay(16L)
             }
         }
+    }
+
+    fun pausarAnalisisTemporal() {
+        if (!isRecording) return
+        isRecording = false
+        pollingJob?.cancel()
+        stopOboe()
+    }
+
+    fun reanudarAnalisis() {
+        if (isRecording) return
+        iniciarAnalisisDSP()
     }
 
     fun detenerAnalisis(context: Context? = null, nombreModulo: String = "Módulo DSP") {
@@ -79,19 +139,21 @@ class MotorAudioDSP {
 
         if (context != null && tramasVocalesTotales > 10) {
             val aciertos = tramasVocalesTotales - tramasConBloqueo
-            val calificacionFinal = if (tramasVocalesTotales > 0) ((aciertos.toFloat() / tramasVocalesTotales) * 100).toInt().coerceIn(0, 100) else 0
+            // Se elimina la condición redundante '> 0' porque ya pasó el filtro '> 10'
+            val calificacionFinal = ((aciertos.toFloat() / tramasVocalesTotales) * 100).toInt().coerceIn(0, 100)
+            val totalInicios = iniciosSuaves + iniciosBruscos
+            val pctContactosLigeros = if (totalInicios > 0) ((iniciosSuaves.toFloat() / totalInicios) * 100).toInt() else 100
 
-            ProgresoStorage.guardarSesion(
-                context = context,
-                dificultad = nombreModulo,
-                aciertos = aciertos,
-                errores = tramasConBloqueo,
-                calificacion = calificacionFinal
+            ProgresoStorage.guardarSesionMultidimensional(
+                context = context, modulo = nombreModulo, aciertos = aciertos,
+                erroresTotales = tramasConBloqueo, calificacion = calificacionFinal,
+                bloqueosTonicos = bloqueosTonicos, bloqueosClonicos = bloqueosClonicos,
+                latenciaMedia = latenciaAlcanzadaMs.toInt(), contactosLigeros = pctContactosLigeros
             )
         }
 
-        tramasVocalesTotales = 0
-        tramasConBloqueo = 0
+        tramasVocalesTotales = 0; tramasConBloqueo = 0; bloqueosTonicos = 0; bloqueosClonicos = 0
+        iniciosSuaves = 0; iniciosBruscos = 0; latenciaAlcanzadaMs = 0L
         metricasAcusticas.value = ParametrosAcusticos()
     }
 }

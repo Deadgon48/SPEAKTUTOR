@@ -318,6 +318,7 @@ fun BarraNavegacionModulos(
     onNavigatePronunciacionInstante: () -> Unit,
     onNavigateProgreso: () -> Unit,
     onNavigateEjerciciosAdaptativos: () -> Unit,
+    onNavigateTarjetasArticulacion: () -> Unit,
     onNavigateBio: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -375,7 +376,11 @@ fun BarraNavegacionModulos(
         colorFondo = listOf(Color(0xFF00356B), Color(0xFF00897B)),
         onClick = onNavigateEjerciciosAdaptativos
     )
-
+        MiniTarjetaBoton(
+            titulo = "Tarjetas de articulacion",
+            colorFondo = listOf(Color(0xFFC45675B), Color(0xFFF084849)),
+            onClick = onNavigateTarjetasArticulacion
+        )
     }
 }
 

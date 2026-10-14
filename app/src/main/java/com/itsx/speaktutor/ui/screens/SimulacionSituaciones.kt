@@ -38,6 +38,7 @@ import com.itsx.speaktutor.logic.EstadoVozDSP
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BiofeedbackVisualAvanzadoDSP
 import com.itsx.speaktutor.ui.components.HomeIcon
+import com.itsx.speaktutor.ui.components.MonitorFonologicoYCAA
 
 enum class SimulacionSituaciones {
     MENU_PRINCIPAL, ESCENARIOS, GUIONES, EVOCACION_LEXICA
@@ -47,12 +48,18 @@ data class TurnoGuion(val rol: String, val texto: String, val esDeApp: Boolean)
 
 // --- DICCIONARIO SEMÁNTICO AÑADIDO ---
 val diccionariosEvocacion = mapOf(
-    "ANIMALES" to listOf("perro", "gato", "león", "tigre", "elefante", "pájaro", "oso", "caballo", "vaca", "cerdo", "lobo", "zorro", "conejo", "serpiente", "mono", "rana", "pez", "jirafa"),
-    "COLORES" to listOf("rojo", "azul", "verde", "amarillo", "blanco", "negro", "naranja", "morado", "rosa", "café", "marrón", "gris", "celeste"),
-    "FRUTAS" to listOf("manzana", "plátano", "naranja", "uva", "pera", "fresa", "sandía", "melón", "mango", "piña", "kiwi", "limón", "papaya"),
-    "PAÍSES" to listOf("méxico", "españa", "argentina", "colombia", "chile", "perú", "francia", "italia", "alemania", "japón", "china", "brasil", "canadá", "ecuador"),
-    "PROFESIONES" to listOf("doctor", "médico", "ingeniero", "abogado", "profesor", "maestro", "arquitecto", "enfermera", "policía", "bombero", "carpintero", "piloto", "dentista"),
-    "DEPORTES" to listOf("fútbol", "basquetbol", "béisbol", "tenis", "natación", "atletismo", "boxeo", "voleibol", "golf")
+    "ANIMALES" to listOf("perro", "gato", "león", "tigre", "elefante", "pájaro", "oso", "caballo", "vaca", "cerdo", "lobo", "zorro", "conejo", "serpiente", "mono", "rana", "pez", "jirafa", "rinoceronte", "hipopótamo", "cocodrilo", "águila", "ballena", "delfín", "tiburón", "tortuga", "pingüino"),
+    "COLORES" to listOf("rojo", "azul", "verde", "amarillo", "blanco", "negro", "naranja", "morado", "rosa", "café", "marrón", "gris", "celeste", "violeta", "turquesa", "beige", "dorado", "plateado"),
+    "FRUTAS" to listOf("manzana", "plátano", "naranja", "uva", "pera", "fresa", "sandía", "melón", "mango", "piña", "kiwi", "limón", "papaya", "cereza", "ciruela", "durazno", "frambuesa", "arándano", "coco", "guayaba"),
+    "PAÍSES" to listOf("méxico", "españa", "argentina", "colombia", "chile", "perú", "francia", "italia", "alemania", "japón", "china", "brasil", "canadá", "ecuador", "venezuela", "bolivia", "uruguay", "paraguay", "rusia", "india", "australia"),
+    "PROFESIONES" to listOf("doctor", "médico", "ingeniero", "abogado", "profesor", "maestro", "arquitecto", "enfermera", "policía", "bombero", "carpintero", "piloto", "dentista", "cocinero", "chef", "mecánico", "electricista", "periodista", "psicólogo", "veterinario"),
+    "DEPORTES" to listOf("fútbol", "basquetbol", "béisbol", "tenis", "natación", "atletismo", "boxeo", "voleibol", "golf", "ciclismo", "gimnasia", "rugby", "surf", "esquí", "taekwondo", "karate"),
+    "VERDURAS" to listOf("tomate", "cebolla", "ajo", "zanahoria", "papa", "lechuga", "brócoli", "espinaca", "calabaza", "pepino", "chile", "pimiento", "apio", "aguacate", "chícharo"),
+    "HERRAMIENTAS" to listOf("martillo", "desarmador", "destornillador", "pinzas", "alicate", "llave", "taladro", "sierra", "clavo", "tornillo", "tuerca", "metro", "cincel"),
+    "VEHÍCULOS" to listOf("coche", "auto", "automóvil", "autobús", "camión", "motocicleta", "moto", "bicicleta", "tren", "avión", "barco", "helicóptero", "submarino", "yate"),
+    "INSTRUMENTOS" to listOf("guitarra", "piano", "violín", "batería", "flauta", "trompeta", "saxofón", "bajo", "teclado", "violonchelo", "arpa", "acordeón", "clarinete"),
+    "ROPA" to listOf("camisa", "camiseta", "pantalón", "jeans", "zapato", "tenis", "chamarra", "chaqueta", "abrigo", "sombrero", "gorra", "calcetín", "vestido", "falda", "suéter", "bufanda", "guante"),
+    "MUEBLES" to listOf("silla", "mesa", "sillón", "sofá", "cama", "ropero", "armario", "escritorio", "estante", "librero", "buró", "espejo")
 )
 
 fun calcularPrecisionHabla(textoEsperado: String, textoReconocido: String): Int {
@@ -189,7 +196,7 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
             guionTerminado = true
             val totalTurnosUsuario = dialogosGuion.count { !it.esDeApp }
             val calificacionFinal = if (totalTurnosUsuario > 0) ((aciertosGuion.toFloat() / totalTurnosUsuario) * 100).toInt().coerceIn(0, 100) else 100
-            ProgresoStorage.guardarSesion(context = context, dificultad = "Simulación (Guión Hotel)", aciertos = aciertosGuion, errores = erroresGuion, calificacion = calificacionFinal)
+            ProgresoStorage.guardarSesionMultidimensional(context = context, modulo = "Simulación (Guión Hotel)", aciertos = aciertosGuion, erroresTotales = erroresGuion, calificacion = calificacionFinal)
         }
     }
 
@@ -271,7 +278,7 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                 } else {
                     val aciertos = if (calificacion >= 60) 1 else 0
                     val errores = if (calificacion < 60) 1 else 0
-                    ProgresoStorage.guardarSesion(context = context, dificultad = "Simulación (Escenario)", aciertos = aciertos, errores = errores, calificacion = calificacion)
+                    ProgresoStorage.guardarSesionMultidimensional(context = context, modulo = "Simulación (Escenario)", aciertos = aciertos, erroresTotales = errores, calificacion = calificacion)
                 }
             }
             override fun onPartialResults(partialResults: Bundle?) {}
@@ -340,7 +347,8 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                     onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
                     onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                     onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
-                    onNavigateBio = { navController.navigate(Screen.Biofeedback.route) }
+                    onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
+                    onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
                 )
             }
 
@@ -411,7 +419,7 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                                 Button(onClick = {
                                     val total = aciertosEvocacion + erroresEvocacion
                                     val calificacion = if (total > 0) ((aciertosEvocacion.toFloat() / total) * 100).toInt() else 0
-                                    ProgresoStorage.guardarSesion(context, "Evocación ($categoriaActual)", aciertosEvocacion, erroresEvocacion, calificacion)
+                                    ProgresoStorage.guardarSesionMultidimensional(context, "Evocación ($categoriaActual)", aciertosEvocacion, erroresEvocacion, calificacion)
 
                                     tiempoRestante = 30
                                     categoriaActual = categoriasEvocacion.random()
@@ -468,7 +476,14 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                             }
                         }
 
-                        if (isDSPActive) { BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP) }
+                        if (isDSPActive) { BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP)
+
+                            MonitorFonologicoYCAA(
+                                motorDSP = motorDSP,
+                                palabraObjetivoActual = respuestaSugerida, // El diálogo que debe leer el paciente
+                                textoEscuchado = textoEscuchado
+                                )
+                        }
 
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Button(
@@ -536,6 +551,12 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
 
                             if (!turnoActual.esDeApp) {
                                 if (isDSPActive) { BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP) }
+
+                                MonitorFonologicoYCAA(
+                                    motorDSP = motorDSP,
+                                    palabraObjetivoActual = turnoActual.texto, // El diálogo que debe leer el paciente
+                                    textoEscuchado = textoEscuchado
+                                    )
 
                                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     Button(
