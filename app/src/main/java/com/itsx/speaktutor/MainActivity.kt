@@ -29,6 +29,7 @@ import com.itsx.speaktutor.ui.screens.SimulacionSituacionesScreen
 import com.itsx.speaktutor.ui.screens.ProgresoScreen
 import com.itsx.speaktutor.ui.screens.EjerciciosAdaptativosScreen
 import com.itsx.speaktutor.ui.screens.ContenedorBiofeedback
+import com.itsx.speaktutor.ui.screens.TarjetasArticulacionScreen
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -57,6 +58,7 @@ class MainActivity : ComponentActivity() {
                                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
                                 onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
+                                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) },
                                 onBack = { finish() } // Cierra la app al salir del menú principal
                             )
                         }
@@ -102,6 +104,13 @@ class MainActivity : ComponentActivity() {
                             EjerciciosAdaptativosScreen(
                                 navController = navController,
                                 onBack = { navController.popBackStack() }
+                            )
+                        }
+
+                        composable(Screen.TarjetasArticulacion.route) {
+                            TarjetasArticulacionScreen(
+                                navController = navController,
+                                onBack = { navController.popBackStack()}
                             )
                         }
                     }

@@ -34,6 +34,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import com.itsx.speaktutor.R
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
+import com.itsx.speaktutor.ui.components.DialogoPerfilClinico
 
 data class FeatureItem(
     val title: String,
@@ -55,12 +56,13 @@ fun TarjetasShaderScreen(
     onNavigateProgreso: () -> Unit,
     onNavigateEjerciciosAdaptativos: () -> Unit,
     onNavigateBio: () -> Unit,
+    onNavigateTarjetasArticulacion: () -> Unit,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
 
-    // --- ESTADOS DE PERFIL Y REGISTRO INICIAL ---
-    var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfil(context)) }
+    // --- ESTADOS DE PERFIL CLÍNICO Y REGISTRO INICIAL ---
+    var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfilClinico(context)) }
     var mostrarDialogoRegistro by remember { mutableStateOf(perfil == null) }
 
     // Lanzador para solicitar permisos de micrófono al abrir la app
@@ -81,46 +83,16 @@ fun TarjetasShaderScreen(
         }
     }
 
-    // DIÁLOGO DE PRIMERA VEZ (ONBOARDING)
+    // DIÁLOGO DE PRIMERA VEZ (ONBOARDING CLÍNICO)
     if (mostrarDialogoRegistro) {
-        var nombreInput by remember { mutableStateOf("") }
-        var correoInput by remember { mutableStateOf("") }
-
-        AlertDialog(
-            onDismissRequest = { /* Bloquear cierre sin registrar */ },
-            title = { Text("¡Bienvenido a SpeakTutor!", fontWeight = FontWeight.Bold) },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Por favor, ingresa tus datos para configurar tu perfil y generar tus reportes de progreso:")
-                    OutlinedTextField(
-                        value = nombreInput,
-                        onValueChange = { nombreInput = it },
-                        label = { Text("Nombre completo") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    OutlinedTextField(
-                        value = correoInput,
-                        onValueChange = { correoInput = it },
-                        label = { Text("Correo electrónico") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        if (nombreInput.isNotBlank() && correoInput.isNotBlank()) {
-                            ProgresoStorage.guardarPerfil(context, nombreInput.trim(), correoInput.trim())
-                            perfil = ProgresoStorage.obtenerPerfil(context)
-                            mostrarDialogoRegistro = false
-                            Toast.makeText(context, "¡Perfil configurado con éxito!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Por favor completa ambos campos", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                ) { Text("Comenzar a Practicar") }
+        DialogoPerfilClinico(
+            perfilActual = perfil, // Al ser null la primera vez, el componente no dejará cerrarlo sin llenar
+            onDismiss = { mostrarDialogoRegistro = false },
+            onGuardar = { nombre, correo, diagnostico, objetivos ->
+                ProgresoStorage.guardarPerfilClinico(context, nombre, correo, diagnostico, objetivos)
+                perfil = ProgresoStorage.obtenerPerfilClinico(context)
+                mostrarDialogoRegistro = false
+                Toast.makeText(context, "¡Expediente configurado con éxito!", Toast.LENGTH_SHORT).show()
             }
         )
     }
@@ -148,10 +120,10 @@ fun TarjetasShaderScreen(
         ) { onNavigateRitmoFluidez() },
 
         FeatureItem(
-            title = "Simulacion de situaciones",
-            description = "Simulate en situaciones pregrabadas y entrena.",
+            title = "Simulación de Situaciones",
+            description = "Simúlate en situaciones pregrabadas y entrena.",
             icon = Icons.Default.SimCard,
-            colors = listOf(Color(0XFF010FFD), Color(0xFF014FFA), Color(0xFF016FFD))
+            colors = listOf(Color(0xFF010FFD), Color(0xFF014FFA), Color(0xFF016FFD))
         ) { onNavigateSimulacionSituaciones() },
 
         FeatureItem(
@@ -161,13 +133,19 @@ fun TarjetasShaderScreen(
             colors = listOf(Color(0xFFE65100), Color(0xFFF57C00), Color(0xFFFFB74D))
         ) { onNavigatePronunciacioninstante() },
 
-        // NUEVA TARJETA: Biofeedback y Autorregulación
         FeatureItem(
             title = "Biofeedback y Relajación",
             description = "Ejercicios clínicos de control respiratorio, tensión-distensión y toque de pluma.",
             icon = Icons.Default.Favorite,
             colors = listOf(Color(0xFFC2185B), Color(0xFFE91E63), Color(0xFFF06292))
         ) { onNavigateBio() },
+
+        FeatureItem(
+            title = "Tarjetas para Articulación",
+            description = "Tarjetas para la articulación de palabras que se complican al usuario.",
+            icon = Icons.Default.Favorite,
+            colors = listOf(Color(0xFFC45675), Color(0xFFE49393), Color(0xFFF08484))
+        ) { onNavigateTarjetasArticulacion() },
 
         FeatureItem(
             title = "Mi Progreso y Estadísticas",
@@ -178,7 +156,7 @@ fun TarjetasShaderScreen(
 
         FeatureItem(
             title = "Ejercicios Adaptativos",
-            description = "Acceda a ejecricios basados en su historial de progreso y promedio general.",
+            description = "Acceda a ejercicios basados en su historial de progreso y promedio general.",
             icon = Icons.Default.Assessment,
             colors = listOf(Color(0xFF00356B), Color(0xFF00897B), Color(0xFF4DB6AC))
         ) { onNavigateEjerciciosAdaptativos() }

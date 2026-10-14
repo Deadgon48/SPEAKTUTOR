@@ -112,7 +112,8 @@ fun MetronomoScreen(navController: NavController, onBack: () -> Unit, motorDSP: 
                 onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
-                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) }
+                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
             )
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -154,7 +155,7 @@ fun MetronomoScreen(navController: NavController, onBack: () -> Unit, motorDSP: 
                         onClick = {
                             val total = aciertos + bloqueos + omisiones
                             val calif = if (total > 0) (aciertos * 100) / total else 0
-                            ProgresoStorage.guardarSesion(context, "Metrónomo DSP", aciertos, bloqueos + omisiones, calif)
+                            ProgresoStorage.guardarSesionMultidimensional(context, "Metrónomo DSP", aciertos, bloqueos + omisiones, calif)
                             onBack()
                         },
                         modifier = Modifier.fillMaxWidth().height(60.dp),

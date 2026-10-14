@@ -8,6 +8,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -29,6 +30,8 @@ import com.itsx.speaktutor.logic.ParametrosAcusticos
 import com.itsx.speaktutor.logic.EstadoVozDSP
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
+import com.itsx.speaktutor.ui.components.MonitorFonologicoYCAA
+import com.itsx.speaktutor.ui.navigation.Screen
 
 @Composable
 fun ContenedorBiofeedback(navController: NavController, onBack: () -> Unit) {
@@ -61,8 +64,22 @@ fun BiofeedbackScreen(navController: NavController, onBack: () -> Unit, motorDSP
                 .padding(innerPadding)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
+            BarraNavegacionModulos(
+                onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
+                onNavigateMetronomo = { navController.navigate(Screen.Metronomo.route) },
+                onNavigateHablaEstirada = { navController.navigate(Screen.HablaEstirada.route) },
+                onNavigateRitmoFluidez = { navController.navigate(Screen.RitmoFluidez.route) },
+                onNavigateSimulacionSituaciones = { navController.navigate(Screen.SimulacionSituaciones.route) },
+                onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
+                onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
+                onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
+                onNavigateBio = { /* Ya estás aquí */ },
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
             ScrollableTabRow(
                 selectedTabIndex = tabSeleccionada,
                 edgePadding = 0.dp,
@@ -98,7 +115,7 @@ fun BiofeedbackScreen(navController: NavController, onBack: () -> Unit, motorDSP
                 when (tabSeleccionada) {
                     0 -> EjercicioKoeppen(metricasDSP, ctx)
                     1 -> EjercicioSoplidoSostenido(metricasDSP, ctx)
-                    2 -> EjercicioToqueDePluma(metricasDSP, ctx)
+                    2 -> EjercicioToqueDePluma(motorDSP, ctx)
                 }
             }
         }
@@ -178,7 +195,7 @@ fun EjercicioKoeppen(metricasDSP: ParametrosAcusticos, context: Context) {
         Button(
             onClick = {
                 val total = ciclosCompletos + erroresTension
-                ProgresoStorage.guardarSesion(context, "Koeppen", ciclosCompletos, erroresTension, if (total > 0) (ciclosCompletos * 100) / total else 0)
+                ProgresoStorage.guardarSesionMultidimensional(context, "Koeppen", ciclosCompletos, erroresTension, if (total > 0) (ciclosCompletos * 100) / total else 0)
             },
             modifier = Modifier.fillMaxWidth(0.75f)
         ) {
@@ -232,7 +249,7 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
         Button(
             onClick = {
                 val total = exitosTotales + fallosFuerza
-                ProgresoStorage.guardarSesion(context, "Soplido", exitosTotales, fallosFuerza, if (total > 0) (exitosTotales * 100) / total else 0)
+                ProgresoStorage.guardarSesionMultidimensional(context, "Soplido", exitosTotales, fallosFuerza, if (total > 0) (exitosTotales * 100) / total else 0)
             },
             modifier = Modifier.fillMaxWidth(0.75f)
         ) {
@@ -242,8 +259,18 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
 }
 
 @Composable
-fun EjercicioToqueDePluma(metricasDSP: ParametrosAcusticos, context: Context) {
-    val listaPalabras = listOf("Perro", "Barco", "Camino", "Tigre", "Puerta")
+fun EjercicioToqueDePluma(motorDSP: MotorAudioDSP, context: Context) {
+    val metricasDSP by motorDSP.metricasAcusticas.collectAsState()
+
+    val listaPalabras = listOf(
+        "Perro", "Barco", "Camino", "Tigre", "Puerta",
+        "Gato", "Fuego", "Cielo", "Tren", "Sol",
+        "Agua", "Viento", "Nube", "Pájaro", "Tierra",
+        "Mar", "Luna", "Flor", "Zapato", "Café",
+        "Piedra", "Diente", "Bosque", "Sombra", "Pluma",
+        "Beso", "Casa", "Dado", "Gota", "Juego"
+    ).shuffled() // Agregamos shuffled() para que el orden sea aleatorio en cada sesión
+
     var indice by remember { mutableStateOf(0) }
     var aciertosLimpios by remember { mutableStateOf(0) }
     var bloqueosDuros by remember { mutableStateOf(0) }
@@ -294,6 +321,12 @@ fun EjercicioToqueDePluma(metricasDSP: ParametrosAcusticos, context: Context) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        MonitorFonologicoYCAA(
+            motorDSP = motorDSP,
+            palabraObjetivoActual = listaPalabras[indice]
+        )
+
         Text(
             text = if (esTension) "⚠️ ¡Tensión detectada!" else if (vozActiva) "🗣️ ¡Voz detectada!" else "✨ Esperando fonación suave...",
             color = if (esTension) Color.Red else if (vozActiva) Color(0xFF2E7D32) else Color.Gray,
@@ -316,7 +349,7 @@ fun EjercicioToqueDePluma(metricasDSP: ParametrosAcusticos, context: Context) {
         Button(
             onClick = {
                 val total = aciertosLimpios + bloqueosDuros
-                ProgresoStorage.guardarSesion(context, "Toque Pluma", aciertosLimpios, bloqueosDuros, if (total > 0) (aciertosLimpios * 100) / total else 0)
+                ProgresoStorage.guardarSesionMultidimensional(context, "Toque Pluma", aciertosLimpios, bloqueosDuros, if (total > 0) (aciertosLimpios * 100) / total else 0)
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00695C)),
             modifier = Modifier.fillMaxWidth(0.75f)

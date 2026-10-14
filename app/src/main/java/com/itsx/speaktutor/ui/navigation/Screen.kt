@@ -19,4 +19,6 @@ sealed class Screen(val route: String) {
     object EjerciciosAdaptativos : Screen("Ejercicios_adaptativos")
 
     object Biofeedback : Screen("biofeedback_screen")
+
+    object TarjetasArticulacion : Screen("tarjetas_articulacion")
 }

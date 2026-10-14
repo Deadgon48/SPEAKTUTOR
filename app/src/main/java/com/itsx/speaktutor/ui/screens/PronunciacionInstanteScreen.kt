@@ -36,6 +36,7 @@ import com.itsx.speaktutor.logic.EstadoVozDSP
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BiofeedbackVisualAvanzadoDSP
 import com.itsx.speaktutor.ui.components.HomeIcon
+import com.itsx.speaktutor.ui.components.MonitorFonologicoYCAA
 
 enum class DificultadPronunciacion(val titulo: String, val segundos: Int, val color: Color) {
     FACIL("Fácil", 150, Color(0xFF2E7D32)),
@@ -210,7 +211,8 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                 onNavigatePronunciacionInstante = { /* Ya estás aquí */ },
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
-                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) }
+                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
             )
 
             when (estadoActual) {
@@ -263,6 +265,11 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                     if (isDSPActive) {
                         BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP)
                         Spacer(modifier = Modifier.height(12.dp))
+
+                        MonitorFonologicoYCAA(
+                            motorDSP = motorDSP,
+                            palabraObjetivoActual = palabraActual // Le pasas la palabra exacta de este turno
+                            )
                     }
 
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -311,7 +318,7 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                                 val totalIntentos = aciertos + errores
                                 val calificacionFinal = if (totalIntentos > 0) (aciertos * 100) / totalIntentos else 0
 
-                                ProgresoStorage.guardarSesion(context = context, dificultad = "Pronunciación (${dificultadSeleccionada.titulo})", aciertos = aciertos, errores = errores, calificacion = calificacionFinal)
+                                ProgresoStorage.guardarSesionMultidimensional(context = context, modulo = "Pronunciación (${dificultadSeleccionada.titulo})", aciertos = aciertos, erroresTotales = errores, calificacion = calificacionFinal)
 
                                 Spacer(modifier = Modifier.height(6.dp))
                                 Text("⭐ Calificación: $calificacionFinal / 100 pts", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)

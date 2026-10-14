@@ -27,17 +27,17 @@ import com.itsx.speaktutor.logic.ParametrosAcusticos
 @Composable
 fun BiofeedbackVisualAvanzadoDSP(metricas: ParametrosAcusticos) {
     val nivelNormalizado = (metricas.rmsEnergia / 10000f).coerceIn(0f, 1f)
-    val suavizadoEnergia by animateFloatAsState(
-        targetValue = nivelNormalizado,
-        animationSpec = tween(durationMillis = 30),
-        label = "energiaDSP"
-    )
+    val suavizadoEnergia by animateFloatAsState(targetValue = nivelNormalizado, animationSpec = tween(durationMillis = 30), label = "energiaDSP")
 
-    // Determinar colores y textos según el estado exacto de la voz
+    // Diferenciar Tónico vs Clónico en la UI
     val (colorPrincipal, textoEstado, iconoEstado) = when (metricas.estado) {
         EstadoVozDSP.SILENCIO -> Triple(Color.Gray, "Silencio... esperando voz.", Icons.Default.MicOff)
         EstadoVozDSP.FLUIDO -> Triple(Color(0xFF00897B), "Fonación continua detectada.", Icons.Default.CheckCircle)
-        EstadoVozDSP.BLOQUEO -> Triple(Color(0xFFD32F2F), "¡Bloqueo detectado! Relaja e inicia suave.", Icons.Default.Warning)
+        EstadoVozDSP.BLOQUEO -> if (metricas.esClonico) {
+            Triple(Color(0xFFC2185B), "¡Bloqueo Clónico! (Repetición rápida)", Icons.Default.Warning)
+        } else {
+            Triple(Color(0xFFD32F2F), "¡Bloqueo Tónico! (Tensión sostenida)", Icons.Default.Warning)
+        }
     }
 
     Card(
@@ -50,19 +50,16 @@ fun BiofeedbackVisualAvanzadoDSP(metricas: ParametrosAcusticos) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(imageVector = Icons.Default.GraphicEq, contentDescription = "DSP", tint = Color(0xFF004D40))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Biofeedback Tensión", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF004D40))
+                    Text("Biofeedback Clínico", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF004D40))
                 }
-
-                Badge(containerColor = colorPrincipal, contentColor = Color.White) {
-                    Text("ZCR: ${metricas.zeroCrossingRate}", modifier = Modifier.padding(4.dp))
+                // Contadores en vivo
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Badge(containerColor = Color(0xFFD32F2F), contentColor = Color.White) { Text("Tónicos: ${metricas.tonicosActuales}", modifier = Modifier.padding(4.dp)) }
+                    Badge(containerColor = Color(0xFFC2185B), contentColor = Color.White) { Text("Clónicos: ${metricas.clonicosActuales}", modifier = Modifier.padding(4.dp)) }
                 }
             }
 
@@ -71,22 +68,14 @@ fun BiofeedbackVisualAvanzadoDSP(metricas: ParametrosAcusticos) {
                 val maxBarHeight = size.height
 
                 for (i in 0 until 7) {
-                    val multiplicador = when(i) {
-                        0, 6 -> 0.3f
-                        1, 5 -> 0.6f
-                        2, 4 -> 0.8f
-                        else -> 1.0f
-                    }
-                    // Si es silencio, la barra se mantiene muy pequeña.
+                    val multiplicador = when(i) { 0, 6 -> 0.3f; 1, 5 -> 0.6f; 2, 4 -> 0.8f; else -> 1.0f }
                     val barHeight = if (metricas.estado == EstadoVozDSP.SILENCIO) 6f else (maxBarHeight * suavizadoEnergia * multiplicador).coerceAtLeast(6f)
                     val xPos = i * barWidth + (barWidth / 2) - 15f
                     val yPos = (maxBarHeight - barHeight) / 2
 
                     drawRoundRect(
-                        color = colorPrincipal,
-                        topLeft = Offset(xPos, yPos),
-                        size = Size(30f, barHeight),
-                        cornerRadius = CornerRadius(15f, 15f)
+                        color = colorPrincipal, topLeft = Offset(xPos, yPos),
+                        size = Size(30f, barHeight), cornerRadius = CornerRadius(15f, 15f)
                     )
                 }
             }
@@ -95,9 +84,7 @@ fun BiofeedbackVisualAvanzadoDSP(metricas: ParametrosAcusticos) {
                 Icon(imageVector = iconoEstado, contentDescription = "Estado", tint = colorPrincipal, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = textoEstado,
-                    fontSize = 12.sp,
-                    color = colorPrincipal,
+                    text = textoEstado, fontSize = 13.sp, color = colorPrincipal,
                     fontWeight = if (metricas.estado == EstadoVozDSP.BLOQUEO) FontWeight.Bold else FontWeight.Normal
                 )
             }

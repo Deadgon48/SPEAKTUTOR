@@ -48,6 +48,7 @@ import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
 import com.itsx.speaktutor.ui.components.BiofeedbackVisualAvanzadoDSP
 import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.components.MetronomoReutilizableComponent
+import com.itsx.speaktutor.ui.components.MonitorFonologicoYCAA
 import com.itsx.speaktutor.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -123,7 +124,7 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 textoEscuchado = matches?.get(0) ?: ""
                 calificacionObtenida = if (textoEscuchado.isNotBlank()) 85 else 0
-                ProgresoStorage.guardarSesion(context, "IA Texto (${ejercicio.categoria.name})", if (calificacionObtenida >= 60) 1 else 0, if (calificacionObtenida < 60) 1 else 0, calificacionObtenida)
+                ProgresoStorage.guardarSesionMultidimensional(context, "IA Texto (${ejercicio.categoria.name})", if (calificacionObtenida >= 60) 1 else 0, if (calificacionObtenida < 60) 1 else 0, calificacionObtenida)
             }
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
@@ -177,7 +178,8 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                 onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { /* Ya estás aquí */ },
-                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) }
+                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
             )
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -242,6 +244,12 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                             if (isThisDSPActive) {
                                 BiofeedbackVisualAvanzadoDSP(metricasDSP)
                                 Text(feedbackDSP, color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+
+                                MonitorFonologicoYCAA(
+                                    motorDSP = motorDSP,
+                                    palabraObjetivoActual = ejercicio.textoPractica, // El texto que la IA le puso de reto
+                                    textoEscuchado = textoEscuchado
+                                    )
                             }
 
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -273,6 +281,17 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                                     modifier = Modifier.weight(1f), enabled = isListeningId == null,
                                     colors = ButtonDefaults.buttonColors(containerColor = if (isThisDSPActive) Color(0xFFD32F2F) else Color(0xFF00BFA5))
                                 ) { Text(if (isThisDSPActive) "⏹️ Guardar DSP" else "🎛️ DSP Activo", color = Color.White, fontWeight = FontWeight.Bold) }
+                            }
+
+                            // NUEVO BOTÓN: Forzar cambio de categoría manual
+                            OutlinedButton(
+                                onClick = {
+                                    historialEjercicios[historialEjercicios.indexOf(ejercicio)] = MotorAdaptativo.generarEjercicioNuevo(context)
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)
+                            ) {
+                                Text("🔄 Cambiar a otro tipo de ejercicio")
                             }
                         }
                     }

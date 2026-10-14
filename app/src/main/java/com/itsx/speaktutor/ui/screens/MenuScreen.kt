@@ -1,4 +1,4 @@
-package com.itsx.speaktutor.ui.screens // Asegúrate de que coincida con tu paquete real
+package com.itsx.speaktutor.ui.screens
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,13 +15,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import com.itsx.speaktutor.ui.components.DialogoPerfilClinico
 
 @Composable
-fun MenuScreen(navController: androidx.navigation.NavController) {
+fun MenuScreen(navController: NavController) {
     val context = LocalContext.current
 
-    // 1. Verificación de Perfil Inicial
-    var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfil(context)) }
+    // 1. Verificación de Perfil Clínico Inicial (Actualizado a HCE)
+    var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfilClinico(context)) }
     var mostrarDialogoRegistro by remember { mutableStateOf(perfil == null) }
 
     // 2. Lanzador para solicitar permisos de micrófono en caliente
@@ -43,51 +45,21 @@ fun MenuScreen(navController: androidx.navigation.NavController) {
         }
     }
 
-    // 4. Diálogo de Registro Inicial (Nombre y Correo)
+    // 4. Diálogo de Registro Inicial usando el Componente HCE modular
     if (mostrarDialogoRegistro) {
-        var nombreInput by remember { mutableStateOf("") }
-        var correoInput by remember { mutableStateOf("") }
-
-        AlertDialog(
-            onDismissRequest = { /* Bloquear cierre sin registrar */ },
-            title = { Text("¡Bienvenido a SpeakTutor!", fontWeight = FontWeight.Bold) },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Por favor, ingresa tus datos para configurar tu perfil y generar tus reportes de progreso:")
-                    OutlinedTextField(
-                        value = nombreInput,
-                        onValueChange = { nombreInput = it },
-                        label = { Text("Nombre completo") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    OutlinedTextField(
-                        value = correoInput,
-                        onValueChange = { correoInput = it },
-                        label = { Text("Correo electrónico") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        if (nombreInput.isNotBlank() && correoInput.isNotBlank()) {
-                            ProgresoStorage.guardarPerfil(context, nombreInput.trim(), correoInput.trim())
-                            perfil = ProgresoStorage.obtenerPerfil(context)
-                            mostrarDialogoRegistro = false
-                            Toast.makeText(context, "¡Perfil configurado con éxito!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Por favor completa ambos campos", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                ) { Text("Comenzar a Practicar") }
+        DialogoPerfilClinico(
+            perfilActual = perfil, // Al ser null, el componente bloqueará el cierre obligando el registro
+            onDismiss = { mostrarDialogoRegistro = false },
+            onGuardar = { nombre, correo, diagnostico, objetivos ->
+                ProgresoStorage.guardarPerfilClinico(context, nombre, correo, diagnostico, objetivos)
+                perfil = ProgresoStorage.obtenerPerfilClinico(context)
+                mostrarDialogoRegistro = false
+                Toast.makeText(context, "¡Expediente configurado con éxito!", Toast.LENGTH_SHORT).show()
             }
         )
     }
 
-    // Aquí continúa el diseño normal de tu menú principal (botones hacia los módulos, etc.)
+    // Aquí continúa el diseño normal de tu menú principal
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -98,7 +70,8 @@ fun MenuScreen(navController: androidx.navigation.NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "SpeakTutor - Menú Principal", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-            // ... Tus botones de navegación existentes ...
+
+            // ... Tus botones de navegación a los módulos (Ritmo, Pronunciación, Biofeedback, etc.) ...
         }
     }
 }

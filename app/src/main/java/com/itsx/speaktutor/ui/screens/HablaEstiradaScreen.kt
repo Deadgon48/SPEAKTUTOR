@@ -145,7 +145,8 @@ fun HablaEstiradaScreen(navController: NavController, onBack: () -> Unit) {
                 onNavigatePronunciacionInstante = { navController.navigate(Screen.PronunciacionInstante.route) },
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
-                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) }
+                onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
             )
 
             Spacer(modifier = Modifier.height(12.dp))
