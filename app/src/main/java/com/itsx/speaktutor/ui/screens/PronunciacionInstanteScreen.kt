@@ -10,6 +10,8 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +33,7 @@ import androidx.navigation.NavController
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
 import com.itsx.speaktutor.ui.navigation.Screen
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 import com.itsx.speaktutor.logic.MotorAudioDSP
@@ -54,6 +59,12 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
     val context = LocalContext.current
     var estadoActual by remember { mutableStateOf(EstadoPronunciacion.SELECCION_DIFICULTAD) }
     var dificultadSeleccionada by remember { mutableStateOf(DificultadPronunciacion.FACIL) }
+
+    // --- VARIABLES DE ANIMACIÓN Y VIBRACIÓN ---
+    val coroutineScope = rememberCoroutineScope()
+    val haptic = LocalHapticFeedback.current
+    val offsetX = remember { Animatable(0f) }
+    var tensionDetectada by remember { mutableStateOf(false) }
 
     val palabrasFaciles = listOf("Casa", "Sol", "Agua", "Mesa", "Flor", "Color", "Luz", "Pan", "Mar", "Luna", "Cielo", "Gato", "Perro", "Río", "Viento", "Nube", "Fuego", "Tierra", "Hoja", "Pez", "Ojo", "Mano", "Pie", "Día", "Pera", "Miel", "Sal", "Vino", "Tren", "Flor")
     val palabrasMedias = listOf("Caminar", "Espejo", "Ventana", "Música", "Viaje", "Escuela", "Jardín", "Puerta", "Camino", "Reloj", "Estrella", "Montaña", "Pintura", "Guitarra", "Cuaderno", "Lápiz", "Mañana", "Silencio", "Planeta", "Océano", "Bicicleta", "Carpeta", "Sombrero", "Zapato", "Camisa", "Pared", "Cocina", "Espejo", "Camino", "Invierno")
@@ -82,18 +93,26 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (!isGranted) { estadoVozTexto = "Se requiere permiso de micrófono para evaluar la voz." }
+        if (!isGranted) {
+            estadoVozTexto = "Se requiere permiso de micrófono para evaluar la voz."
+        }
     }
 
     DisposableEffect(context) {
         val textToSpeech = TextToSpeech(context) { status ->
-            if (status == TextToSpeech.SUCCESS) { tts?.language = Locale.Builder().setLanguage("es").setRegion("ES").build(); ttsInitialized = true }
+            if (status == TextToSpeech.SUCCESS) {
+                tts?.language = Locale.Builder().setLanguage("es").setRegion("ES").build()
+                ttsInitialized = true
+            }
         }
         tts = textToSpeech
 
         onDispose {
-            textToSpeech.stop(); textToSpeech.shutdown()
-            try { speechRecognizer.destroy() } catch (e: Exception) {}
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+            try {
+                speechRecognizer.destroy()
+            } catch (e: Exception) {}
             motorDSP.detenerAnalisis(null)
         }
     }
@@ -102,11 +121,26 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
     var procesandoAudio by remember { mutableStateOf(false) }
     LaunchedEffect(metricasDSP.estado) {
         if (isDSPActive && estadoActual == EstadoPronunciacion.JUGANDO && !procesandoAudio) {
-            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO) {
+            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO || metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO) {
                 procesandoAudio = true
+                tensionDetectada = true
                 errores++
                 estadoVozTexto = "⚠️ Bloqueo detectado. Siguiente..."
+
+                // Disparar vibración
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                // Disparar animación
+                coroutineScope.launch {
+                    offsetX.animateTo(15f, tween(50))
+                    offsetX.animateTo(-15f, tween(50))
+                    offsetX.animateTo(10f, tween(50))
+                    offsetX.animateTo(-10f, tween(50))
+                    offsetX.animateTo(0f, tween(50))
+                }
+
                 delay(1500)
+                tensionDetectada = false
                 indicePalabra++
                 procesandoAudio = false
             } else if (metricasDSP.estado == EstadoVozDSP.FLUIDO) {
@@ -140,7 +174,10 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
 
     fun iniciarReconocimientoVoz(palabraEsperada: String) {
         val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) { permissionLauncher.launch(Manifest.permission.RECORD_AUDIO); return }
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            return
+        }
 
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -149,49 +186,85 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
         }
 
         speechRecognizer.setRecognitionListener(object : RecognitionListener {
-            override fun onReadyForSpeech(params: Bundle?) { isListening = true; estadoVozTexto = "Escuchando atentamente..." }
+            override fun onReadyForSpeech(params: Bundle?) {
+                isListening = true
+                estadoVozTexto = "Escuchando atentamente..."
+            }
             override fun onBeginningOfSpeech() {}
             override fun onRmsChanged(rmsdB: Float) {}
             override fun onBufferReceived(buffer: ByteArray?) {}
-            override fun onEndOfSpeech() { isListening = false }
-            override fun onError(error: Int) { isListening = false; estadoVozTexto = "No se distinguió con claridad. Intenta de nuevo." }
+            override fun onEndOfSpeech() {
+                isListening = false
+            }
+            override fun onError(error: Int) {
+                isListening = false
+                estadoVozTexto = "No se distinguió con claridad. Intenta de nuevo."
+            }
             override fun onResults(results: Bundle?) {
                 isListening = false
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                if (!matches.isNullOrEmpty()) {
-                    val palabraDicha = matches[0].trim().lowercase()
-                    val objetivo = palabraEsperada.trim().lowercase()
+                val palabraDicha = matches?.firstOrNull()?.trim()?.lowercase() ?: ""
+
+                if (palabraDicha.isBlank()) {
+                    estadoVozTexto = "No escuché nada. Intenta hablar más cerca."
+                    return
+                }
+
+                val objetivo = palabraEsperada.trim().lowercase()
 
                     if (palabraDicha.contains(objetivo) || objetivo.contains(palabraDicha)) {
-                        aciertos++; estadoVozTexto = "¡Excelente! Dijiste: \"${matches[0]}\""
+                        aciertos++
+                        estadoVozTexto = "¡Excelente! Dijiste: \"${matches?.firstOrNull()}\""
                     } else {
-                        errores++; estadoVozTexto = "Diste: \"${matches[0]}\" (Esperado: $palabraEsperada)"
+                        errores++
+                        estadoVozTexto = "Diste: \"${matches?.firstOrNull()}\" (Esperado: $palabraEsperada)"
                     }
                     indicePalabra++
-                }
             }
+
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
         })
 
-        try { speechRecognizer.startListening(intent) } catch (e: Exception) { isListening = false; estadoVozTexto = "Error al iniciar el micrófono." }
+        try {
+            speechRecognizer.startListening(intent)
+        } catch (e: Exception) {
+            isListening = false
+            estadoVozTexto = "Error al iniciar el micrófono."
+        }
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(when (estadoActual) { EstadoPronunciacion.SELECCION_DIFICULTAD -> "Pronunciación al Instante"; EstadoPronunciacion.JUGANDO -> "Práctica (${dificultadSeleccionada.titulo})"; EstadoPronunciacion.RESULTADOS -> "Puntuación Final" }) },
+                title = {
+                    Text(when (estadoActual) {
+                        EstadoPronunciacion.SELECCION_DIFICULTAD -> "Pronunciación al Instante"
+                        EstadoPronunciacion.JUGANDO -> "Práctica (${dificultadSeleccionada.titulo})"
+                        EstadoPronunciacion.RESULTADOS -> "Puntuación Final"
+                    })
+                },
                 navigationIcon = {
                     IconButton(onClick = {
-                        if (estadoActual == EstadoPronunciacion.SELECCION_DIFICULTAD) onBack() else { motorDSP.detenerAnalisis(null); isDSPActive = false; estadoActual = EstadoPronunciacion.SELECCION_DIFICULTAD }
-                    }) { Icon(imageVector = ArrowLeftCircleIcon, contentDescription = "Regresar", tint = MaterialTheme.colorScheme.onSurface) }
+                        if (estadoActual == EstadoPronunciacion.SELECCION_DIFICULTAD) {
+                            onBack()
+                        } else {
+                            motorDSP.detenerAnalisis(null)
+                            isDSPActive = false
+                            estadoActual = EstadoPronunciacion.SELECCION_DIFICULTAD
+                        }
+                    }) {
+                        Icon(imageVector = ArrowLeftCircleIcon, contentDescription = "Regresar", tint = MaterialTheme.colorScheme.onSurface)
+                    }
                 }
             )
         },
         bottomBar = {
             Box(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                 Button(
-                    onClick = onBack, modifier = Modifier.fillMaxWidth().height(55.dp), shape = RoundedCornerShape(16.dp),
+                    onClick = onBack,
+                    modifier = Modifier.fillMaxWidth().height(55.dp),
+                    shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer)
                 ) {
                     Icon(imageVector = HomeIcon, contentDescription = "Menú Principal", modifier = Modifier.size(24.dp))
@@ -223,14 +296,25 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                     DificultadPronunciacion.entries.forEach { dif ->
                         Button(
                             onClick = {
-                                dificultadSeleccionada = dif; tiempoRestante = dif.segundos
-                                listaPalabrasActual = when (dif) { DificultadPronunciacion.FACIL -> palabrasFaciles; DificultadPronunciacion.MEDIO -> palabrasMedias; DificultadPronunciacion.DIFICIL -> palabrasDificiles }
-                                indicePalabra = 0; aciertos = 0; errores = 0; estadoVozTexto = "Presiona el micrófono y habla"; estadoActual = EstadoPronunciacion.JUGANDO
+                                dificultadSeleccionada = dif
+                                tiempoRestante = dif.segundos
+                                listaPalabrasActual = when (dif) {
+                                    DificultadPronunciacion.FACIL -> palabrasFaciles
+                                    DificultadPronunciacion.MEDIO -> palabrasMedias
+                                    DificultadPronunciacion.DIFICIL -> palabrasDificiles
+                                }
+                                indicePalabra = 0
+                                aciertos = 0
+                                errores = 0
+                                estadoVozTexto = "Presiona el micrófono y habla"
+                                estadoActual = EstadoPronunciacion.JUGANDO
                             },
-                            modifier = Modifier.fillMaxWidth().height(65.dp).padding(vertical = 6.dp), colors = ButtonDefaults.buttonColors(containerColor = dif.color)
+                            modifier = Modifier.fillMaxWidth().height(65.dp).padding(vertical = 6.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = dif.color)
                         ) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                                Text(dif.titulo, fontSize = 18.sp, fontWeight = FontWeight.Bold); Text("${dif.segundos} s", fontSize = 14.sp)
+                                Text(dif.titulo, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                                Text("${dif.segundos} s", fontSize = 14.sp)
                             }
                         }
                     }
@@ -239,7 +323,10 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                 EstadoPronunciacion.JUGANDO -> {
                     val palabraActual = listaPalabrasActual[indicePalabra % listaPalabrasActual.size]
 
-                    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer), modifier = Modifier.fillMaxWidth()) {
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("⏱️ Tiempo Restante", fontSize = 14.sp)
                             Text("$tiempoRestante s", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
@@ -248,13 +335,35 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    Box(modifier = Modifier.fillMaxWidth().height(170.dp).clip(RoundedCornerShape(20.dp)).background(Brush.linearGradient(listOf(Color(0xFF0D47A1), Color(0xFF1976D2)))), contentAlignment = Alignment.Center) {
+                    // Lógica visual de tensión
+                    val colorFondo = if (tensionDetectada) {
+                        Brush.linearGradient(listOf(Color(0xFFC62828), Color(0xFFD32F2F)))
+                    } else {
+                        Brush.linearGradient(listOf(Color(0xFF0D47A1), Color(0xFF1976D2)))
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(170.dp)
+                            .offset(x = offsetX.value.dp) // Animación agregada
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(colorFondo),
+                        contentAlignment = Alignment.Center
+                    ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("Pronuncia la palabra:", fontSize = 14.sp, color = Color.White.copy(alpha = 0.8f))
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(palabraActual, fontSize = 34.sp, fontWeight = FontWeight.Bold, color = Color.White)
                             Spacer(modifier = Modifier.height(10.dp))
-                            Button(onClick = { if (ttsInitialized) { tts?.speak(palabraActual, TextToSpeech.QUEUE_FLUSH, null, null) } }, colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.25f))) {
+                            Button(
+                                onClick = {
+                                    if (ttsInitialized) {
+                                        tts?.speak(palabraActual, TextToSpeech.QUEUE_FLUSH, null, null)
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.25f))
+                            ) {
                                 Text("🔊 Escuchar Modelo", color = Color.White)
                             }
                         }
@@ -268,20 +377,30 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
 
                         MonitorFonologicoYCAA(
                             motorDSP = motorDSP,
-                            palabraObjetivoActual = palabraActual // Le pasas la palabra exacta de este turno
-                            )
+                            palabraObjetivoActual = palabraActual
+                        )
                     }
 
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Button(
-                            onClick = { if (isListening) speechRecognizer.stopListening() else iniciarReconocimientoVoz(palabraActual) },
-                            modifier = Modifier.weight(1f).height(55.dp), enabled = !isDSPActive, colors = ButtonDefaults.buttonColors(containerColor = if (isListening) Color(0xFFC62828) else MaterialTheme.colorScheme.secondary)
-                        ) { Text(if (isListening) "⏹️ Voz" else "📝 Texto STT") }
+                            onClick = {
+                                if (isListening) speechRecognizer.stopListening() else iniciarReconocimientoVoz(palabraActual)
+                            },
+                            modifier = Modifier.weight(1f).height(55.dp),
+                            enabled = !isDSPActive,
+                            colors = ButtonDefaults.buttonColors(containerColor = if (isListening) Color(0xFFC62828) else MaterialTheme.colorScheme.secondary)
+                        ) {
+                            Text(if (isListening) "⏹️ Voz" else "📝 Texto STT")
+                        }
 
                         Button(
                             onClick = {
                                 val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-                                if (permissionCheck != PackageManager.PERMISSION_GRANTED) { permissionLauncher.launch(Manifest.permission.RECORD_AUDIO); return@Button }
+                                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                                    permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                                    return@Button
+                                }
+
                                 if (isDSPActive) {
                                     motorDSP.detenerAnalisis(null)
                                     isDSPActive = false
@@ -293,8 +412,12 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                                     estadoVozTexto = "DSP Activo (Evaluando en tiempo real...)"
                                 }
                             },
-                            modifier = Modifier.weight(1f).height(55.dp), enabled = !isListening, colors = ButtonDefaults.buttonColors(containerColor = if (isDSPActive) Color(0xFFD32F2F) else Color(0xFF00897B))
-                        ) { Text(if (isDSPActive) "⏹️ Stop DSP" else "🎛️ DSP Automático") }
+                            modifier = Modifier.weight(1f).height(55.dp),
+                            enabled = !isListening,
+                            colors = ButtonDefaults.buttonColors(containerColor = if (isDSPActive) Color(0xFFD32F2F) else Color(0xFF00897B))
+                        ) {
+                            Text(if (isDSPActive) "⏹️ Stop DSP" else "🎛️ DSP Automático")
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(14.dp))
@@ -308,7 +431,10 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                         Text("🎯 ¡Puntuación Final!", fontSize = 24.sp, fontWeight = FontWeight.Bold)
                         Text("Nivel superado: ${dificultadSeleccionada.titulo}", fontSize = 16.sp, color = MaterialTheme.colorScheme.primary)
 
-                        Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                        ) {
                             Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text("Evaluación de Voz", fontWeight = FontWeight.Bold, fontSize = 18.sp)
                                 HorizontalDivider()
@@ -318,7 +444,13 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                                 val totalIntentos = aciertos + errores
                                 val calificacionFinal = if (totalIntentos > 0) (aciertos * 100) / totalIntentos else 0
 
-                                ProgresoStorage.guardarSesionMultidimensional(context = context, modulo = "Pronunciación (${dificultadSeleccionada.titulo})", aciertos = aciertos, erroresTotales = errores, calificacion = calificacionFinal)
+                                ProgresoStorage.guardarSesionMultidimensional(
+                                    context = context,
+                                    modulo = "Pronunciación (${dificultadSeleccionada.titulo})",
+                                    aciertos = aciertos,
+                                    erroresTotales = errores,
+                                    calificacion = calificacionFinal
+                                )
 
                                 Spacer(modifier = Modifier.height(6.dp))
                                 Text("⭐ Calificación: $calificacionFinal / 100 pts", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
@@ -326,8 +458,20 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                         }
 
                         Spacer(modifier = Modifier.height(20.dp))
-                        Button(onClick = { estadoActual = EstadoPronunciacion.SELECCION_DIFICULTAD }, modifier = Modifier.fillMaxWidth().height(50.dp)) { Text("Intentar Nuevamente", fontSize = 16.sp) }
-                        OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth().height(50.dp)) { Text("Volver al Menú Principal", fontSize = 16.sp) }
+
+                        Button(
+                            onClick = { estadoActual = EstadoPronunciacion.SELECCION_DIFICULTAD },
+                            modifier = Modifier.fillMaxWidth().height(50.dp)
+                        ) {
+                            Text("Intentar Nuevamente", fontSize = 16.sp)
+                        }
+
+                        OutlinedButton(
+                            onClick = onBack,
+                            modifier = Modifier.fillMaxWidth().height(50.dp)
+                        ) {
+                            Text("Volver al Menú Principal", fontSize = 16.sp)
+                        }
                     }
                 }
             }

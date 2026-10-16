@@ -277,7 +277,9 @@ fun EjercicioToqueDePluma(motorDSP: MotorAudioDSP, context: Context) {
 
     // Pluma: Responde a la emisión de voz y ataques bruscos al pronunciar
     val vozActiva = metricasDSP.rmsEnergia * 3.0f > 400f
-    val esTension = metricasDSP.ataqueBrusco > 0.15f || metricasDSP.estado == EstadoVozDSP.BLOQUEO
+    val esTension = metricasDSP.ataqueBrusco > 0.15f ||
+            metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO ||
+            metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO
 
     LaunchedEffect(esTension) {
         if (esTension) {

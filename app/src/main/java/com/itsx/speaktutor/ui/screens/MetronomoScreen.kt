@@ -74,7 +74,7 @@ fun MetronomoScreen(navController: NavController, onBack: () -> Unit, motorDSP: 
         if (metricasDSP.estado != EstadoVozDSP.SILENCIO && !habloEnEsteCiclo) {
             habloEnEsteCiclo = true
             if (enPulso) {
-                if (metricasDSP.estado == EstadoVozDSP.BLOQUEO) {
+                if (metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO || metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO) {
                     bloqueos++
                     mensajeFeedback = "⚠️ Bloqueo detectado."
                 } else {

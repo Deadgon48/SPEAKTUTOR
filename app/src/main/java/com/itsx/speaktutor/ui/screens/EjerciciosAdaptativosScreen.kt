@@ -10,6 +10,8 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,7 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,6 +62,10 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
+    val haptic = LocalHapticFeedback.current
+    val offsetX = remember { Animatable(0f) }
+    var tensionDetectada by remember { mutableStateOf(false) }
+
     val consejoContextual = remember { MotorAdaptativo.generarConsejoContextual(context) }
     val historialEjercicios = remember { mutableStateListOf(MotorAdaptativo.generarEjercicioNuevo(context)) }
 
@@ -69,7 +77,6 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
     var textoEscuchado by remember { mutableStateOf("") }
     var calificacionObtenida by remember { mutableIntStateOf(-1) }
 
-    // Motor DSP central
     val motorDSP = remember { MotorAudioDSP() }
     val metricasDSP by motorDSP.metricasAcusticas.collectAsState()
     var isDSPActiveId by remember { mutableStateOf<String?>(null) }
@@ -77,14 +84,24 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
 
     val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
-    // DEBOUNCER DSP PARA EJERCICIOS ADAPTATIVOS
     var procesandoAudio by remember { mutableStateOf(false) }
     LaunchedEffect(metricasDSP.estado) {
         if (isDSPActiveId != null && !procesandoAudio) {
-            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO) {
+            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO || metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO ) {
                 procesandoAudio = true
+                tensionDetectada = true
                 feedbackDSP = "⚠️ Detecté un bloqueo de tensión"
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                coroutineScope.launch {
+                    offsetX.animateTo(15f, tween(50))
+                    offsetX.animateTo(-15f, tween(50))
+                    offsetX.animateTo(10f, tween(50))
+                    offsetX.animateTo(-10f, tween(50))
+                    offsetX.animateTo(0f, tween(50))
+                }
                 delay(1200)
+                tensionDetectada = false
                 procesandoAudio = false
             } else if (metricasDSP.estado == EstadoVozDSP.FLUIDO) {
                 procesandoAudio = true
@@ -122,10 +139,28 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
             override fun onResults(results: Bundle?) {
                 isListeningId = null
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                textoEscuchado = matches?.get(0) ?: ""
-                calificacionObtenida = if (textoEscuchado.isNotBlank()) 85 else 0
-                ProgresoStorage.guardarSesionMultidimensional(context, "IA Texto (${ejercicio.categoria.name})", if (calificacionObtenida >= 60) 1 else 0, if (calificacionObtenida < 60) 1 else 0, calificacionObtenida)
+                val textoDicho = matches?.firstOrNull()?.trim() ?: ""
+
+                // --- NUEVO FILTRO: Proteger contra silencios ---
+                if (textoDicho.isBlank()) {
+                    textoEscuchado = "No escuché nada. Intenta hablar más cerca."
+                    calificacionObtenida = -1 // Opcional: para que la UI no muestre un 0%
+                    return // Salimos aquí. NO guardamos la sesión en ProgresoStorage
+                }
+
+                // --- SI ESCUCHÓ ALGO, GUARDAMOS ---
+                textoEscuchado = textoDicho
+                calificacionObtenida = 85
+
+                ProgresoStorage.guardarSesionMultidimensional(
+                    context,
+                    "IA Texto (${ejercicio.categoria.name})",
+                    if (calificacionObtenida >= 60) 1 else 0,
+                    if (calificacionObtenida < 60) 1 else 0,
+                    calificacionObtenida
+                )
             }
+
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
         })
@@ -202,7 +237,19 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                     val isThisDSPActive = isDSPActiveId == ejercicio.id
                     val isThisSTTActive = isListeningId == ejercicio.id
 
-                    Box(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Brush.linearGradient(listOf(Color(0xFF004D40), Color(0xFF00897B)))).padding(20.dp)) {
+                    val fondoTarjeta = if (tensionDetectada && isThisDSPActive) {
+                        Brush.linearGradient(listOf(Color(0xFFC62828), Color(0xFFD32F2F)))
+                    } else {
+                        Brush.linearGradient(listOf(Color(0xFF004D40), Color(0xFF00897B)))
+                    }
+
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .offset(x = if (isThisDSPActive) offsetX.value.dp else 0.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(fondoTarjeta)
+                        .padding(20.dp)
+                    ) {
                         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                                 Text(ejercicio.titulo, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -247,9 +294,9 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
 
                                 MonitorFonologicoYCAA(
                                     motorDSP = motorDSP,
-                                    palabraObjetivoActual = ejercicio.textoPractica, // El texto que la IA le puso de reto
+                                    palabraObjetivoActual = ejercicio.textoPractica,
                                     textoEscuchado = textoEscuchado
-                                    )
+                                )
                             }
 
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -265,7 +312,6 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                                         if (permissionCheck != PackageManager.PERMISSION_GRANTED) { permissionLauncher.launch(Manifest.permission.RECORD_AUDIO); return@Button }
 
                                         if (isThisDSPActive) {
-                                            // CALIFICAMOS CON LAS TRAMAS REALES
                                             val fluidas = metricasDSP.tramasVocales - metricasDSP.tramasBloqueo
                                             val total = metricasDSP.tramasVocales
                                             calificacionObtenida = if (total > 0) ((fluidas.toFloat() / total) * 100).toInt() else 0
@@ -283,7 +329,6 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                                 ) { Text(if (isThisDSPActive) "⏹️ Guardar DSP" else "🎛️ DSP Activo", color = Color.White, fontWeight = FontWeight.Bold) }
                             }
 
-                            // NUEVO BOTÓN: Forzar cambio de categoría manual
                             OutlinedButton(
                                 onClick = {
                                     historialEjercicios[historialEjercicios.indexOf(ejercicio)] = MotorAdaptativo.generarEjercicioNuevo(context)

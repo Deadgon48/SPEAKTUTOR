@@ -10,7 +10,7 @@ std::atomic<int> tramasVocales{0};
 std::atomic<int> tramasBloqueo{0};
 std::atomic<float> ataqueBrusco{0.0f};
 
-float noiseFloor = 0.002f; // Reducido para mayor sensibilidad
+float noiseFloor = 0.002f;
 float historiaRms[10] = {0.0f};
 int framesTensionSostenida = 0;
 
@@ -33,7 +33,7 @@ public:
 
         float energiaPromedio = sumEnergia / static_cast<float>(numFrames);
         float tasaZcr = static_cast<float>(zcrCount) / static_cast<float>(numFrames);
-        float rmsEscalado = energiaPromedio * 20000.0f; // Mayor ganancia para captar bloqueos leves
+        float rmsEscalado = energiaPromedio * 20000.0f;
 
         if (energiaPromedio < noiseFloor) {
             noiseFloor = energiaPromedio;
@@ -41,32 +41,36 @@ public:
             noiseFloor = (noiseFloor * 0.995f) + (energiaPromedio * 0.005f);
         }
 
-        float umbralVoz = noiseFloor * 1.5f; // Umbral más cercano para no requerir gritar
+        float umbralVoz = noiseFloor * 1.5f;
         if (umbralVoz < 0.005f) umbralVoz = 0.005f;
 
         for (int i = 9; i > 0; i--) historiaRms[i] = historiaRms[i - 1];
         historiaRms[0] = rmsEscalado;
 
         int estado = 0;
-        if (energiaPromedio > umbralVoz && rmsEscalado > 80.0f) {
+        // Se bajó el umbral de energía de 80.0f a 50.0f para captar voces más suaves
+        if (energiaPromedio > umbralVoz && rmsEscalado > 50.0f) {
             float varianzaRms = std::abs(historiaRms[0] - historiaRms[3]);
 
-            // Detección Clónica (Repeticiones con oscilación rápida)
-            bool esFriccionTensa = (varianzaRms > 150.0f && tasaZcr > 0.03f);
+            // Detección Clónica: Umbrales suavizados para detectar el "rebote"
+            bool esClonico = (varianzaRms > 80.0f && tasaZcr > 0.02f);
 
-            // Detección Tónica (Tensión sostenida / bloqueo cerrado)
-            bool esBloqueoCerrado = false;
-            if (varianzaRms < 40.0f && rmsEscalado > 200.0f) {
+            // Detección Tónica: Se permite un poco más de varianza natural humana
+            bool esTonico = false;
+            if (varianzaRms < 60.0f && rmsEscalado > 120.0f) {
                 framesTensionSostenida++;
-                if (framesTensionSostenida > 4) { // Menor tiempo de espera para registrar el tónico
-                    esBloqueoCerrado = true;
+                if (framesTensionSostenida > 3) { // Reacciona más rápido
+                    esTonico = true;
                 }
             } else {
                 framesTensionSostenida = 0;
             }
 
-            if (esFriccionTensa || esBloqueoCerrado) {
-                estado = 2; // BLOQUEO
+            // Asignación directa de estados
+            if (esClonico) {
+                estado = 3; // CLÓNICO
+            } else if (esTonico) {
+                estado = 2; // TÓNICO
             } else {
                 estado = 1; // FLUIDO
             }
@@ -77,7 +81,7 @@ public:
 
         if (estado != 0) {
             tramasVocales++;
-            if (estado == 2) tramasBloqueo++;
+            if (estado == 2 || estado == 3) tramasBloqueo++;
         }
 
         currentRms.store(rmsEscalado);
