@@ -14,7 +14,7 @@ private var latenciaAlcanzadaMs = 0L
 private var fonacionIniciada = false
 
 enum class EstadoVozDSP {
-    SILENCIO, FLUIDO, BLOQUEO
+    SILENCIO, FLUIDO, BLOQUEO_TONICO, BLOQUEO_CLONICO
 }
 
 data class ParametrosAcusticos(
@@ -69,7 +69,8 @@ class MotorAudioDSP {
 
                 val estado = when (estadoInt) {
                     1 -> EstadoVozDSP.FLUIDO
-                    2 -> EstadoVozDSP.BLOQUEO
+                    2 -> EstadoVozDSP.BLOQUEO_TONICO
+                    3 -> EstadoVozDSP.BLOQUEO_CLONICO
                     else -> EstadoVozDSP.SILENCIO
                 }
 
@@ -88,19 +89,22 @@ class MotorAudioDSP {
 
                 // FILTRO ANTI-REBOTES CLÍNICO
                 var esClonicoActual = false
-                if (estadoInt == 2) {
+                if (estadoInt == 2 || estadoInt == 3) {
                     bloqueosConsecutivos++
                     // Solo contamos el bloqueo si persiste por al menos 3 ciclos seguidos (~50ms)
                     if (bloqueosConsecutivos == 3) {
-                        if (zcr > 25) { // El umbral ZCR clónico bajó gracias a la varianza en C++
-                            bloqueosClonicos++; esClonicoActual = true
+                        if (estadoInt == 3) {
+                            bloqueosClonicos++
+                            esClonicoActual = true
                         } else {
-                            bloqueosTonicos++; esClonicoActual = false
+                            bloqueosTonicos++
+                            esClonicoActual = false
+                        }
+                        bloqueosConsecutivos = 0 // Reseteamos para no sumar infinitamente
                     }
+                } else {
+                    bloqueosConsecutivos = 0
                 }
-            } else {
-            bloqueosConsecutivos = 0
-            }
 
                 ultimoEstadoVoz = estadoInt
 

@@ -18,6 +18,7 @@ import com.itsx.speaktutor.ui.theme.SPEAKTUTORTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.ads.MobileAds
 import com.itsx.speaktutor.ui.navigation.Screen
 import com.itsx.speaktutor.ui.screens.ContenedorMetronomo
 import com.itsx.speaktutor.ui.screens.MetronomoScreen
@@ -35,6 +36,10 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // --- INICIALIZAR ADMOB ---
+        MobileAds.initialize(this) {}
+
         enableEdgeToEdge()
         setContent {
             SPEAKTUTORTheme {

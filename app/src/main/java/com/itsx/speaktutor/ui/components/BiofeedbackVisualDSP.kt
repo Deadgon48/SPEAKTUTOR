@@ -33,11 +33,8 @@ fun BiofeedbackVisualAvanzadoDSP(metricas: ParametrosAcusticos) {
     val (colorPrincipal, textoEstado, iconoEstado) = when (metricas.estado) {
         EstadoVozDSP.SILENCIO -> Triple(Color.Gray, "Silencio... esperando voz.", Icons.Default.MicOff)
         EstadoVozDSP.FLUIDO -> Triple(Color(0xFF00897B), "Fonación continua detectada.", Icons.Default.CheckCircle)
-        EstadoVozDSP.BLOQUEO -> if (metricas.esClonico) {
-            Triple(Color(0xFFC2185B), "¡Bloqueo Clónico! (Repetición rápida)", Icons.Default.Warning)
-        } else {
-            Triple(Color(0xFFD32F2F), "¡Bloqueo Tónico! (Tensión sostenida)", Icons.Default.Warning)
-        }
+        EstadoVozDSP.BLOQUEO_TONICO -> Triple(Color(0xFFD32F2F), "¡Bloqueo Tónico! (Tensión sostenida)", Icons.Default.Warning)
+        EstadoVozDSP.BLOQUEO_CLONICO -> Triple(Color(0xFFC2185B), "¡Bloqueo Clónico! (Repetición rápida)", Icons.Default.Warning)
     }
 
     Card(
@@ -85,7 +82,7 @@ fun BiofeedbackVisualAvanzadoDSP(metricas: ParametrosAcusticos) {
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = textoEstado, fontSize = 13.sp, color = colorPrincipal,
-                    fontWeight = if (metricas.estado == EstadoVozDSP.BLOQUEO) FontWeight.Bold else FontWeight.Normal
+                    fontWeight = if (metricas.estado == EstadoVozDSP.BLOQUEO_TONICO || metricas.estado == EstadoVozDSP.BLOQUEO_CLONICO) FontWeight.Bold else FontWeight.Normal
                 )
             }
         }

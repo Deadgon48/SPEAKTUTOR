@@ -1,5 +1,6 @@
 package com.itsx.speaktutor.ui.screens
 
+import BannerAdMob
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
@@ -181,7 +182,7 @@ fun TarjetasShaderScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp)
+                .padding(16.dp, vertical = 8.dp)
         ) {
 
             AsyncImage(
@@ -195,6 +196,14 @@ fun TarjetasShaderScreen(
                     .height(100.dp)
                     .padding(bottom = 8.dp)
             )
+
+            // --- AQUÍ VA EL ANUNCIO (Debajo del logo) ---
+            BannerAdMob(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp)
+            )
+            // ---------------------------------------------
 
             Text(
                 text = "Herramientas Principales",

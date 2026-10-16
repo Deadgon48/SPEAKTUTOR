@@ -10,7 +10,8 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,8 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -32,6 +36,7 @@ import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
 import com.itsx.speaktutor.ui.navigation.Screen
 import java.util.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 import com.itsx.speaktutor.logic.MotorAudioDSP
 import com.itsx.speaktutor.logic.EstadoVozDSP
@@ -46,7 +51,7 @@ enum class SimulacionSituaciones {
 
 data class TurnoGuion(val rol: String, val texto: String, val esDeApp: Boolean)
 
-// --- DICCIONARIO SEMÁNTICO AÑADIDO ---
+// DICCIONARIOS SEMÁNTICOS AMPLIADOS
 val diccionariosEvocacion = mapOf(
     "ANIMALES" to listOf("perro", "gato", "león", "tigre", "elefante", "pájaro", "oso", "caballo", "vaca", "cerdo", "lobo", "zorro", "conejo", "serpiente", "mono", "rana", "pez", "jirafa", "rinoceronte", "hipopótamo", "cocodrilo", "águila", "ballena", "delfín", "tiburón", "tortuga", "pingüino"),
     "COLORES" to listOf("rojo", "azul", "verde", "amarillo", "blanco", "negro", "naranja", "morado", "rosa", "café", "marrón", "gris", "celeste", "violeta", "turquesa", "beige", "dorado", "plateado"),
@@ -59,7 +64,23 @@ val diccionariosEvocacion = mapOf(
     "VEHÍCULOS" to listOf("coche", "auto", "automóvil", "autobús", "camión", "motocicleta", "moto", "bicicleta", "tren", "avión", "barco", "helicóptero", "submarino", "yate"),
     "INSTRUMENTOS" to listOf("guitarra", "piano", "violín", "batería", "flauta", "trompeta", "saxofón", "bajo", "teclado", "violonchelo", "arpa", "acordeón", "clarinete"),
     "ROPA" to listOf("camisa", "camiseta", "pantalón", "jeans", "zapato", "tenis", "chamarra", "chaqueta", "abrigo", "sombrero", "gorra", "calcetín", "vestido", "falda", "suéter", "bufanda", "guante"),
-    "MUEBLES" to listOf("silla", "mesa", "sillón", "sofá", "cama", "ropero", "armario", "escritorio", "estante", "librero", "buró", "espejo")
+    "MUEBLES" to listOf("silla", "mesa", "sillón", "sofá", "cama", "ropero", "armario", "escritorio", "estante", "librero", "buró", "espejo"),
+    "ACCIONES" to listOf("correr", "saltar", "nadar", "leer", "caminar", "dormir", "comer", "escribir", "bailar", "cantar", "jugar", "estudiar", "viajar"),
+    "EMOCIONES" to listOf("alegría", "tristeza", "enojo", "sorpresa", "miedo", "amor", "calma", "ansiedad", "paz", "angustia", "felicidad")
+)
+
+// DICCIONARIO DE ANTÓNIMOS
+val diccionarioAntonimos = mapOf(
+    "Día" to listOf("noche"),
+    "Frío" to listOf("calor", "caliente"),
+    "Rápido" to listOf("lento", "despacio"),
+    "Feliz" to listOf("triste", "infeliz"),
+    "Arriba" to listOf("abajo"),
+    "Blanco" to listOf("negro"),
+    "Grande" to listOf("chico", "pequeño"),
+    "Lleno" to listOf("vacío"),
+    "Largo" to listOf("corto"),
+    "Caro" to listOf("barato")
 )
 
 fun calcularPrecisionHabla(textoEsperado: String, textoReconocido: String): Int {
@@ -80,6 +101,10 @@ fun calcularPrecisionHabla(textoEsperado: String, textoReconocido: String): Int 
 fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit) {
     val context = LocalContext.current
     var seccionActual by remember { mutableStateOf(SimulacionSituaciones.MENU_PRINCIPAL) }
+    val coroutineScope = rememberCoroutineScope()
+    val haptic = LocalHapticFeedback.current
+    val offsetX = remember { Animatable(0f) }
+    var tensionDetectada by remember { mutableStateOf(false) }
 
     var tts by remember { mutableStateOf<TextToSpeech?>(null) }
     var ttsInitialized by remember { mutableStateOf(false) }
@@ -100,23 +125,36 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
     val metricasDSP by motorDSP.metricasAcusticas.collectAsState()
     var isDSPActive by remember { mutableStateOf(false) }
 
-    // --- VARIABLES DE EVOCACIÓN AÑADIDAS ---
     var tiempoRestante by remember { mutableStateOf(30) }
     var estadoEvocacion by remember { mutableStateOf("INICIO") }
+    var modoEvocacion by remember { mutableStateOf("CATEGORIAS") }
     val categoriasEvocacion = diccionariosEvocacion.keys.toList()
     var categoriaActual by remember { mutableStateOf(categoriasEvocacion.random()) }
+    var antonimoActual by remember { mutableStateOf(diccionarioAntonimos.keys.random()) }
     var aciertosEvocacion by remember { mutableIntStateOf(0) }
     var erroresEvocacion by remember { mutableIntStateOf(0) }
+
+    var pistaActual by remember { mutableStateOf("") }
+    var pausarTimer by remember { mutableStateOf(false) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { _ -> }
 
-    // Temporizador y control de la Evocación Léxica
-    LaunchedEffect(estadoEvocacion, tiempoRestante) {
-        if (estadoEvocacion == "JUGANDO" && tiempoRestante > 0) {
+    LaunchedEffect(estadoEvocacion, tiempoRestante, pausarTimer) {
+        if (estadoEvocacion == "JUGANDO" && tiempoRestante > 0 && !pausarTimer) {
             delay(1000)
             tiempoRestante--
+
+            if (tiempoRestante == 15) {
+                if (modoEvocacion == "CATEGORIAS") {
+                    val palabraAzar = diccionariosEvocacion[categoriaActual]?.random() ?: ""
+                    if (palabraAzar.isNotEmpty()) pistaActual = "Pista fonológica: Empieza con '${palabraAzar.first().uppercaseChar()}'"
+                } else {
+                    val opuestos = diccionarioAntonimos[antonimoActual] ?: emptyList()
+                    if (opuestos.isNotEmpty()) pistaActual = "Empieza con '${opuestos.first().first().uppercaseChar()}'"
+                }
+            }
         } else if (tiempoRestante == 0 && estadoEvocacion == "JUGANDO") {
             estadoEvocacion = "FIN"
             motorDSP.detenerAnalisis(null)
@@ -126,20 +164,33 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
         }
     }
 
-    // --- DEBOUNCER DSP AÑADIDO PARA EVOCACIÓN ---
     var procesandoAudio by remember { mutableStateOf(false) }
     LaunchedEffect(metricasDSP.estado) {
-        if (isDSPActive && estadoEvocacion == "JUGANDO" && !procesandoAudio) {
-            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO) {
+        if (isDSPActive && !procesandoAudio) {
+            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO || metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO) {
                 procesandoAudio = true
-                erroresEvocacion++
-                textoEscuchado = "⚠️ Bloqueo detectado (DSP)"
-                delay(1200)
+                tensionDetectada = true
+                if (estadoEvocacion == "JUGANDO") {
+                    erroresEvocacion++
+                    pausarTimer = true
+                }
+                textoEscuchado = "⚠️ Bloqueo detectado. Inhala... Exhala..."
+
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                coroutineScope.launch {
+                    offsetX.animateTo(15f, tween(50))
+                    offsetX.animateTo(-15f, tween(50))
+                    offsetX.animateTo(10f, tween(50))
+                    offsetX.animateTo(-10f, tween(50))
+                    offsetX.animateTo(0f, tween(50))
+                }
+                delay(3000)
+                tensionDetectada = false
                 procesandoAudio = false
+                pausarTimer = false
             } else if (metricasDSP.estado == EstadoVozDSP.FLUIDO) {
                 procesandoAudio = true
-                aciertosEvocacion++
-                textoEscuchado = "✅ Palabra fluida (DSP)"
+                textoEscuchado = "✅ Fonación fluida"
                 delay(1200)
                 procesandoAudio = false
             }
@@ -200,7 +251,6 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
         }
     }
 
-    // --- FUNCIÓN AÑADIDA PARA EVALUAR CON EL DICCIONARIO ---
     fun iniciarEscuchaTextoSemantico() {
         val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) { permissionLauncher.launch(Manifest.permission.RECORD_AUDIO); return }
@@ -220,18 +270,32 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
             override fun onResults(results: Bundle?) {
                 isListening = false
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                if(!matches.isNullOrEmpty()) {
-                    val palabraDicha = matches[0].lowercase().trim()
-                    val esValido = diccionariosEvocacion[categoriaActual]?.any { palabraDicha.contains(it) } == true
+                val textoDicho = matches?.firstOrNull()?.trim() ?: ""
+
+                if (textoDicho.isBlank()) {
+                    textoEscuchado = "No escuché nada. Intenta hablar más cerca."
+                    return
+                }
+
+                val palabraDicha = textoDicho.lowercase()
+
+                    val esValido = if (modoEvocacion == "CATEGORIAS") {
+                        diccionariosEvocacion[categoriaActual]?.any { palabraDicha.contains(it) } == true
+                    } else {
+                        diccionarioAntonimos[antonimoActual]?.any { palabraDicha.contains(it) } == true
+                    }
+
                     if (esValido) {
                         aciertosEvocacion++
                         textoEscuchado = "✅ Correcto: $palabraDicha"
+                        pistaActual = ""
+                        if (modoEvocacion == "ANTONIMOS") antonimoActual = diccionarioAntonimos.keys.random()
                     } else {
                         erroresEvocacion++
                         textoEscuchado = "❌ Incorrecto/No es: $palabraDicha"
                     }
-                }
             }
+
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
         })
@@ -240,16 +304,8 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
 
     fun iniciarEscuchaSTT(textoObjetivo: String, esGuion: Boolean) {
         val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-            return
-        }
-
-        if (isListening) {
-            speechRecognizer?.stopListening()
-            isListening = false
-            return
-        }
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) { permissionLauncher.launch(Manifest.permission.RECORD_AUDIO); return }
+        if (isListening) { speechRecognizer?.stopListening(); isListening = false; return }
 
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -267,7 +323,13 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
             override fun onResults(results: Bundle?) {
                 isListening = false
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                val textoPronunciado = matches?.get(0) ?: ""
+                val textoPronunciado = matches?.firstOrNull()?.trim() ?: ""
+
+                if (textoPronunciado.isBlank()) {
+                    textoEscuchado = "No escuché nada. Intenta hablar más cerca."
+                    return
+                }
+
                 textoEscuchado = textoPronunciado
                 val calificacion = calcularPrecisionHabla(textoObjetivo, textoPronunciado)
                 ultimaCalificacion = calificacion
@@ -284,7 +346,6 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
         })
-
         speechRecognizer?.startListening(intent)
     }
 
@@ -312,20 +373,13 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                             estadoEvocacion = "INICIO"
                             seccionActual = SimulacionSituaciones.MENU_PRINCIPAL
                         }
-                    }) {
-                        Icon(imageVector = ArrowLeftCircleIcon, contentDescription = "Regresar", tint = MaterialTheme.colorScheme.onSurface)
-                    }
+                    }) { Icon(imageVector = ArrowLeftCircleIcon, contentDescription = "Regresar", tint = MaterialTheme.colorScheme.onSurface) }
                 }
             )
         },
         bottomBar = {
             Box(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                Button(
-                    onClick = onBack,
-                    modifier = Modifier.fillMaxWidth().height(55.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer)
-                ) {
+                Button(onClick = onBack, modifier = Modifier.fillMaxWidth().height(55.dp), shape = RoundedCornerShape(16.dp), colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer)) {
                     Icon(imageVector = HomeIcon, contentDescription = "Menú Principal", modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(text = "Regresar al Menú Principal", fontSize = 16.sp, fontWeight = FontWeight.Bold)
@@ -333,10 +387,7 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
             }
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
+        Column(modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             if (seccionActual == SimulacionSituaciones.MENU_PRINCIPAL) {
                 BarraNavegacionModulos(
                     onNavigateTarjetas = { navController.navigate(Screen.TarjetasShader.route) },
@@ -372,45 +423,52 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                         }.padding(20.dp), contentAlignment = Alignment.CenterStart) {
                             Column { Text(text = "⏱️ Evocación bajo Presión", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White); Text(text = "Nombra palabras sin bloquearte", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f)) }
                         }
-                        Spacer(modifier = Modifier.weight(1f))
                     }
                 }
 
                 SimulacionSituaciones.EVOCACION_LEXICA -> {
+                    val colorContainer = if (tensionDetectada) Color(0xFFFFCDD2) else MaterialTheme.colorScheme.primaryContainer
                     Column(
                         modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background, RoundedCornerShape(16.dp)).padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer), modifier = Modifier.fillMaxWidth()) {
+                        Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = colorContainer), modifier = Modifier.fillMaxWidth().offset(x = offsetX.value.dp)) {
                             Column(modifier = Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text("Nombra elementos de la categoría:", fontSize = 16.sp)
-                                Text(categoriaActual, fontSize = 22.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                                if (estadoEvocacion == "INICIO") {
+                                    Text("Selecciona el modo:", fontSize = 16.sp)
+                                    Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
+                                        FilterChip(selected = modoEvocacion == "CATEGORIAS", onClick = { modoEvocacion = "CATEGORIAS" }, label = { Text("Categorías") })
+                                        FilterChip(selected = modoEvocacion == "ANTONIMOS", onClick = { modoEvocacion = "ANTONIMOS" }, label = { Text("Antónimos") })
+                                    }
+                                } else {
+                                    Text(if (modoEvocacion == "CATEGORIAS") "Nombra elementos de la categoría:" else "Di el antónimo de:", fontSize = 16.sp)
+                                    Text(if (modoEvocacion == "CATEGORIAS") categoriaActual else antonimoActual, fontSize = 22.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                                }
                             }
                         }
 
                         Spacer(modifier = Modifier.height(40.dp))
 
-                        Text("Tiempo Restante", fontSize = 18.sp, color = Color.Gray)
+                        Text(if (pausarTimer) "RESCATE RESPIRATORIO" else "Tiempo Restante", fontSize = 18.sp, color = if (pausarTimer) Color.Red else Color.Gray)
                         Text(
                             text = "00:${tiempoRestante.toString().padStart(2, '0')}",
                             fontSize = 60.sp, fontWeight = FontWeight.ExtraBold,
                             color = if (tiempoRestante <= 10) Color.Red else MaterialTheme.colorScheme.onBackground
                         )
 
+                        if (pistaActual.isNotEmpty() && estadoEvocacion == "JUGANDO") {
+                            Card(modifier = Modifier.padding(top = 16.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF9C4))) {
+                                Text(pistaActual, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold, color = Color(0xFFF57F17))
+                            }
+                        }
+
                         Spacer(modifier = Modifier.height(40.dp))
 
-                        // --- UI ACTUALIZADA CON LOS BOTONES DE STT Y DSP ---
                         when (estadoEvocacion) {
                             "INICIO" -> {
                                 Button(onClick = {
-                                    tiempoRestante = 30
-                                    aciertosEvocacion = 0
-                                    erroresEvocacion = 0
-                                    textoEscuchado = ""
-                                    estadoEvocacion = "JUGANDO"
-                                }, modifier = Modifier.fillMaxWidth(0.7f).height(50.dp)) {
-                                    Text("Iniciar Desafío", fontSize = 18.sp)
-                                }
+                                    tiempoRestante = 30; aciertosEvocacion = 0; erroresEvocacion = 0; textoEscuchado = ""; pistaActual = ""; estadoEvocacion = "JUGANDO"
+                                }, modifier = Modifier.fillMaxWidth(0.7f).height(50.dp)) { Text("Iniciar Desafío", fontSize = 18.sp) }
                             }
                             "FIN" -> {
                                 Text("¡Tiempo terminado!", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32))
@@ -419,14 +477,10 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                                 Button(onClick = {
                                     val total = aciertosEvocacion + erroresEvocacion
                                     val calificacion = if (total > 0) ((aciertosEvocacion.toFloat() / total) * 100).toInt() else 0
-                                    ProgresoStorage.guardarSesionMultidimensional(context, "Evocación ($categoriaActual)", aciertosEvocacion, erroresEvocacion, calificacion)
+                                    ProgresoStorage.guardarSesionMultidimensional(context, "Evocación ($modoEvocacion)", aciertosEvocacion, erroresEvocacion, calificacion)
 
-                                    tiempoRestante = 30
-                                    categoriaActual = categoriasEvocacion.random()
-                                    estadoEvocacion = "INICIO"
-                                }, modifier = Modifier.fillMaxWidth(0.8f)) {
-                                    Text("Guardar Progreso")
-                                }
+                                    tiempoRestante = 30; categoriaActual = categoriasEvocacion.random(); estadoEvocacion = "INICIO"
+                                }, modifier = Modifier.fillMaxWidth(0.8f)) { Text("Guardar Progreso") }
                             }
                             "JUGANDO" -> {
                                 if (textoEscuchado.isNotEmpty()) {
@@ -444,7 +498,7 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                                         onClick = { if (isListening) speechRecognizer?.stopListening() else iniciarEscuchaTextoSemantico() },
                                         modifier = Modifier.weight(1f).height(60.dp), enabled = !isDSPActive,
                                         colors = ButtonDefaults.buttonColors(containerColor = if (isListening) Color.Red else Color(0xFF1976D2))
-                                    ) { Text(if (isListening) "⏹️ Escuchando..." else "🎤 Texto (Semántica)") }
+                                    ) { Text(if (isListening) "⏹️ Escuchando..." else "🎤 Hablar") }
 
                                     Button(
                                         onClick = {
@@ -463,9 +517,10 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
 
                 SimulacionSituaciones.ESCENARIOS -> {
                     val (titulo, audioSimulado, respuestaSugerida) = listaEscenarios[escenarioSeleccionadoIndex]
+                    val colorContainer = if (tensionDetectada) Color(0xFFFFCDD2) else MaterialTheme.colorScheme.secondaryContainer
 
                     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
+                        Card(modifier = Modifier.fillMaxWidth().offset(x = offsetX.value.dp), colors = CardDefaults.cardColors(containerColor = colorContainer)) {
                             Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Text(text = titulo, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                                 Text(text = "🗣️ Interlocutor: \"$audioSimulado\"", fontSize = 14.sp)
@@ -476,13 +531,9 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                             }
                         }
 
-                        if (isDSPActive) { BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP)
-
-                            MonitorFonologicoYCAA(
-                                motorDSP = motorDSP,
-                                palabraObjetivoActual = respuestaSugerida, // El diálogo que debe leer el paciente
-                                textoEscuchado = textoEscuchado
-                                )
+                        if (isDSPActive) {
+                            BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP)
+                            MonitorFonologicoYCAA(motorDSP = motorDSP, palabraObjetivoActual = respuestaSugerida, textoEscuchado = textoEscuchado)
                         }
 
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -534,7 +585,15 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                         } else {
                             val turnoActual = dialogosGuion[indiceGuionActual]
 
-                            Box(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(if (turnoActual.esDeApp) Brush.linearGradient(listOf(Color(0xFFEF6C00), Color(0xFFFFA726))) else Brush.linearGradient(listOf(Color(0xFF37474F), Color(0xFF546E7A)))).padding(20.dp)) {
+                            val bgBrush = if (tensionDetectada && !turnoActual.esDeApp) {
+                                Brush.linearGradient(listOf(Color(0xFFC62828), Color(0xFFD32F2F)))
+                            } else if (turnoActual.esDeApp) {
+                                Brush.linearGradient(listOf(Color(0xFFEF6C00), Color(0xFFFFA726)))
+                            } else {
+                                Brush.linearGradient(listOf(Color(0xFF37474F), Color(0xFF546E7A)))
+                            }
+
+                            Box(modifier = Modifier.fillMaxWidth().offset(x = if (!turnoActual.esDeApp) offsetX.value.dp else 0.dp).clip(RoundedCornerShape(16.dp)).background(bgBrush).padding(20.dp)) {
                                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                                     Text(text = "Turno ${indiceGuionActual + 1} de ${dialogosGuion.size}", fontSize = 12.sp, color = Color.White.copy(alpha = 0.7f))
                                     Text(text = turnoActual.rol, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.9f))
@@ -550,13 +609,10 @@ fun SimulacionSituacionesScreen(navController: NavController, onBack: () -> Unit
                             }
 
                             if (!turnoActual.esDeApp) {
-                                if (isDSPActive) { BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP) }
-
-                                MonitorFonologicoYCAA(
-                                    motorDSP = motorDSP,
-                                    palabraObjetivoActual = turnoActual.texto, // El diálogo que debe leer el paciente
-                                    textoEscuchado = textoEscuchado
-                                    )
+                                if (isDSPActive) {
+                                    BiofeedbackVisualAvanzadoDSP(metricas = metricasDSP)
+                                    MonitorFonologicoYCAA(motorDSP = motorDSP, palabraObjetivoActual = turnoActual.texto, textoEscuchado = textoEscuchado)
+                                }
 
                                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     Button(

@@ -7,55 +7,30 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
-import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.MonitorHeart
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material.icons.filled.TrackChanges
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
@@ -73,6 +48,7 @@ import com.itsx.speaktutor.ui.components.DialogoPerfilClinico
 import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.navigation.Screen
 import com.itsx.speaktutor.ui.screens.ProgresoStorage.obtenerSesionesClinicas
+import org.json.JSONObject
 import java.io.File
 import java.io.FileWriter
 import java.text.SimpleDateFormat
@@ -82,6 +58,7 @@ import java.util.Locale
 import java.util.UUID
 import android.graphics.Color as AndroidColor
 import androidx.compose.ui.graphics.Path as ComposePath
+import androidx.compose.ui.platform.LocalLocale
 
 // --- 1. MODELOS DE DATOS CLÍNICOS ---
 
@@ -103,22 +80,20 @@ data class AnaliticasClinicas(
     val promedioContactosLigeros: Int, val latenciaPromedio: Int
 )
 
-// --- 2. MOTOR DE ALMACENAMIENTO ---
+// --- 2. MOTOR DE ALMACENAMIENTO Y RESPALDOS ---
 
 object ProgresoStorage {
     private const val PREF_NAME = "SpeakTutorHCE_Prefs"
     private const val KEY_SESIONES = "hce_sesiones"
     private const val KEY_PERFIL = "hce_perfil_v2"
     private const val KEY_TIEMPO_USO = "hce_tiempo_diario"
+    private const val KEY_ARCHIVO_FONOLOGICO = "hce_archivo_fonologico" // NUEVO
 
     fun guardarPerfilClinico(context: Context, nombre: String, correo: String, diagnostico: String, objetivos: String) {
         val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         val fechaActual = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
-
-        // Codificamos saltos de línea para preservar los renglones en SharedPreferences
         val diagSeguro = diagnostico.replace("\n", "\\n")
         val objSeguro = objetivos.replace("\n", "\\n")
-
         val perfilString = "$nombre|$correo|$fechaActual|$diagSeguro|$objSeguro"
         prefs.edit { putString(KEY_PERFIL, perfilString) }
     }
@@ -128,11 +103,8 @@ object ProgresoStorage {
         if (data.isBlank()) return null
         val p = data.split("|")
         if (p.size < 5) return PerfilClinico(p[0], p[1], p[2], "No especificado", "No especificado")
-
-        // Restauramos los saltos de línea al leer
         val diagRestaurado = p[3].replace("\\n", "\n")
         val objRestaurado = p[4].replace("\\n", "\n")
-
         return PerfilClinico(p[0], p[1], p[2], diagRestaurado, objRestaurado)
     }
 
@@ -149,7 +121,6 @@ object ProgresoStorage {
             bloqueosTonicos, bloqueosClonicos, latenciaMedia, contactosLigeros
         )
         sesionesActuales.add(0, nueva)
-
         val sb = StringBuilder()
         for (s in sesionesActuales) {
             sb.append("${s.id}|${s.fecha}|${s.modulo}|${s.aciertos}|${s.erroresTotales}|${s.calificacionGlobal}|${s.bloqueosTonicos}|${s.bloqueosClonicos}|${s.latenciaMediaMs}|${s.contactosLigerosPct}#")
@@ -170,6 +141,53 @@ object ProgresoStorage {
             }
         }
         return lista
+    }
+
+    // --- NUEVO: FUNCIONES DE ARCHIVO FONOLÓGICO CLÍNICO ---
+    fun registrarFalloFonologico(context: Context, silaba: String, palabra: String) {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val jsonActual = prefs.getString(KEY_ARCHIVO_FONOLOGICO, "{}") ?: "{}"
+
+        try {
+            val root = JSONObject(jsonActual)
+            val silabaLimpia = silaba.lowercase().trim()
+            val palabraLimpia = palabra.lowercase().trim()
+
+            val objSilaba = if (root.has(silabaLimpia)) root.getJSONObject(silabaLimpia) else JSONObject()
+            val fallos = if (objSilaba.has(palabraLimpia)) objSilaba.getInt(palabraLimpia) else 0
+
+            objSilaba.put(palabraLimpia, fallos + 1)
+            root.put(silabaLimpia, objSilaba)
+
+            prefs.edit().putString(KEY_ARCHIVO_FONOLOGICO, root.toString()).apply()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun obtenerArchivoFonologico(context: Context): Map<String, Map<String, Int>> {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val json = prefs.getString(KEY_ARCHIVO_FONOLOGICO, "{}") ?: "{}"
+        val mapa = mutableMapOf<String, Map<String, Int>>()
+
+        try {
+            val root = JSONObject(json)
+            val keysSilabas = root.keys()
+            while (keysSilabas.hasNext()) {
+                val silaba = keysSilabas.next()
+                val objSilaba = root.getJSONObject(silaba)
+                val mapaPalabras = mutableMapOf<String, Int>()
+                val keysPalabras = objSilaba.keys()
+                while (keysPalabras.hasNext()) {
+                    val palabra = keysPalabras.next()
+                    mapaPalabras[palabra] = objSilaba.getInt(palabra)
+                }
+                mapa[silaba] = mapaPalabras
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return mapa
     }
 
     fun agregarMinutosUso(context: Context, minutos: Int) {
@@ -224,9 +242,67 @@ object ProgresoStorage {
 
         return AnaliticasClinicas(racha, tendencia, tTonicos, tClonicos, tContactos, latencia)
     }
+
+    // --- FUNCIONES DE RESPALDO Y RESTAURACIÓN ---
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun crearRespaldoDatos(context: Context) {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val perfil = prefs.getString(KEY_PERFIL, "") ?: ""
+        val sesiones = prefs.getString(KEY_SESIONES, "") ?: ""
+        val tiempo = prefs.getString(KEY_TIEMPO_USO, "") ?: ""
+        val fonologia = prefs.getString(KEY_ARCHIVO_FONOLOGICO, "") ?: "" // NUEVO
+
+        val prefsFonologia = context.getSharedPreferences("SpeakTutorFonologia", Context.MODE_PRIVATE)
+        val grafemas = prefsFonologia.getStringSet("grafemas_pendientes", emptySet())?.joinToString(";") ?: ""
+
+        val backupData = "PERFIL=$perfil\nSESIONES=$sesiones\nTIEMPO=$tiempo\nGRAFEMAS=$grafemas\nARCHIVO_FONOLOGICO=$fonologia"
+        val fileName = "SpeakTutor_Backup_${System.currentTimeMillis()}.stb"
+
+        try {
+            val values = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                put(MediaStore.MediaColumns.MIME_TYPE, "text/plain")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+            }
+            val uri = context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+            uri?.let {
+                context.contentResolver.openOutputStream(it)?.use { out ->
+                    out.write(backupData.toByteArray())
+                }
+                Toast.makeText(context, "Respaldo creado en Descargas", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error al crear respaldo", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun restaurarRespaldo(context: Context, uri: Uri): Boolean {
+        return try {
+            val content = context.contentResolver.openInputStream(uri)?.bufferedReader()?.use { it.readText() } ?: return false
+            val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            val prefsFonologia = context.getSharedPreferences("SpeakTutorFonologia", Context.MODE_PRIVATE)
+
+            content.lines().forEach { line ->
+                when {
+                    line.startsWith("PERFIL=") -> prefs.edit().putString(KEY_PERFIL, line.substringAfter("PERFIL=")).apply()
+                    line.startsWith("SESIONES=") -> prefs.edit().putString(KEY_SESIONES, line.substringAfter("SESIONES=")).apply()
+                    line.startsWith("TIEMPO=") -> prefs.edit().putString(KEY_TIEMPO_USO, line.substringAfter("TIEMPO=")).apply()
+                    line.startsWith("GRAFEMAS=") -> {
+                        val g = line.substringAfter("GRAFEMAS=").split(";").filter { it.isNotBlank() }.toSet()
+                        prefsFonologia.edit().putStringSet("grafemas_pendientes", g).apply()
+                    }
+                    line.startsWith("ARCHIVO_FONOLOGICO=") -> prefs.edit().putString(KEY_ARCHIVO_FONOLOGICO, line.substringAfter("ARCHIVO_FONOLOGICO=")).apply() // NUEVO
+                }
+            }
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
 
-// --- 3. COMPONENTE UI: GRÁFICA DE TENDENCIA (CANVAS COMPOSE) ---
+// --- 3. COMPONENTES UI: GRÁFICAS Y ARCHIVO FONOLÓGICO ---
+
 @Composable
 fun GraficaFluidezInteractiva(sesiones: List<SesionClinica>) {
     if (sesiones.size < 2) {
@@ -271,7 +347,75 @@ fun GraficaFluidezInteractiva(sesiones: List<SesionClinica>) {
     }
 }
 
-// --- 4. GENERADOR DE HISTORIA CLÍNICA ELECTRÓNICA (PDF CON GRÁFICAS) ---
+// --- NUEVO: COMPONENTE UI DE ARCHIVO FONOLÓGICO ---
+@Composable
+fun MiArchivoFonologico(archivoDatos: Map<String, Map<String, Int>>) {
+    Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Text("🗂️ Mi Archivo Fonológico", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+        Text("Tus sonidos con mayor índice de bloqueo y las palabras clave.", fontSize = 13.sp, color = Color.Gray)
+
+        if (archivoDatos.isEmpty()) {
+            Text("Aún no hay registros de fallos fonológicos.", fontStyle = androidx.compose.ui.text.font.FontStyle.Italic, fontSize = 14.sp)
+        } else {
+            val sonidosOrdenados = archivoDatos.entries.sortedByDescending { it.value.values.sum() }
+
+            sonidosOrdenados.forEach { (silaba, palabras) ->
+                CajonFonologico(silaba = silaba, palabrasErrores = palabras)
+            }
+        }
+    }
+}
+
+@Composable
+fun CajonFonologico(silaba: String, palabrasErrores: Map<String, Int>) {
+    var expandido by remember { mutableStateOf(false) }
+    val totalFallos = palabrasErrores.values.sum()
+
+    Card(
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable { expandido = !expandido },
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier.size(40.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFFD32F2F)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(silaba.uppercase(), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column {
+                        Text("Sonido /$silaba/", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                        Text("$totalFallos bloqueos registrados", fontSize = 12.sp, color = Color.Gray)
+                    }
+                }
+                Icon(if (expandido) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown, "Expandir")
+            }
+
+            AnimatedVisibility(visible = expandido) {
+                Column(modifier = Modifier.padding(top = 16.dp).fillMaxWidth()) {
+                    HorizontalDivider(color = Color.LightGray, thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Palabras críticas:", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = MaterialTheme.colorScheme.primary)
+
+                    val palabrasOrdenadas = palabrasErrores.entries.sortedByDescending { it.value }
+                    palabrasOrdenadas.forEach { (palabra, fallos) ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(palabra.replaceFirstChar { if (it.isLowerCase()) it.titlecase(LocalLocale.current.platformLocale) else it.toString() }, fontSize = 14.sp)
+                            Text("$fallos fallos", fontSize = 14.sp, color = Color(0xFFC62828), fontWeight = FontWeight.Medium)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// --- 4. GENERADOR DE HISTORIA CLÍNICA ELECTRÓNICA (PDF CON GRÁFICAS Y MAPEO) ---
 @RequiresApi(Build.VERSION_CODES.Q)
 fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<SesionClinica>) {
     val document = PdfDocument()
@@ -287,9 +431,11 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     val pBox = Paint().apply { color = AndroidColor.rgb(232, 245, 233); style = Paint.Style.FILL }
     val pLine = Paint().apply { color = AndroidColor.LTGRAY; strokeWidth = 1f }
 
+    // Cabecera
     canvas.drawRect(0f, 0f, 595f, 60f, pHeader)
     canvas.drawText("Historia Clínica Electrónica - Logopedia (SpeakTutor)", 40f, 38f, pTextWhite)
 
+    // Datos Demográficos
     canvas.drawText("1. Datos Demográficos y Diagnóstico", 40f, 95f, pTitle)
     canvas.drawRoundRect(RectF(40f, 105f, 555f, 175f), 8f, 8f, pBox)
     canvas.drawText("Paciente: ${perfil.nombre}", 55f, 125f, pBody)
@@ -298,6 +444,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     canvas.drawText("Diagnóstico: ${perfil.diagnosticoPrincipal}", 300f, 125f, pBody.apply { typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) })
     pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
 
+    // Objetivos
     canvas.drawText("2. Objetivos Terapéuticos SMART", 40f, 210f, pTitle)
     canvas.drawRoundRect(RectF(40f, 220f, 555f, 280f), 8f, 8f, pBox)
     val palabras = perfil.objetivosSmart.split(" ")
@@ -311,6 +458,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     }
     canvas.drawText(linea, 55f, yTemp, pBody)
 
+    // Gráfica
     canvas.drawText("3. Gráfica de Evolución de Fluidez (%)", 40f, 320f, pTitle)
     canvas.drawRect(40f, 335f, 555f, 455f, Paint().apply { color = AndroidColor.rgb(250, 250, 250); style = Paint.Style.FILL })
     canvas.drawRect(40f, 335f, 555f, 455f, Paint().apply { color = AndroidColor.LTGRAY; style = Paint.Style.STROKE })
@@ -319,18 +467,11 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
         val puntosGrafica = sesiones.reversed().map { it.calificacionGlobal.toFloat() }
         val pGrid = Paint().apply { color = AndroidColor.LTGRAY; strokeWidth = 0.5f }
         val pPath = Paint().apply { color = AndroidColor.rgb(25, 118, 210); strokeWidth = 3f; style = Paint.Style.STROKE; isAntiAlias = true }
-
-        for (i in 0..4) {
-            val yLine = 455f - (i * 30f)
-            canvas.drawLine(40f, yLine, 555f, yLine, pGrid)
-        }
-
+        for (i in 0..4) { val yLine = 455f - (i * 30f); canvas.drawLine(40f, yLine, 555f, yLine, pGrid) }
         val stepX = 515f / (puntosGrafica.size - 1).coerceAtLeast(1)
         val pathPDF = Path()
-
         puntosGrafica.forEachIndexed { i, valor ->
-            val x = 40f + (i * stepX)
-            val y = 455f - ((valor / 100f) * 120f)
+            val x = 40f + (i * stepX); val y = 455f - ((valor / 100f) * 120f)
             if (i == 0) pathPDF.moveTo(x, y) else pathPDF.lineTo(x, y)
             canvas.drawCircle(x, y, 3f, Paint().apply { color = AndroidColor.rgb(13, 71, 161) })
         }
@@ -339,26 +480,18 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
         canvas.drawText("Datos insuficientes para graficar", 200f, 400f, pBody.apply { color = AndroidColor.GRAY })
     }
 
-    canvas.drawText("4. Observaciones Clínicas y Recomendaciones", 40f, 490f, pTitle)
-    canvas.drawRoundRect(RectF(40f, 505f, 555f, 605f), 8f, 8f, Paint().apply { color = AndroidColor.WHITE; style = Paint.Style.FILL })
-    canvas.drawRoundRect(RectF(40f, 505f, 555f, 605f), 8f, 8f, Paint().apply { color = AndroidColor.GRAY; style = Paint.Style.STROKE })
-    for(i in 0..3) canvas.drawLine(50f, 530f + (i*20f), 545f, 530f + (i*20f), pLine)
-
-    canvas.drawText("5. Registro de Sesiones Clínicas Detallado (Historial Completo)", 40f, 640f, pTitle)
-    canvas.drawLine(40f, 650f, 555f, 650f, pLine)
-
+    // Tabla de Registros
+    canvas.drawText("4. Registro de Sesiones Clínicas Detallado", 40f, 490f, pTitle)
+    canvas.drawLine(40f, 500f, 555f, 500f, pLine)
     pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-    canvas.drawText("Fecha", 40f, 665f, pBody)
-    canvas.drawText("Módulo", 120f, 665f, pBody)
-    canvas.drawText("C. Ligeros", 260f, 665f, pBody)
-    canvas.drawText("Tónicos", 330f, 665f, pBody)
-    canvas.drawText("Clónicos", 390f, 665f, pBody)
-    canvas.drawText("Latencia", 460f, 665f, pBody)
-    canvas.drawText("Éxito (%)", 515f, 665f, pBody)
+    canvas.drawText("Fecha", 40f, 515f, pBody); canvas.drawText("Módulo", 120f, 515f, pBody)
+    canvas.drawText("C. Ligeros", 260f, 515f, pBody); canvas.drawText("Tónicos", 330f, 515f, pBody)
+    canvas.drawText("Clónicos", 390f, 515f, pBody); canvas.drawText("Latencia", 460f, 515f, pBody)
+    canvas.drawText("Éxito (%)", 515f, 515f, pBody)
     pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
-    canvas.drawLine(40f, 672f, 555f, 672f, pLine)
+    canvas.drawLine(40f, 522f, 555f, 522f, pLine)
 
-    var yPos = 690f
+    var yPos = 540f
     for (sesion in sesiones) {
         if (yPos > 800f) {
             document.finishPage(page)
@@ -367,24 +500,63 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
             page = document.startPage(pageInfo)
             canvas = page.canvas
             yPos = 50f
-            canvas.drawText("5. Registro de Sesiones Clínicas (Continuación)", 40f, yPos, pTitle)
+            canvas.drawText("4. Registro de Sesiones Clínicas (Continuación)", 40f, yPos, pTitle)
             yPos += 30f
         }
-
         val mod = if (sesion.modulo.length > 18) sesion.modulo.take(15) + "..." else sesion.modulo
-        canvas.drawText(sesion.fecha.take(10), 40f, yPos, pBody)
-        canvas.drawText(mod, 120f, yPos, pBody)
-        canvas.drawText("${sesion.contactosLigerosPct}%", 270f, yPos, pBody)
-        canvas.drawText("${sesion.bloqueosTonicos}", 340f, yPos, pBody)
-        canvas.drawText("${sesion.bloqueosClonicos}", 400f, yPos, pBody)
-        canvas.drawText("${sesion.latenciaMediaMs}ms", 460f, yPos, pBody)
+        canvas.drawText(sesion.fecha.take(10), 40f, yPos, pBody); canvas.drawText(mod, 120f, yPos, pBody)
+        canvas.drawText("${sesion.contactosLigerosPct}%", 270f, yPos, pBody); canvas.drawText("${sesion.bloqueosTonicos}", 340f, yPos, pBody)
+        canvas.drawText("${sesion.bloqueosClonicos}", 400f, yPos, pBody); canvas.drawText("${sesion.latenciaMediaMs}ms", 460f, yPos, pBody)
         canvas.drawText("${sesion.calificacionGlobal}%", 520f, yPos, pBody.apply { typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) })
         pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
-
         yPos += 20f
         canvas.drawLine(40f, yPos-5f, 555f, yPos-5f, pLine)
     }
 
+    // MAPEO FONÉTICO ESTANDARIZADO
+    document.finishPage(page)
+    numeroPagina++
+    pageInfo = PdfDocument.PageInfo.Builder(595, 842, numeroPagina).create()
+    page = document.startPage(pageInfo)
+    canvas = page.canvas
+
+    canvas.drawText("5. Mapeo Fonético Estandarizado", 40f, 50f, pTitle)
+    canvas.drawText("Evaluación de grafemas y sílabas trabadas según el registro del motor DSP y STT.", 40f, 70f, pBody)
+
+    val pCheck = Paint().apply { color = AndroidColor.rgb(46, 125, 50); textSize = 13f; typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) }
+    val pCross = Paint().apply { color = AndroidColor.rgb(198, 40, 40); textSize = 13f; typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) }
+
+    canvas.drawRect(40f, 95f, 555f, 115f, pBox)
+    canvas.drawText("Grafema", 60f, 110f, pTitle); canvas.drawText("Estado / Observación", 140f, 110f, pTitle)
+    canvas.drawText("Grafema", 320f, 110f, pTitle); canvas.drawText("Estado / Observación", 400f, 110f, pTitle)
+
+    val grafemasEstandar = listOf("pr", "br", "tr", "cr", "dr", "fr", "gr", "bl", "cl", "fl", "gl", "pl", "s", "r", "l", "rr")
+    val prefsFonologia = context.getSharedPreferences("SpeakTutorFonologia", Context.MODE_PRIVATE)
+    val pendientesStr = prefsFonologia.getStringSet("grafemas_pendientes", emptySet()) ?: emptySet()
+    val silabasConError = pendientesStr.map { it.split("|")[0].lowercase() }
+
+    var startYGrid = 135f
+    var index = 0
+    for (grafema in grafemasEstandar) {
+        val isCol2 = index % 2 != 0
+        val xG = if (isCol2) 320f else 60f
+        val xS = if (isCol2) 400f else 140f
+
+        val tieneError = silabasConError.any { it.contains(grafema) }
+
+        canvas.drawText(grafema.uppercase(Locale.getDefault()), xG, startYGrid, pBody.apply { typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) })
+        if (tieneError) {
+            canvas.drawText("✗ Tensión detectada", xS, startYGrid, pCross)
+        } else {
+            canvas.drawText("✓ Fluido", xS, startYGrid, pCheck)
+        }
+
+        if (isCol2) {
+            canvas.drawLine(40f, startYGrid + 8f, 555f, startYGrid + 8f, pLine)
+            startYGrid += 25f
+        }
+        index++
+    }
     document.finishPage(page)
 
     try {
@@ -413,10 +585,25 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
     val context = LocalContext.current
     var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfilClinico(context)) }
     var mostrarDialogoPerfil by remember { mutableStateOf(perfil == null) }
-
-    // Estado reactivo para refrescar la lista completa de sesiones
     var sesiones by remember { mutableStateOf(ProgresoStorage.obtenerSesionesClinicas(context)) }
     val analiticas = remember { ProgresoStorage.obtenerAnaliticasClinicas(context) }
+
+    // NUEVO: Estado del Archivo Fonológico
+    val archivoFonologico = remember { ProgresoStorage.obtenerArchivoFonologico(context) }
+
+    // Launcher para cargar archivo de respaldo (.stb)
+    val restoreLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            val exito = ProgresoStorage.restaurarRespaldo(context, it)
+            if (exito) {
+                Toast.makeText(context, "Progreso restaurado correctamente", Toast.LENGTH_SHORT).show()
+                perfil = ProgresoStorage.obtenerPerfilClinico(context)
+                sesiones = ProgresoStorage.obtenerSesionesClinicas(context)
+            } else {
+                Toast.makeText(context, "El archivo es inválido o está dañado", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     if (mostrarDialogoPerfil) {
         DialogoPerfilClinico(
@@ -456,7 +643,6 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
 
             LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(16.dp), contentPadding = PaddingValues(bottom = 80.dp)) {
 
-                // CABECERA PACIENTE CON ICONO DE LÁPIZ PARA EDITAR
                 item {
                     perfil?.let { p ->
                         Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)) {
@@ -467,7 +653,6 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Text(p.nombre, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                                     }
-                                    // Botón de lápiz integrado al lado de la info del usuario
                                     IconButton(onClick = { mostrarDialogoPerfil = true }) {
                                         Icon(Icons.Default.Edit, contentDescription = "Editar perfil", tint = MaterialTheme.colorScheme.onTertiaryContainer)
                                     }
@@ -516,19 +701,40 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                     }
                 }
 
+                // BLOQUE DE GESTIÓN Y EXPORTACIÓN DE DATOS
                 item {
                     Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
                         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                            Text(text = "Racha de Terapia: ${analiticas.rachaDias} días", fontWeight = FontWeight.Medium, fontSize = 14.sp)
-                            Text(text = "Análisis IA: ${analiticas.tendenciaFluidez}", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                            Text(text = "Gestión de Datos y Respaldo", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = MaterialTheme.colorScheme.primary)
+
+                            // Botón PDF
                             Button(
                                 onClick = { perfil?.let { exportarHcePdf(context, it, sesiones) } },
                                 modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32))
                             ) {
-                                Icon(Icons.Default.Download, null); Spacer(modifier = Modifier.width(8.dp))
-                                Text("Exportar Historia Clínica (PDF)")
+                                Icon(Icons.Default.PictureAsPdf, null); Spacer(modifier = Modifier.width(8.dp))
+                                Text("Exportar Historia y Mapeo Fonético (PDF)")
                             }
 
+                            // Botón Crear Respaldo
+                            Button(
+                                onClick = { ProgresoStorage.crearRespaldoDatos(context) },
+                                modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1565C0))
+                            ) {
+                                Icon(Icons.Default.Backup, null); Spacer(modifier = Modifier.width(8.dp))
+                                Text("Crear Archivo de Respaldo (.stb)")
+                            }
+
+                            // Botón Restaurar Respaldo
+                            OutlinedButton(
+                                onClick = { restoreLauncher.launch("*/*") },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Icon(Icons.Default.Restore, contentDescription = "Restaurar"); Spacer(modifier = Modifier.width(8.dp))
+                                Text("Restaurar Progreso desde Archivo")
+                            }
+
+                            // Botón Exportar Dataset (CSV)
                             OutlinedButton(
                                 onClick = {
                                     exportarDatosParaML(context)
@@ -537,10 +743,15 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Icon(Icons.Default.Storage, contentDescription = "Base de datos"); Spacer(modifier = Modifier.width(8.dp))
-                                Text("Exportar Dataset para IA (.csv)")
+                                Text("Exportar Dataset de IA (.csv)")
                             }
                         }
                     }
+                }
+
+                // NUEVO: SECCIÓN DEL ARCHIVO FONOLÓGICO CLÍNICO
+                item {
+                    MiArchivoFonologico(archivoDatos = archivoFonologico)
                 }
 
                 item { Text("Registro Clínico Completo (${sesiones.size} sesiones)", fontSize = 16.sp, fontWeight = FontWeight.Bold) }
@@ -585,12 +796,9 @@ fun exportarDatosParaML(context: Context) {
                 s.latenciaMediaMs > 2500 -> 3
                 else -> 1
             }
-
             writer.append("${s.calificacionGlobal},${s.bloqueosTonicos},${s.bloqueosClonicos},${s.latenciaMediaMs},${s.contactosLigerosPct},$categoriaIdeal\n")
         }
         writer.flush()
         writer.close()
-    } catch (_: Exception) {
-        // Excepción controlada
-    }
+    } catch (_: Exception) {}
 }

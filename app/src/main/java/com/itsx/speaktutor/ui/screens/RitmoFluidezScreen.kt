@@ -18,6 +18,8 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -35,7 +37,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,6 +50,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 import com.itsx.speaktutor.logic.MotorAudioDSP
 import com.itsx.speaktutor.logic.EstadoVozDSP
@@ -68,7 +73,11 @@ fun calcularPrecisionRitmo(textoEsperado: String, textoReconocido: String): Int 
     val palabrasReconocidas = textoReconocido.lowercase().replace(Regex("[^a-záéíóúñ ]"), "").split("\\s+".toRegex())
 
     var coincidencias = 0
-    for (palabra in palabrasReconocidas) { if (palabrasEsperadas.contains(palabra)) coincidencias++ }
+    for (palabra in palabrasReconocidas) {
+        if (palabrasEsperadas.contains(palabra)) {
+            coincidencias++
+        }
+    }
     return ((coincidencias.toFloat() / palabrasEsperadas.size.coerceAtLeast(1)) * 100).toInt().coerceIn(0, 100)
 }
 
@@ -78,6 +87,12 @@ fun calcularPrecisionRitmo(textoEsperado: String, textoReconocido: String): Int 
 fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
     val context = LocalContext.current
     var seccionActual by remember { mutableStateOf(SeccionRitmo.MENU_PRINCIPAL) }
+
+    // --- VARIABLES DE ANIMACIÓN Y VIBRACIÓN ---
+    val coroutineScope = rememberCoroutineScope()
+    val haptic = LocalHapticFeedback.current
+    val offsetX = remember { Animatable(0f) }
+    var tensionDetectada by remember { mutableStateOf(false) }
 
     var tts by remember { mutableStateOf<TextToSpeech?>(null) }
     var ttsInitialized by remember { mutableStateOf(false) }
@@ -108,10 +123,25 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
     var procesandoAudio by remember { mutableStateOf(false) }
     LaunchedEffect(metricasDSP.estado) {
         if (isDSPActiveId != null && !procesandoAudio) {
-            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO) {
+            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO || metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO) {
                 procesandoAudio = true
+                tensionDetectada = true
                 feedbackDSP = "⚠️ Bloqueo de ritmo detectado"
+
+                // Disparar vibración
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                // Disparar animación
+                coroutineScope.launch {
+                    offsetX.animateTo(15f, tween(50))
+                    offsetX.animateTo(-15f, tween(50))
+                    offsetX.animateTo(10f, tween(50))
+                    offsetX.animateTo(-10f, tween(50))
+                    offsetX.animateTo(0f, tween(50))
+                }
+
                 delay(1200)
+                tensionDetectada = false
                 procesandoAudio = false
             } else if (metricasDSP.estado == EstadoVozDSP.FLUIDO) {
                 procesandoAudio = true
@@ -169,34 +199,84 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
     )
 
     DisposableEffect(context) {
-        tts = TextToSpeech(context) { if (it == TextToSpeech.SUCCESS) { tts?.language = Locale("es", "ES"); ttsInitialized = true } }
+        tts = TextToSpeech(context) {
+            if (it == TextToSpeech.SUCCESS) {
+                tts?.language = Locale("es", "ES")
+                ttsInitialized = true
+            }
+        }
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-        onDispose { tts?.stop(); tts?.shutdown(); speechRecognizer?.destroy(); mediaRecorder?.release(); mediaPlayer?.release(); motorDSP.detenerAnalisis(null) }
+        onDispose {
+            tts?.stop()
+            tts?.shutdown()
+            speechRecognizer?.destroy()
+            mediaRecorder?.release()
+            mediaPlayer?.release()
+            motorDSP.detenerAnalisis(null)
+        }
     }
 
-    LaunchedEffect(velocidadHabla, ttsInitialized) { if (ttsInitialized) tts?.setSpeechRate(velocidadHabla) }
+    LaunchedEffect(velocidadHabla, ttsInitialized) {
+        if (ttsInitialized) {
+            tts?.setSpeechRate(velocidadHabla)
+        }
+    }
 
     fun iniciarEscuchaSTTRitmo(textoObjetivo: String, nombreModulo: String) {
         val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) { permissionLauncher.launch(Manifest.permission.RECORD_AUDIO); return }
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            return
+        }
 
-        if (isListening) { speechRecognizer?.stopListening(); isListening = false; return }
+        if (isListening) {
+            speechRecognizer?.stopListening()
+            isListening = false
+            return
+        }
 
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply { putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM); putExtra(RecognizerIntent.EXTRA_LANGUAGE, "es-ES") }
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "es-ES")
+        }
+
         speechRecognizer?.setRecognitionListener(object : RecognitionListener {
-            override fun onReadyForSpeech(params: Bundle?) { isListening = true; textoEscuchado = "Escuchando..." }
+            override fun onReadyForSpeech(params: Bundle?) {
+                isListening = true
+                textoEscuchado = "Escuchando..."
+            }
             override fun onBeginningOfSpeech() {}
             override fun onRmsChanged(rmsdB: Float) {}
             override fun onBufferReceived(buffer: ByteArray?) {}
-            override fun onEndOfSpeech() { isListening = false }
-            override fun onError(error: Int) { isListening = false }
+            override fun onEndOfSpeech() {
+                isListening = false
+            }
+            override fun onError(error: Int) {
+                isListening = false
+            }
             override fun onResults(results: Bundle?) {
                 isListening = false
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                textoEscuchado = matches?.get(0) ?: ""
+                val textoDicho = matches?.firstOrNull()?.trim() ?: ""
+
+                if (textoDicho.isBlank()) {
+                    textoEscuchado = "No escuché nada. Intenta hablar más cerca."
+                    return
+                }
+
+                textoEscuchado = textoDicho
+
                 ultimaCalificacion = calcularPrecisionRitmo(textoObjetivo, textoEscuchado)
-                ProgresoStorage.guardarSesionMultidimensional(context, nombreModulo, if (ultimaCalificacion >= 60) 1 else 0, if (ultimaCalificacion < 60) 1 else 0, ultimaCalificacion)
+
+                ProgresoStorage.guardarSesionMultidimensional(
+                    context,
+                    nombreModulo,
+                    if (ultimaCalificacion >= 60) 1 else 0,
+                    if (ultimaCalificacion < 60) 1 else 0,
+                    ultimaCalificacion
+                )
             }
+
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
         })
@@ -206,12 +286,22 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(when (seccionActual) { SeccionRitmo.MENU_PRINCIPAL -> "Ritmo y Fluidez"; SeccionRitmo.BLOQUES -> "Bloques de Ritmo"; SeccionRitmo.LECTURA -> "Lectura Guiada"; SeccionRitmo.GRABADORA -> "Grabadora de Progreso" }) },
+                title = {
+                    Text(when (seccionActual) {
+                        SeccionRitmo.MENU_PRINCIPAL -> "Ritmo y Fluidez"
+                        SeccionRitmo.BLOQUES -> "Bloques de Ritmo"
+                        SeccionRitmo.LECTURA -> "Lectura Guiada"
+                        SeccionRitmo.GRABADORA -> "Grabadora de Progreso"
+                    })
+                },
                 navigationIcon = {
                     IconButton(onClick = {
-                        if (seccionActual == SeccionRitmo.MENU_PRINCIPAL) onBack() else {
+                        if (seccionActual == SeccionRitmo.MENU_PRINCIPAL) {
+                            onBack()
+                        } else {
                             if (isListening) speechRecognizer?.stopListening()
-                            motorDSP.detenerAnalisis(null); isDSPActiveId = null
+                            motorDSP.detenerAnalisis(null)
+                            isDSPActiveId = null
                             seccionActual = SeccionRitmo.MENU_PRINCIPAL
                         }
                     }) { Icon(ArrowLeftCircleIcon, "Regresar", tint = MaterialTheme.colorScheme.onSurface) }
@@ -220,7 +310,12 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
         },
         bottomBar = {
             Box(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                Button(onClick = onBack, modifier = Modifier.fillMaxWidth().height(55.dp), shape = RoundedCornerShape(16.dp), colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer)) {
+                Button(
+                    onClick = onBack,
+                    modifier = Modifier.fillMaxWidth().height(55.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer)
+                ) {
                     Icon(HomeIcon, "Menú", modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Regresar al Menú Principal", fontSize = 16.sp, fontWeight = FontWeight.Bold)
@@ -246,14 +341,34 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
             when (seccionActual) {
                 SeccionRitmo.MENU_PRINCIPAL -> {
                     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Box(modifier = Modifier.fillMaxWidth().height(85.dp).clip(RoundedCornerShape(16.dp)).background(Brush.linearGradient(listOf(Color(0xFF4A148C), Color(0xFF8E24AA)))).clickable { textoEscuchado = ""; seccionActual = SeccionRitmo.BLOQUES }.padding(20.dp), contentAlignment = Alignment.CenterStart) {
-                            Column { Text("🧱 Bloques de Ritmo", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White); Text("Separa sílabas y evalúa tu precisión paso a paso", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f)) }
+                        Box(
+                            modifier = Modifier.fillMaxWidth().height(85.dp).clip(RoundedCornerShape(16.dp)).background(Brush.linearGradient(listOf(Color(0xFF4A148C), Color(0xFF8E24AA)))).clickable { textoEscuchado = ""; seccionActual = SeccionRitmo.BLOQUES }.padding(20.dp),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Column {
+                                Text("🧱 Bloques de Ritmo", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                Text("Separa sílabas y evalúa tu precisión paso a paso", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f))
+                            }
                         }
-                        Box(modifier = Modifier.fillMaxWidth().height(85.dp).clip(RoundedCornerShape(16.dp)).background(Brush.linearGradient(listOf(Color(0xFF006064), Color(0xFF00ACC1)))).clickable { textoEscuchado = ""; seccionActual = SeccionRitmo.LECTURA }.padding(20.dp), contentAlignment = Alignment.CenterStart) {
-                            Column { Text("📖 Lectura Guiada", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White); Text("Lee párrafos con evaluación nativa (DSP)", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f)) }
+
+                        Box(
+                            modifier = Modifier.fillMaxWidth().height(85.dp).clip(RoundedCornerShape(16.dp)).background(Brush.linearGradient(listOf(Color(0xFF006064), Color(0xFF00ACC1)))).clickable { textoEscuchado = ""; seccionActual = SeccionRitmo.LECTURA }.padding(20.dp),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Column {
+                                Text("📖 Lectura Guiada", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                Text("Lee párrafos con evaluación nativa (DSP)", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f))
+                            }
                         }
-                        Box(modifier = Modifier.fillMaxWidth().height(85.dp).clip(RoundedCornerShape(16.dp)).background(Brush.linearGradient(listOf(Color(0xFF1B5E20), Color(0xFF43A047)))).clickable { seccionActual = SeccionRitmo.GRABADORA }.padding(20.dp), contentAlignment = Alignment.CenterStart) {
-                            Column { Text("🎙️ Grabadora de Progreso", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White); Text("Grábate libremente y detecta tus bloqueos", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f)) }
+
+                        Box(
+                            modifier = Modifier.fillMaxWidth().height(85.dp).clip(RoundedCornerShape(16.dp)).background(Brush.linearGradient(listOf(Color(0xFF1B5E20), Color(0xFF43A047)))).clickable { seccionActual = SeccionRitmo.GRABADORA }.padding(20.dp),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Column {
+                                Text("🎙️ Grabadora de Progreso", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                Text("Grábate libremente y detecta tus bloqueos", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f))
+                            }
                         }
                     }
                 }
@@ -263,9 +378,21 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                         if (seccionActual == SeccionRitmo.BLOQUES) {
                             MetronomoReutilizableComponent()
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                FilterChip(selected = nivelBloqueSeleccionado == NivelBloques.PRINCIPIANTE, onClick = { nivelBloqueSeleccionado = NivelBloques.PRINCIPIANTE }, label = { Text("Fácil") })
-                                FilterChip(selected = nivelBloqueSeleccionado == NivelBloques.INTERMEDIO, onClick = { nivelBloqueSeleccionado = NivelBloques.INTERMEDIO }, label = { Text("Medio") })
-                                FilterChip(selected = nivelBloqueSeleccionado == NivelBloques.AVANZADO, onClick = { nivelBloqueSeleccionado = NivelBloques.AVANZADO }, label = { Text("Difícil") })
+                                FilterChip(
+                                    selected = nivelBloqueSeleccionado == NivelBloques.PRINCIPIANTE,
+                                    onClick = { nivelBloqueSeleccionado = NivelBloques.PRINCIPIANTE },
+                                    label = { Text("Fácil") }
+                                )
+                                FilterChip(
+                                    selected = nivelBloqueSeleccionado == NivelBloques.INTERMEDIO,
+                                    onClick = { nivelBloqueSeleccionado = NivelBloques.INTERMEDIO },
+                                    label = { Text("Medio") }
+                                )
+                                FilterChip(
+                                    selected = nivelBloqueSeleccionado == NivelBloques.AVANZADO,
+                                    onClick = { nivelBloqueSeleccionado = NivelBloques.AVANZADO },
+                                    label = { Text("Difícil") }
+                                )
                             }
                         } else {
                             ControlVelocidadTts(velocidadActual = velocidadHabla, onVelocidadChange = { velocidadHabla = it })
@@ -281,8 +408,15 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                         }
 
                         val listaMostrada = if (seccionActual == SeccionRitmo.BLOQUES) {
-                            when (nivelBloqueSeleccionado) { NivelBloques.PRINCIPIANTE -> bloquesPrincipiante; NivelBloques.INTERMEDIO -> bloquesIntermedio; NivelBloques.AVANZADO -> bloquesAvanzado }
-                        } else { lecturasExtensas.map { it.second } }
+                            when (nivelBloqueSeleccionado) {
+                                NivelBloques.PRINCIPIANTE -> bloquesPrincipiante
+                                NivelBloques.INTERMEDIO -> bloquesIntermedio
+                                NivelBloques.AVANZADO -> bloquesAvanzado
+                            }
+                        } else {
+                            lecturasExtensas.map { it.second }
+                        }
+
                         val titulosMostrados = if (seccionActual == SeccionRitmo.LECTURA) lecturasExtensas.map { it.first } else emptyList()
                         val colorFondoBase = if (seccionActual == SeccionRitmo.BLOQUES) Color(0xFF4A148C) else Color(0xFF006064)
                         val colorFondoDegradado = if (seccionActual == SeccionRitmo.BLOQUES) Color(0xFF8E24AA) else Color(0xFF00ACC1)
@@ -293,7 +427,21 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                                 val titulo = titulosMostrados.getOrNull(index)
                                 val isThisDSPActive = isDSPActiveId == contenido
 
-                                Box(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Brush.linearGradient(listOf(colorFondoBase, colorFondoDegradado))).padding(16.dp)) {
+                                // Lógica visual de tensión
+                                val fondoTarjeta = if (tensionDetectada && isThisDSPActive) {
+                                    Brush.linearGradient(listOf(Color(0xFFC62828), Color(0xFFD32F2F)))
+                                } else {
+                                    Brush.linearGradient(listOf(colorFondoBase, colorFondoDegradado))
+                                }
+
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .offset(x = if (isThisDSPActive) offsetX.value.dp else 0.dp) // Aplicamos la animación
+                                        .clip(RoundedCornerShape(14.dp))
+                                        .background(fondoTarjeta)
+                                        .padding(16.dp)
+                                ) {
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                         if (titulo != null) {
                                             Text(titulo, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -308,33 +456,49 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
 
                                             MonitorFonologicoYCAA(
                                                 motorDSP = motorDSP,
-                                                palabraObjetivoActual = contenido, // "contenido" tiene el texto del bloque o párrafo
+                                                palabraObjetivoActual = contenido,
                                                 textoEscuchado = textoEscuchado
-                                                )
+                                            )
                                         }
 
                                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                             Button(
                                                 onClick = { iniciarEscuchaSTTRitmo(contenido, if (seccionActual == SeccionRitmo.BLOQUES) "Ritmo (Bloques)" else "Ritmo (Lectura Guiada)") },
                                                 colors = ButtonDefaults.buttonColors(containerColor = if (isListening) Color.Red else Color.White),
-                                                modifier = Modifier.weight(1f), enabled = isDSPActiveId == null
-                                            ) { Text(if (isListening) "⏹️ Voz" else "📝 Texto STT", color = if (isListening) Color.White else colorFondoBase, fontWeight = FontWeight.Bold) }
+                                                modifier = Modifier.weight(1f),
+                                                enabled = isDSPActiveId == null
+                                            ) {
+                                                Text(
+                                                    text = if (isListening) "⏹️ Voz" else "📝 Texto STT",
+                                                    color = if (isListening) Color.White else colorFondoBase,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+                                            }
 
                                             Button(
                                                 onClick = {
                                                     val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-                                                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) { permissionLauncher.launch(Manifest.permission.RECORD_AUDIO); return@Button }
+                                                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                                                        permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                                                        return@Button
+                                                    }
+
                                                     if (isThisDSPActive) {
                                                         motorDSP.detenerAnalisis(context, if (seccionActual == SeccionRitmo.BLOQUES) "Ritmo DSP (Bloques)" else "Ritmo DSP (Lectura)")
                                                         isDSPActiveId = null
                                                     } else {
                                                         feedbackDSP = "Esperando voz..."
-                                                        motorDSP.detenerAnalisis(null); motorDSP.iniciarAnalisisDSP(); isDSPActiveId = contenido
+                                                        motorDSP.detenerAnalisis(null)
+                                                        motorDSP.iniciarAnalisisDSP()
+                                                        isDSPActiveId = contenido
                                                     }
                                                 },
-                                                modifier = Modifier.weight(1f), enabled = !isListening,
+                                                modifier = Modifier.weight(1f),
+                                                enabled = !isListening,
                                                 colors = ButtonDefaults.buttonColors(containerColor = if (isThisDSPActive) Color(0xFFD32F2F) else Color(0xFF00897B))
-                                            ) { Text(if (isThisDSPActive) "⏹️ Guardar DSP" else "🎛️ Activar DSP", color = Color.White) }
+                                            ) {
+                                                Text(if (isThisDSPActive) "⏹️ Guardar DSP" else "🎛️ Activar DSP", color = Color.White)
+                                            }
                                         }
                                     }
                                 }
@@ -353,56 +517,110 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                             Text(feedbackDSP, color = MaterialTheme.colorScheme.primary, fontSize = 14.sp, fontWeight = FontWeight.Bold)
                         }
 
-                        Card(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant), shape = RoundedCornerShape(24.dp)) {
+                        // Lógica visual de tensión para la grabadora
+                        val colorFondoGrabadora = if (tensionDetectada) Color(0xFFFFCDD2) else MaterialTheme.colorScheme.surfaceVariant
+
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp)
+                                .offset(x = if (isDSPActiveId != null) offsetX.value.dp else 0.dp), // Aplicamos animación
+                            colors = CardDefaults.cardColors(containerColor = colorFondoGrabadora),
+                            shape = RoundedCornerShape(24.dp)
+                        ) {
                             Column(modifier = Modifier.padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(24.dp)) {
-                                val estadoTexto = when { isRecordingLibre -> "🔴 Grabando audio..." ; isPlayingLibre -> "🔊 Reproduciendo..." ; else -> "Lista para grabar" }
+                                val estadoTexto = when {
+                                    isRecordingLibre -> "🔴 Grabando audio..."
+                                    isPlayingLibre -> "🔊 Reproduciendo..."
+                                    else -> "Lista para grabar"
+                                }
                                 Text(estadoTexto, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = if (isRecordingLibre) Color.Red else MaterialTheme.colorScheme.onSurface)
 
                                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                                     FloatingActionButton(
                                         onClick = {
-                                            if (isPlayingLibre) { Toast.makeText(context, "Detén la reproducción primero", Toast.LENGTH_SHORT).show(); return@FloatingActionButton }
+                                            if (isPlayingLibre) {
+                                                Toast.makeText(context, "Detén la reproducción primero", Toast.LENGTH_SHORT).show()
+                                                return@FloatingActionButton
+                                            }
                                             val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-                                            if (permissionCheck != PackageManager.PERMISSION_GRANTED) { permissionLauncher.launch(Manifest.permission.RECORD_AUDIO); return@FloatingActionButton }
+                                            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                                                permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                                                return@FloatingActionButton
+                                            }
 
                                             if (isRecordingLibre) {
                                                 try {
-                                                    mediaRecorder?.stop(); mediaRecorder?.release(); mediaRecorder = null; isRecordingLibre = false
+                                                    mediaRecorder?.stop()
+                                                    mediaRecorder?.release()
+                                                    mediaRecorder = null
+                                                    isRecordingLibre = false
                                                     motorDSP.detenerAnalisis(context, "Grabación Libre DSP")
                                                     isDSPActiveId = null
                                                     Toast.makeText(context, "Grabación guardada", Toast.LENGTH_SHORT).show()
-                                                } catch (e: Exception) { e.printStackTrace() }
+                                                } catch (e: Exception) {
+                                                    e.printStackTrace()
+                                                }
                                             } else {
                                                 try {
                                                     val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MediaRecorder(context) else MediaRecorder()
-                                                    recorder.setAudioSource(MediaRecorder.AudioSource.MIC); recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4); recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC); recorder.setOutputFile(audioFile.absolutePath)
-                                                    recorder.prepare(); recorder.start()
-                                                    mediaRecorder = recorder; isRecordingLibre = true
+                                                    recorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+                                                    recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                                                    recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                                                    recorder.setOutputFile(audioFile.absolutePath)
+                                                    recorder.prepare()
+                                                    recorder.start()
+                                                    mediaRecorder = recorder
+                                                    isRecordingLibre = true
                                                     feedbackDSP = "Analizando bloqueos..."
-                                                    motorDSP.iniciarAnalisisDSP(); isDSPActiveId = "GRABADORA"
-                                                } catch (e: Exception) { e.printStackTrace() }
+                                                    motorDSP.iniciarAnalisisDSP()
+                                                    isDSPActiveId = "GRABADORA"
+                                                } catch (e: Exception) {
+                                                    e.printStackTrace()
+                                                }
                                             }
                                         },
-                                        containerColor = if (isRecordingLibre) Color.Red else MaterialTheme.colorScheme.primary, contentColor = Color.White
-                                    ) { Icon(if (isRecordingLibre) Icons.Default.Stop else Icons.Default.Mic, "Grabar", modifier = Modifier.size(32.dp)) }
+                                        containerColor = if (isRecordingLibre) Color.Red else MaterialTheme.colorScheme.primary,
+                                        contentColor = Color.White
+                                    ) {
+                                        Icon(if (isRecordingLibre) Icons.Default.Stop else Icons.Default.Mic, "Grabar", modifier = Modifier.size(32.dp))
+                                    }
 
                                     FloatingActionButton(
                                         onClick = {
-                                            if (isRecordingLibre) { Toast.makeText(context, "Detén la grabación primero", Toast.LENGTH_SHORT).show(); return@FloatingActionButton }
+                                            if (isRecordingLibre) {
+                                                Toast.makeText(context, "Detén la grabación primero", Toast.LENGTH_SHORT).show()
+                                                return@FloatingActionButton
+                                            }
+
                                             if (isPlayingLibre) {
-                                                mediaPlayer?.stop(); mediaPlayer?.release(); mediaPlayer = null; isPlayingLibre = false
+                                                mediaPlayer?.stop()
+                                                mediaPlayer?.release()
+                                                mediaPlayer = null
+                                                isPlayingLibre = false
                                             } else {
                                                 if (audioFile.exists()) {
                                                     try {
-                                                        val player = MediaPlayer(); player.setDataSource(audioFile.absolutePath); player.prepare(); player.start()
+                                                        val player = MediaPlayer()
+                                                        player.setDataSource(audioFile.absolutePath)
+                                                        player.prepare()
+                                                        player.start()
                                                         player.setOnCompletionListener { isPlayingLibre = false }
-                                                        mediaPlayer = player; isPlayingLibre = true
-                                                    } catch (e: Exception) { e.printStackTrace() }
-                                                } else { Toast.makeText(context, "No hay grabación guardada", Toast.LENGTH_SHORT).show() }
+                                                        mediaPlayer = player
+                                                        isPlayingLibre = true
+                                                    } catch (e: Exception) {
+                                                        e.printStackTrace()
+                                                    }
+                                                } else {
+                                                    Toast.makeText(context, "No hay grabación guardada", Toast.LENGTH_SHORT).show()
+                                                }
                                             }
                                         },
-                                        containerColor = if (isPlayingLibre) Color(0xFFF57C00) else MaterialTheme.colorScheme.secondary, contentColor = Color.White
-                                    ) { Icon(if (isPlayingLibre) Icons.Default.Stop else Icons.Default.PlayArrow, "Reproducir", modifier = Modifier.size(32.dp)) }
+                                        containerColor = if (isPlayingLibre) Color(0xFFF57C00) else MaterialTheme.colorScheme.secondary,
+                                        contentColor = Color.White
+                                    ) {
+                                        Icon(if (isPlayingLibre) Icons.Default.Stop else Icons.Default.PlayArrow, "Reproducir", modifier = Modifier.size(32.dp))
+                                    }
                                 }
 
                                 Button(
@@ -410,18 +628,35 @@ fun RitmoFluidezScreen(navController: NavController, onBack: () -> Unit) {
                                         if (isRecordingLibre || isPlayingLibre) { return@Button }
                                         if (audioFile.exists()) {
                                             try {
-                                                val valores = ContentValues().apply { put(MediaStore.MediaColumns.DISPLAY_NAME, "SpeakTutor_${System.currentTimeMillis()}.m4a"); put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp4"); if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS) }
+                                                val valores = ContentValues().apply {
+                                                    put(MediaStore.MediaColumns.DISPLAY_NAME, "SpeakTutor_${System.currentTimeMillis()}.m4a")
+                                                    put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp4")
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                                        put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                                                    }
+                                                }
                                                 val uri = context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, valores)
                                                 if (uri != null) {
-                                                    context.contentResolver.openOutputStream(uri)?.use { outputStream -> FileInputStream(audioFile).use { inputStream -> inputStream.copyTo(outputStream) } }
+                                                    context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                                                        FileInputStream(audioFile).use { inputStream ->
+                                                            inputStream.copyTo(outputStream)
+                                                        }
+                                                    }
                                                     Toast.makeText(context, "✅ Descargado en 'Descargas'", Toast.LENGTH_LONG).show()
                                                 }
-                                            } catch (e: Exception) { e.printStackTrace() }
+                                            } catch (e: Exception) {
+                                                e.printStackTrace()
+                                            }
                                         }
                                     },
-                                    modifier = Modifier.fillMaxWidth().height(50.dp), enabled = !isRecordingLibre,
+                                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                                    enabled = !isRecordingLibre,
                                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0277BD))
-                                ) { Icon(Icons.Default.Download, "Descargar"); Spacer(modifier = Modifier.width(8.dp)); Text("Descargar Audio", fontSize = 16.sp, fontWeight = FontWeight.Bold) }
+                                ) {
+                                    Icon(Icons.Default.Download, "Descargar")
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text("Descargar Audio", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                                }
                             }
                         }
                     }

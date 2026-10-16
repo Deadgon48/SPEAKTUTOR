@@ -58,7 +58,7 @@ fun MonitorFonologicoYCAA(
     }
 
     LaunchedEffect(metricasDSP.estado, palabraObjetivoActual) {
-        if (metricasDSP.estado == EstadoVozDSP.BLOQUEO) {
+        if (metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO || metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO) {
 
             // Mandamos guardar la palabra
             GestorConcienciaFonologica.guardarGrafemaProblematico(context, palabraObjetivoActual, textoEscuchado)
@@ -79,7 +79,9 @@ fun MonitorFonologicoYCAA(
 
             delay(4000)
 
-            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO || metricasDSP.rmsEnergia > 500f) {
+            if (metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO ||
+                metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO ||
+                metricasDSP.rmsEnergia > 500f) {
                 mostrarNotificacionRoja = false
                 mostrarOverlayCAA = true
                 motorDSP.pausarAnalisisTemporal()
