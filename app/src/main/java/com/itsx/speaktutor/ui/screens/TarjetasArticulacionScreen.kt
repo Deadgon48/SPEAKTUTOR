@@ -49,6 +49,7 @@ import kotlinx.coroutines.launch
 import com.itsx.speaktutor.logic.GestorConcienciaFonologica
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
+import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.navigation.Screen
 
 enum class FasePractica { DISCRIMINACION, SILABA, CUBOS, PALABRA, FRASE, COMPLETADO }
@@ -58,8 +59,13 @@ fun dividirPalabraEnSilabas(palabra: String): List<String> {
     return palabra.split(regex).map { it.trim() }.filter { it.isNotEmpty() }
 }
 
+// CORRECCIÓN: Frases neutrales para evitar errores de género (ej. "El flor")
 fun generarFraseModelo(palabra: String): String {
-    val frases = listOf("Yo veo un $palabra.", "El $palabra es muy útil.", "Me gusta decir $palabra.")
+    val frases = listOf(
+        "La palabra $palabra es genial.",
+        "Me gusta mucho decir $palabra.",
+        "Hoy practicaré con $palabra."
+    )
     return frases.random()
 }
 
@@ -92,12 +98,6 @@ fun TarjetasArticulacionScreen(navController: NavController, onBack: () -> Unit)
     var nivelEnergiaAnterior by remember { mutableFloatStateOf(0f) }
     val offsetX = remember { Animatable(0f) }
 
-    val fraseGenerada = remember(indiceActual) {
-        if (tarjetasPendientes.isNotEmpty() && indiceActual < tarjetasPendientes.size)
-            generarFraseModelo(tarjetasPendientes[indiceActual].second)
-        else ""
-    }
-
     val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     DisposableEffect(context) {
@@ -107,6 +107,12 @@ fun TarjetasArticulacionScreen(navController: NavController, onBack: () -> Unit)
     }
 
     val tarjetaActual = tarjetasPendientes.getOrNull(indiceActual)
+
+    // CORRECCIÓN: Ahora la frase se regenera correctamente si la tarjetaActual cambia,
+    // solucionando el bug donde se usaba la palabra de una tarjeta anterior eliminada.
+    val fraseGenerada = remember(indiceActual, tarjetaActual) {
+        tarjetaActual?.let { generarFraseModelo(it.second) } ?: ""
+    }
 
     fun dispararAlertaContactoLigero() {
         if (!tensionDetectada) {
@@ -142,11 +148,8 @@ fun TarjetasArticulacionScreen(navController: NavController, onBack: () -> Unit)
             override fun onBeginningOfSpeech() {}
 
             override fun onRmsChanged(rmsdB: Float) {
-                // Ignorar el salto eléctrico inicial del micrófono (silencio absoluto)
                 if (nivelEnergiaAnterior > 2f) {
                     val saltoDeEnergia = rmsdB - nivelEnergiaAnterior
-
-                    // Umbrales mucho más permisivos: salto > 15dB y volumen general > 10dB
                     if (saltoDeEnergia > 15f && rmsdB > 10f) {
                         dispararAlertaContactoLigero()
                     }
@@ -161,19 +164,18 @@ fun TarjetasArticulacionScreen(navController: NavController, onBack: () -> Unit)
             override fun onResults(results: Bundle?) {
                 isListening = false
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) ?: emptyList()
-                val textoDicho = matches.firstOrNull()?.lowercase()?.trim() ?: ""
-                val objetivoLimpio = objetivo.lowercase().trim()
 
-                // 1. Descartar si el micrófono no captó ninguna palabra real
+                // CORRECCIÓN: Filtramos comas y puntos usando Regex para que la comparación sea justa en oraciones (Paso 5)
+                val textoDicho = matches.firstOrNull()?.lowercase()?.replace(Regex("[^a-záéíóúñ ]"), "")?.trim() ?: ""
+                val objetivoLimpio = objetivo.lowercase().replace(Regex("[^a-záéíóúñ ]"), "").trim()
+
                 if (textoDicho.isBlank()) {
                     feedbackEstado = "No escuché nada. Intenta hablar más cerca."
-                    return // No registramos fallo fonológico por silencio
+                    return
                 }
 
                 if (tensionDetectada) {
                     feedbackEstado = "Lo dijiste, pero hubo tensión. Repítelo suavemente."
-
-                    // 2. Si hubo tensión, SÍ es un error clínico real. Lo registramos.
                     if (faseActual == FasePractica.PALABRA || faseActual == FasePractica.FRASE) {
                         tarjetaActual?.let { (silabaError, palabraError) ->
                             ProgresoStorage.registrarFalloFonologico(context, silabaError, palabraError)
@@ -182,7 +184,7 @@ fun TarjetasArticulacionScreen(navController: NavController, onBack: () -> Unit)
                     return
                 }
 
-                val aciertoEncontrado = matches.any { it.lowercase().contains(objetivoLimpio) }
+                val aciertoEncontrado = matches.any { it.lowercase().replace(Regex("[^a-záéíóúñ ]"), "").contains(objetivoLimpio) }
 
                 if (aciertoEncontrado || textoDicho.contains(objetivoLimpio)) {
                     feedbackEstado = "¡Muy bien!"
@@ -201,10 +203,8 @@ fun TarjetasArticulacionScreen(navController: NavController, onBack: () -> Unit)
                         else -> {}
                     }
                 } else {
-                    feedbackEstado = "Escuché '$textoDicho'. Intenta decir: '$objetivo'."
+                    feedbackEstado = "Escuché '$textoDicho'. Intenta decir: '$objetivoLimpio'."
 
-                    // 3. Solo registramos error de articulación si de verdad intentó hablar (texto > 2 letras)
-                    // y el STT escuchó algo totalmente distinto.
                     if (textoDicho.length > 2 && (faseActual == FasePractica.PALABRA || faseActual == FasePractica.FRASE)) {
                         tarjetaActual?.let { (silabaError, palabraError) ->
                             ProgresoStorage.registrarFalloFonologico(context, silabaError, palabraError)
@@ -220,7 +220,38 @@ fun TarjetasArticulacionScreen(navController: NavController, onBack: () -> Unit)
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Tarjetas de Articulación") }, navigationIcon = { IconButton(onClick = onBack) { Icon(ArrowLeftCircleIcon, "Regresar") } }) }
+        topBar = { TopAppBar(title = { Text("Tarjetas de Articulación") }, navigationIcon = { IconButton(onClick = onBack) { Icon(ArrowLeftCircleIcon, "Regresar") } }) },
+        bottomBar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Button(
+                    onClick = onBack,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Icon(
+                        imageVector = HomeIcon,
+                        contentDescription = "Menú Principal",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Regresar al Menú Principal",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier.fillMaxSize().padding(innerPadding).padding(24.dp),

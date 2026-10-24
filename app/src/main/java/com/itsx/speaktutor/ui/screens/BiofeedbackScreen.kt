@@ -30,6 +30,7 @@ import com.itsx.speaktutor.logic.ParametrosAcusticos
 import com.itsx.speaktutor.logic.EstadoVozDSP
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
+import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.components.MonitorFonologicoYCAA
 import com.itsx.speaktutor.ui.navigation.Screen
 
@@ -55,7 +56,41 @@ fun BiofeedbackScreen(navController: NavController, onBack: () -> Unit, motorDSP
                 title = { Text("Biofeedback y Relajación") },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(ArrowLeftCircleIcon, "Regresar") } }
             )
+        },
+
+        bottomBar = {
+            // Este contenedor anclará tu botón perfectamente a la parte inferior
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Button(
+                    onClick = onBack,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Icon(
+                        imageVector = HomeIcon,
+                        contentDescription = "Menú Principal",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Regresar al Menú Principal",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
+
     ) { innerPadding ->
         // Contenedor principal con centrado estricto vertical y horizontal
         Column(
@@ -210,42 +245,128 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
     var exitosTotales by remember { mutableStateOf(0) }
     var fallosFuerza by remember { mutableStateOf(0) }
 
-    // Soplido: Detecta el flujo constante de aire por proximidad al micrófono físico
+    // Multiplicador ajustado para el micrófono (puede variar por dispositivo)
     val rmsSoplido = metricasDSP.rmsEnergia * 4.5f
-    val detectandoSoplido = rmsSoplido in 250f..35000f
+
+    // Zona Verde: El rango de volumen ideal para el soplo continuo
+    val LIMITE_INFERIOR = 250f
+    val LIMITE_SUPERIOR = 35000f
+
+    val enZonaVerde = rmsSoplido in LIMITE_INFERIOR..LIMITE_SUPERIOR
+    val demasiadaFuerza = rmsSoplido > LIMITE_SUPERIOR
 
     LaunchedEffect(rmsSoplido) {
-        if (detectandoSoplido) {
-            tiempoSostenido += 0.1f
-            if (tiempoSostenido >= 50f) {
+        if (enZonaVerde) {
+            tiempoSostenido += 0.1f // Añade tiempo si está en la zona correcta
+            if (tiempoSostenido >= 50f) { // 5.0 segundos = 50 decimas
                 exitosTotales++
                 tiempoSostenido = 0f
             }
-        } else if (rmsSoplido > 35000f) {
-            fallosFuerza++
-            tiempoSostenido = 0f
+        } else {
+            // Si hay tensión laríngea (se pasa de fuerza), penaliza vaciando rápido
+            if (demasiadaFuerza) {
+                fallosFuerza++
+                tiempoSostenido = 0f
+            } else {
+                // Si falta aire, se vacía lentamente
+                tiempoSostenido = (tiempoSostenido - 0.5f).coerceAtLeast(0f)
+            }
         }
     }
+
+    // Animación suave del medidor de voz
+    val alturaMedidor by animateFloatAsState(
+        targetValue = (rmsSoplido / (LIMITE_SUPERIOR * 1.2f)).coerceIn(0f, 1f),
+        animationSpec = tween(100),
+        label = "altura_voz"
+    )
 
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("💨 Sopla de manera continua hacia el micrófono", fontWeight = FontWeight.Bold, fontSize = 16.sp, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(8.dp))
-        Text("Logros: $exitosTotales | Cortes: $fallosFuerza", fontSize = 14.sp, textAlign = TextAlign.Center)
+        Text(
+            text = "💨 Control Respiratorio",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Text(
+            text = "Mantén el aire en la ZONA VERDE por 5 segundos",
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center,
+            color = Color.Gray
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // MEDIDOR DE INTENSIDAD (Velocímetro Vertical)
+            Box(
+                modifier = Modifier
+                    .width(60.dp)
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(30.dp))
+                    .background(Color(0xFFEEEEEE)),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                // Barra de nivel de voz que sube y baja
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(alturaMedidor)
+                        .background(
+                            when {
+                                demasiadaFuerza -> Color(0xFFD32F2F) // Rojo (Mucha tensión)
+                                enZonaVerde -> Color(0xFF388E3C) // Verde (Perfecto)
+                                else -> Color(0xFF0277BD) // Azul (Muy débil)
+                            }
+                        )
+                )
+
+                // Overlay estático marcando los límites de la Zona Verde
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Box(modifier = Modifier.weight(0.2f).fillMaxWidth().background(Color.Red.copy(alpha = 0.2f))) // Zona de peligro (arriba)
+                    Box(modifier = Modifier.weight(0.6f).fillMaxWidth().background(Color.Green.copy(alpha = 0.2f))) // Zona Verde (medio)
+                    Box(modifier = Modifier.weight(0.2f).fillMaxWidth().background(Color.Blue.copy(alpha = 0.2f))) // Zona Baja (abajo)
+                }
+            }
+
+            // TEMPORIZADOR CIRCULAR OBJETIVO
+            Box(contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(
+                    progress = { (tiempoSostenido / 50f).coerceIn(0f, 1f) },
+                    modifier = Modifier.size(120.dp),
+                    color = Color(0xFF388E3C),
+                    strokeWidth = 12.dp,
+                    trackColor = Color(0xFFE0E0E0)
+                )
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "${(tiempoSostenido / 10f).toInt()}",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color(0xFF388E3C)
+                    )
+                    Text("segundos", fontSize = 12.sp, color = Color.Gray)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = "Logros: $exitosTotales | Cortes por tensión: $fallosFuerza",
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Center
+        )
 
         Spacer(modifier = Modifier.height(30.dp))
-        LinearProgressIndicator(
-            progress = { (tiempoSostenido / 50f).coerceIn(0f, 1f) },
-            modifier = Modifier.fillMaxWidth(0.75f).height(25.dp),
-            color = Color(0xFF0277BD)
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text("${(tiempoSostenido / 10f).toInt()} s / 5.0 s", fontWeight = FontWeight.Bold, color = Color(0xFF0277BD), textAlign = TextAlign.Center)
-
-        Spacer(modifier = Modifier.height(40.dp))
         Button(
             onClick = {
                 val total = exitosTotales + fallosFuerza
@@ -257,7 +378,6 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
         }
     }
 }
-
 @Composable
 fun EjercicioToqueDePluma(motorDSP: MotorAudioDSP, context: Context) {
     val metricasDSP by motorDSP.metricasAcusticas.collectAsState()
