@@ -87,11 +87,24 @@ fun TarjetasShaderScreen(
     // DIÁLOGO DE PRIMERA VEZ (ONBOARDING CLÍNICO)
     if (mostrarDialogoRegistro) {
         DialogoPerfilClinico(
-            perfilActual = perfil, // Al ser null la primera vez, el componente no dejará cerrarlo sin llenar
-            onDismiss = { mostrarDialogoRegistro = false },
-            onGuardar = { nombre, correo, diagnostico, objetivos ->
-                ProgresoStorage.guardarPerfilClinico(context, nombre, correo, diagnostico, objetivos)
-                perfil = ProgresoStorage.obtenerPerfilClinico(context)
+            perfilActual = perfil, // Si es null, el componente bloqueará el cierre obligando el registro
+            onDismiss = {
+                // Solo permite cerrar si el perfil ya existe previamente
+                if (perfil != null) {
+                    mostrarDialogoRegistro = false
+                }
+            },
+            onGuardar = { nombre, correo, diagnostico, objetivos, observaciones, recomendaciones ->
+                ProgresoStorage.guardarPerfilClinico(
+                    context,
+                    nombre,
+                    correo,
+                    diagnostico,
+                    objetivos,
+                    observaciones,
+                    recomendaciones
+                )
+                perfil = ProgresoStorage.obtenerPerfilClinico(context) // Actualiza el estado reactivo
                 mostrarDialogoRegistro = false
                 Toast.makeText(context, "¡Expediente configurado con éxito!", Toast.LENGTH_SHORT).show()
             }

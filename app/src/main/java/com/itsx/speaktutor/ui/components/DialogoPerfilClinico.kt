@@ -11,14 +11,14 @@ import com.itsx.speaktutor.ui.screens.PerfilClinico
 fun DialogoPerfilClinico(
     perfilActual: PerfilClinico?,
     onDismiss: () -> Unit,
-    onGuardar: (String, String, String, String) -> Unit
+    onGuardar: (String, String, String, String, String, String) -> Unit
 ) {
-    // Al inicializar, cargamos los datos del perfil actual si existen.
-    // Si es nuevo (null), los dejamos en blanco.
     var nombre by remember { mutableStateOf(perfilActual?.nombre ?: "") }
     var correo by remember { mutableStateOf(perfilActual?.correo ?: "") }
     var diagnostico by remember { mutableStateOf(perfilActual?.diagnosticoPrincipal ?: "") }
     var objetivos by remember { mutableStateOf(perfilActual?.objetivosSmart ?: "") }
+    var observaciones by remember { mutableStateOf(perfilActual?.observaciones ?: "") }
+    var recomendaciones by remember { mutableStateOf(perfilActual?.recomendaciones ?: "") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -44,25 +44,43 @@ fun DialogoPerfilClinico(
                 OutlinedTextField(
                     value = diagnostico,
                     onValueChange = { diagnostico = it },
-                    label = { Text("Diagnóstico Principal") },
-                    minLines = 2, // Le da espacio de 2 renglones por defecto
-                    maxLines = 4, // Crece hasta 4 renglones si escribes mucho
+                    label = { Text("Diagnóstico Principal (Ej. TDAH, Disfemia)") },
+                    minLines = 2,
+                    maxLines = 3,
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = objetivos,
                     onValueChange = { objetivos = it },
                     label = { Text("Metas y Objetivos SMART") },
-                    minLines = 3, // Inicia con 3 renglones de alto
-                    maxLines = 6, // Permite explayarse hasta 6 renglones
+                    minLines = 2,
+                    maxLines = 4,
                     placeholder = { Text("1. Reducir latencia...\n2. Mejorar contacto...") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedTextField(
+                    value = observaciones,
+                    onValueChange = { observaciones = it },
+                    label = { Text("Observaciones Cualitativas") },
+                    minLines = 2,
+                    maxLines = 4,
+                    placeholder = { Text("Motivación, fatiga, colaboración...") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedTextField(
+                    value = recomendaciones,
+                    onValueChange = { recomendaciones = it },
+                    label = { Text("Recomendaciones Casa/Escuela") },
+                    minLines = 2,
+                    maxLines = 4,
+                    placeholder = { Text("Tareas complementarias, uso de temporizadores...") },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
         },
         confirmButton = {
             Button(
-                onClick = { onGuardar(nombre, correo, diagnostico, objetivos) },
+                onClick = { onGuardar(nombre, correo, diagnostico, objetivos, observaciones, recomendaciones) },
                 enabled = nombre.isNotBlank() && correo.isNotBlank()
             ) {
                 Text("Guardar Cambios")

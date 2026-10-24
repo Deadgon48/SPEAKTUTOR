@@ -141,14 +141,12 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 val textoDicho = matches?.firstOrNull()?.trim() ?: ""
 
-                // --- NUEVO FILTRO: Proteger contra silencios ---
                 if (textoDicho.isBlank()) {
                     textoEscuchado = "No escuché nada. Intenta hablar más cerca."
-                    calificacionObtenida = -1 // Opcional: para que la UI no muestre un 0%
-                    return // Salimos aquí. NO guardamos la sesión en ProgresoStorage
+                    calificacionObtenida = -1
+                    return
                 }
 
-                // --- SI ESCUCHÓ ALGO, GUARDAMOS ---
                 textoEscuchado = textoDicho
                 calificacionObtenida = 85
 
@@ -259,7 +257,8 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                             Badge(containerColor = Color.White.copy(alpha = 0.2f), contentColor = Color.White) { Text(ejercicio.categoria.name.replace("_", " "), modifier = Modifier.padding(4.dp)) }
                             Text(ejercicio.instruccionEspecial, fontSize = 13.sp, fontStyle = androidx.compose.ui.text.font.FontStyle.Italic, color = Color.White.copy(alpha = 0.9f))
 
-                            if (ejercicio.categoria == CategoriaAdaptativa.SIMULACION && ejercicio.audioInterlocutor != null) {
+                            // CORREGIDO: Soporte para escenarios rápidos y guiones estresantes
+                            if ((ejercicio.categoria == CategoriaAdaptativa.ESCENARIO_RAPIDO || ejercicio.categoria == CategoriaAdaptativa.GUION_ESTRESANTE) && ejercicio.audioInterlocutor != null) {
                                 Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFE0F2F1))) {
                                     Row(modifier = Modifier.fillMaxWidth().padding(12.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                                         Text("🗣 \"${ejercicio.audioInterlocutor}\"", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = Color(0xFF004D40), modifier = Modifier.weight(1f))
@@ -274,7 +273,10 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
 
                             Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    if (ejercicio.categoria == CategoriaAdaptativa.SIMULACION) { Text("🎯 Tu objetivo de respuesta es:", fontSize = 11.sp, color = Color.White.copy(alpha = 0.8f)); Spacer(modifier = Modifier.height(4.dp)) }
+                                    if (ejercicio.categoria == CategoriaAdaptativa.ESCENARIO_RAPIDO || ejercicio.categoria == CategoriaAdaptativa.GUION_ESTRESANTE) {
+                                        Text("🎯 Tu objetivo de respuesta es:", fontSize = 11.sp, color = Color.White.copy(alpha = 0.8f))
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                    }
                                     Text(ejercicio.textoPractica, fontSize = 18.sp, fontWeight = FontWeight.Medium, color = Color.White)
                                 }
                             }
@@ -331,7 +333,14 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
 
                             OutlinedButton(
                                 onClick = {
-                                    historialEjercicios[historialEjercicios.indexOf(ejercicio)] = MotorAdaptativo.generarEjercicioNuevo(context)
+                                    historialEjercicios[historialEjercicios.indexOf(ejercicio)] = MotorAdaptativo.generarEjercicioNuevo(context, categoriaEvitada = ejercicio.categoria)
+                                    calificacionObtenida = -1
+                                    textoEscuchado = ""
+                                    motorDSP.detenerAnalisis(null)
+                                    if (isListeningId == ejercicio.id) {
+                                        speechRecognizer?.stopListening()
+                                        isListeningId = null
+                                    }
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)

@@ -1,6 +1,7 @@
 package com.itsx.speaktutor.ui.screens
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -66,9 +67,29 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
     val offsetX = remember { Animatable(0f) }
     var tensionDetectada by remember { mutableStateOf(false) }
 
-    val palabrasFaciles = listOf("Casa", "Sol", "Agua", "Mesa", "Flor", "Color", "Luz", "Pan", "Mar", "Luna", "Cielo", "Gato", "Perro", "Río", "Viento", "Nube", "Fuego", "Tierra", "Hoja", "Pez", "Ojo", "Mano", "Pie", "Día", "Pera", "Miel", "Sal", "Vino", "Tren", "Flor")
-    val palabrasMedias = listOf("Caminar", "Espejo", "Ventana", "Música", "Viaje", "Escuela", "Jardín", "Puerta", "Camino", "Reloj", "Estrella", "Montaña", "Pintura", "Guitarra", "Cuaderno", "Lápiz", "Mañana", "Silencio", "Planeta", "Océano", "Bicicleta", "Carpeta", "Sombrero", "Zapato", "Camisa", "Pared", "Cocina", "Espejo", "Camino", "Invierno")
-    val palabrasDificiles = listOf("Ferrocarril", "Constitución", "Paralelepípedo", "Estetoscopio", "Murciélago", "Electroencefalograma", "Otorrinolaringólogo", "Desoxirribonucleico", "Inconstitucional", "Esternocleidomastoideo", "Arquitectura", "Trabalenguas", "Biodiversidad", "Infraestructura", "Psicopedagogía", "Característica", "Refrigerador", "Meteorología", "Paleontología", "Telecomunicación", "Otorrinolaringología", "Paralelepípedo", "Electrodoméstico", "Desoxirribonucleico", "Responsabilidad")
+    val palabrasFaciles = listOf(
+        "Casa", "Sol", "Agua", "Mesa", "Flor", "Color", "Luz", "Pan", "Mar", "Luna",
+        "Cielo", "Gato", "Perro", "Río", "Viento", "Nube", "Fuego", "Tierra", "Hoja", "Pez",
+        "Ojo", "Mano", "Pie", "Día", "Pera", "Miel", "Sal", "Vino", "Tren", "Rey",
+        "Voz", "Paz", "Cruz", "Red", "Sed", "Tos", "Dos", "Tres", "Gris", "Piel",
+        "Nuez", "Cal", "Mes", "Cien", "Té", "Fe", "Fin", "Gol", "Mil", "Ley"
+    )
+
+    val palabrasMedias = listOf(
+        "Caminar", "Espejo", "Ventana", "Música", "Viaje", "Escuela", "Jardín", "Puerta", "Camino", "Reloj",
+        "Estrella", "Montaña", "Pintura", "Guitarra", "Cuaderno", "Lápiz", "Mañana", "Silencio", "Planeta", "Océano",
+        "Bicicleta", "Carpeta", "Sombrero", "Zapato", "Camisa", "Pared", "Cocina", "Invierno", "Pelota", "Computadora",
+        "Pantalla", "Teclado", "Manzana", "Naranja", "Cuchillo", "Tenedor", "Cuchara", "Enfermera", "Mercado", "Edificio",
+        "Biblioteca", "Semáforo", "Teléfono", "Televisión", "Cámara", "Vestido", "Pantalón", "Zapatero", "Zapatería", "Heladería"
+    )
+
+    val palabrasDificiles = listOf(
+        "Ferrocarril", "Constitución", "Paralelepípedo", "Estetoscopio", "Murciélago", "Electroencefalograma", "Otorrinolaringólogo", "Desoxirribonucleico", "Inconstitucional", "Esternocleidomastoideo",
+        "Arquitectura", "Trabalenguas", "Biodiversidad", "Infraestructura", "Psicopedagogía", "Característica", "Refrigerador", "Meteorología", "Paleontología", "Telecomunicación",
+        "Electrodoméstico", "Responsabilidad", "Anticonstitucionalmente", "Arteriosclerosis", "Caleidoscopio", "Contrarrevolucionario", "Desoxirribosa", "Electrocardiograma", "Fotosíntesis", "Gastroenterólogo",
+        "Idiosincrasia", "Inconmensurable", "Interdisciplinario", "Magnetoencefalografía", "Neuropsiquiatría", "Ovovivíparo", "Paracaidismo", "Plenipotenciario", "Radioisótopo", "Sobrenatural",
+        "Termodinámica", "Unidimensional", "Vicepresidente", "Xilografía", "Yuxtaposición", "Zarzaparrilla", "Desproporcionado", "Incomprensibilidad", "Institucionalización", "Pluricelular"
+    )
 
     var listaPalabrasActual by remember { mutableStateOf(palabrasFaciles) }
     var indicePalabra by remember { mutableIntStateOf(0) }
@@ -200,6 +221,7 @@ fun PronunciacionInstanteScreen(navController: NavController, onBack: () -> Unit
                 isListening = false
                 estadoVozTexto = "No se distinguió con claridad. Intenta de nuevo."
             }
+            @SuppressLint("SuspiciousIndentation")
             override fun onResults(results: Bundle?) {
                 isListening = false
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)

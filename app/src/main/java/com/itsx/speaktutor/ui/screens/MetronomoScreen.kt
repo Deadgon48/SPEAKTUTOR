@@ -26,6 +26,7 @@ import com.itsx.speaktutor.logic.MotorAudioDSP
 import com.itsx.speaktutor.logic.EstadoVozDSP
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
+import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.navigation.Screen
 
 @Composable
@@ -96,7 +97,41 @@ fun MetronomoScreen(navController: NavController, onBack: () -> Unit, motorDSP: 
                     IconButton(onClick = onBack) { Icon(ArrowLeftCircleIcon, "Regresar") }
                 }
             )
+        },
+
+        bottomBar = {
+            // Este contenedor anclará tu botón perfectamente a la parte inferior
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Button(
+                    onClick = onBack,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Icon(
+                        imageVector = HomeIcon,
+                        contentDescription = "Menú Principal",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Regresar al Menú Principal",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
+
     ) { innerPadding ->
         Column(
             modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp),
