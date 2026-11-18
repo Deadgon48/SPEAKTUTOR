@@ -11,14 +11,12 @@ import com.itsx.speaktutor.ui.screens.PerfilClinico
 fun DialogoPerfilClinico(
     perfilActual: PerfilClinico?,
     onDismiss: () -> Unit,
-    onGuardar: (String, String, String, String, String, String) -> Unit
+    onGuardar: (String, String, String, String) -> Unit
 ) {
     var nombre by remember { mutableStateOf(perfilActual?.nombre ?: "") }
     var correo by remember { mutableStateOf(perfilActual?.correo ?: "") }
     var diagnostico by remember { mutableStateOf(perfilActual?.diagnosticoPrincipal ?: "") }
     var objetivos by remember { mutableStateOf(perfilActual?.objetivosSmart ?: "") }
-    var observaciones by remember { mutableStateOf(perfilActual?.observaciones ?: "") }
-    var recomendaciones by remember { mutableStateOf(perfilActual?.recomendaciones ?: "") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -58,29 +56,11 @@ fun DialogoPerfilClinico(
                     placeholder = { Text("1. Reducir latencia...\n2. Mejorar contacto...") },
                     modifier = Modifier.fillMaxWidth()
                 )
-                OutlinedTextField(
-                    value = observaciones,
-                    onValueChange = { observaciones = it },
-                    label = { Text("Observaciones Cualitativas") },
-                    minLines = 2,
-                    maxLines = 4,
-                    placeholder = { Text("Motivación, fatiga, colaboración...") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = recomendaciones,
-                    onValueChange = { recomendaciones = it },
-                    label = { Text("Recomendaciones Casa/Escuela") },
-                    minLines = 2,
-                    maxLines = 4,
-                    placeholder = { Text("Tareas complementarias, uso de temporizadores...") },
-                    modifier = Modifier.fillMaxWidth()
-                )
             }
         },
         confirmButton = {
             Button(
-                onClick = { onGuardar(nombre, correo, diagnostico, objetivos, observaciones, recomendaciones) },
+                onClick = { onGuardar(nombre, correo, diagnostico, objetivos) },
                 enabled = nombre.isNotBlank() && correo.isNotBlank()
             ) {
                 Text("Guardar Cambios")

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.itsx.speaktutor.ui.theme.SPEAKTUTORTheme
@@ -19,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.ads.MobileAds
+import com.itsx.speaktutor.logic.MotorAudioDSP
 import com.itsx.speaktutor.ui.navigation.Screen
 import com.itsx.speaktutor.ui.screens.ContenedorMetronomo
 import com.itsx.speaktutor.ui.screens.MetronomoScreen
@@ -31,6 +33,8 @@ import com.itsx.speaktutor.ui.screens.ProgresoScreen
 import com.itsx.speaktutor.ui.screens.EjerciciosAdaptativosScreen
 import com.itsx.speaktutor.ui.screens.ContenedorBiofeedback
 import com.itsx.speaktutor.ui.screens.TarjetasArticulacionScreen
+import com.itsx.speaktutor.ui.screens.ConcienciaFonologicaScreen
+import com.itsx.speaktutor.ui.screens.ReporteMultidimensionalScreen
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -46,6 +50,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     // 1. Declarar el navController primero
                     val navController = rememberNavController()
+                    val motorDSP = remember { MotorAudioDSP() } // Instancia del motor
 
                     // 2. Un solo NavHost limpio que maneja todas las rutas
                     NavHost(
@@ -64,6 +69,8 @@ class MainActivity : ComponentActivity() {
                                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
                                 onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
                                 onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) },
+                                onNavigateConcienciaFonologica = { navController.navigate(Screen.ConcienciaFonologica.route) },
+                                onNavigateReporteMultidimensional = { navController.navigate(Screen.ReporteMultidimensional.route) }, // Nueva conexión
                                 onBack = { finish() } // Cierra la app al salir del menú principal
                             )
                         }
@@ -116,6 +123,20 @@ class MainActivity : ComponentActivity() {
                             TarjetasArticulacionScreen(
                                 navController = navController,
                                 onBack = { navController.popBackStack()}
+                            )
+                        }
+
+                        composable(Screen.ConcienciaFonologica.route) {
+                            ConcienciaFonologicaScreen(
+                                navController = navController,
+                                motorDSP = motorDSP,
+                                onBack = { navController.popBackStack()} // Pasamos la instancia requerida por la UI
+                            )
+                        }
+
+                        composable(Screen.ReporteMultidimensional.route) {
+                            ReporteMultidimensionalScreen(
+                                navController = navController
                             )
                         }
                     }

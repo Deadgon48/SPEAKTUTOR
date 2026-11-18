@@ -27,6 +27,7 @@ android {
         externalNativeBuild {
             cmake {
                 arguments += "-DANDROID_STL=c++_shared"
+                cppFlags += "-std=c++17"
             }
         }
     }
@@ -79,6 +80,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.remote.creation.core)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.text)
@@ -103,7 +105,9 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("io.coil-kt:coil-gif:2.6.0")
 
-    implementation("com.google.oboe:oboe:1.8.1")
+    implementation(platform("androidx.compose:compose-bom:2024.04.01")) // O una versión posterior
+
+    implementation("com.google.oboe:oboe:1.9.3")
 
     implementation("com.google.android.gms:play-services-ads:25.5.0")
 

@@ -268,7 +268,9 @@ fun TarjetasArticulacionScreen(navController: NavController, onBack: () -> Unit)
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
                 onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
-                onNavigateTarjetasArticulacion = { /* Ya estás aquí */ }
+                onNavigateTarjetasArticulacion = { /* Ya estás aquí */ },
+                onNavigateConcienciaFonologica = { navController.navigate(Screen.ConcienciaFonologica.route) },
+                onNavigateReporteMultidimensional = { navController.navigate(Screen.ReporteMultidimensional.route) }
             )
             Spacer(modifier = Modifier.height(8.dp))
 

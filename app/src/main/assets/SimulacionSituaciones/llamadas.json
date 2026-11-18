@@ -1,0 +1,602 @@
+[
+  {
+    "id": "L001",
+    "contexto": "Pedir una pizza a domicilio",
+    "operadora": "Pizzería Nápoles, buenas noches. ¿Qué le sirvo?",
+    "respuesta_sugerida": "Buenas noches, quiero una pizza grande de pepperoni, por favor."
+  },
+  {
+    "id": "L002",
+    "contexto": "Agendar cita con el dentista",
+    "operadora": "Consultorio dental Sonrisas, habla María, ¿en qué le puedo ayudar?",
+    "respuesta_sugerida": "Hola, necesito agendar una cita para limpieza dental esta semana."
+  },
+  {
+    "id": "L003",
+    "contexto": "Preguntar por un paquete perdido",
+    "operadora": "Servicio de mensajería Express. ¿Cuál es su número de guía?",
+    "respuesta_sugerida": "Mi número de guía es el cuatro ocho dos nueve."
+  },
+  {
+    "id": "L004",
+    "contexto": "Reservar mesa en restaurante",
+    "operadora": "Restaurante El Rincón, buenas tardes. ¿Para cuántas personas y a qué hora?",
+    "respuesta_sugerida": "Quiero una reserva para cuatro personas a las ocho de la noche."
+  },
+  {
+    "id": "L005",
+    "contexto": "Llamar al soporte técnico de internet",
+    "operadora": "Soporte técnico, indique el motivo de su llamada.",
+    "respuesta_sugerida": "No tengo servicio de internet desde hace dos horas en mi domicilio."
+  },
+  {
+    "id": "L006",
+    "contexto": "Pedir un taxi o servicio de transporte",
+    "operadora": "Taxis seguros, ¿cuál es su dirección exacta?",
+    "respuesta_sugerida": "Necesito un taxi en la calle Juárez, esquina con Madero."
+  },
+  {
+    "id": "L007",
+    "contexto": "Cancelar una cita médica",
+    "operadora": "Clínica San José, ¿quiere agendar o cancelar una cita?",
+    "respuesta_sugerida": "Quiero cancelar mi cita de mañana con el doctor Pérez."
+  },
+  {
+    "id": "L008",
+    "contexto": "Preguntar horario de una tienda",
+    "operadora": "Atención a clientes. ¿En qué puedo orientarle?",
+    "respuesta_sugerida": "Me gustaría saber a qué hora cierran la sucursal del centro hoy."
+  },
+  {
+    "id": "L009",
+    "contexto": "Reportar tarjeta bloqueada al banco",
+    "operadora": "Banco Nacional. Por seguridad, dígame su nombre completo.",
+    "respuesta_sugerida": "Mi nombre es Alejandro Martínez y mi tarjeta fue retenida."
+  },
+  {
+    "id": "L010",
+    "contexto": "Pedir presupuesto de un servicio",
+    "operadora": "Taller mecánico El Ruedo, dígame.",
+    "respuesta_sugerida": "Buenas tardes, quisiera saber el costo de un cambio de aceite."
+  },
+  {
+    "id": "L011",
+    "contexto": "Confirmar asistencia a evento",
+    "operadora": "Coordinación del seminario. ¿Me confirma su asistencia?",
+    "respuesta_sugerida": "Sí, llamo para confirmar mi asistencia al evento del viernes."
+  },
+  {
+    "id": "L012",
+    "contexto": "Preguntar por disponibilidad de hotel",
+    "operadora": "Hotel Las Palmas. ¿Qué fechas tiene pensadas?",
+    "respuesta_sugerida": "Busco una habitación doble del diez al doce de noviembre."
+  },
+  {
+    "id": "L013",
+    "contexto": "Reportar falla de luz",
+    "operadora": "Comisión de electricidad. ¿Cuál es su número de servicio?",
+    "respuesta_sugerida": "Hubo un apagón en mi colonia, es la colonia Las Ánimas."
+  },
+  {
+    "id": "L014",
+    "contexto": "Solicitar información de gimnasio",
+    "operadora": "Gimnasio PowerFit, ¿te puedo dar informes?",
+    "respuesta_sugerida": "Hola, ¿cuánto cuesta la mensualidad y qué horarios tienen?"
+  },
+  {
+    "id": "L015",
+    "contexto": "Pedir gas a domicilio",
+    "operadora": "Gas Imperial, ¿cilindro o tanque estacionario?",
+    "respuesta_sugerida": "Necesito un cilindro de treinta kilos en la calle Reforma."
+  },
+  {
+    "id": "L016",
+    "contexto": "Llamada a control escolar de la universidad",
+    "operadora": "Control escolar, Facultad de Ingeniería, ¿en qué te ayudo?",
+    "respuesta_sugerida": "Quiero saber cuándo es la fecha límite para pagar mi inscripción."
+  },
+  {
+    "id": "L017",
+    "contexto": "Reclamar pedido de comida atrasado",
+    "operadora": "Soporte de la aplicación de comida, dime tu problema.",
+    "respuesta_sugerida": "Mi pedido aparece como entregado pero no he recibido nada."
+  },
+  {
+    "id": "L018",
+    "contexto": "Pedir cita para pasaporte",
+    "operadora": "Secretaría de Relaciones Exteriores. Seleccione su trámite.",
+    "respuesta_sugerida": "Necesito agendar una cita para la renovación de mi pasaporte."
+  },
+  {
+    "id": "L019",
+    "contexto": "Preguntar si tienen un medicamento",
+    "operadora": "Farmacia San Isidro, ¿busca alguna medicina?",
+    "respuesta_sugerida": "Quería saber si tienen paracetamol en presentación de jarabe."
+  },
+  {
+    "id": "L020",
+    "contexto": "Agendar corte de cabello",
+    "operadora": "Barbería clásica, ¿para cuándo quieres tu corte?",
+    "respuesta_sugerida": "Tendrás espacio libre hoy por la tarde, a eso de las cinco."
+  },
+  {
+    "id": "L021",
+    "contexto": "Llamar a un anuncio de renta de departamento",
+    "operadora": "Bienes raíces, ¿por qué propiedad llama?",
+    "respuesta_sugerida": "Llamo por el anuncio del departamento en renta cerca del centro."
+  },
+  {
+    "id": "L022",
+    "contexto": "Reportar un cobro indebido al banco",
+    "operadora": "Prevención de fraudes. ¿No reconoce un cargo?",
+    "respuesta_sugerida": "Tengo un cobro doble en mi estado de cuenta que yo no hice."
+  },
+  {
+    "id": "L023",
+    "contexto": "Llamar a la biblioteca para renovar un libro",
+    "operadora": "Biblioteca municipal, ¿qué servicio busca?",
+    "respuesta_sugerida": "Quiero extender el préstamo de un libro por una semana más."
+  },
+  {
+    "id": "L024",
+    "contexto": "Contratar un seguro de auto",
+    "operadora": "Seguros AutoMóvil. ¿De qué año es su vehículo?",
+    "respuesta_sugerida": "Mi carro es un modelo dos mil dieciocho y busco cobertura amplia."
+  },
+  {
+    "id": "L025",
+    "contexto": "Preguntar por el estado de una reparación",
+    "operadora": "Taller de celulares FixIt, ¿su número de orden?",
+    "respuesta_sugerida": "Quiero saber si ya está reparada la pantalla de mi celular."
+  },
+  {
+    "id": "L026",
+    "contexto": "Solicitar constancia laboral",
+    "operadora": "Recursos humanos, ¿quién habla?",
+    "respuesta_sugerida": "Soy Juan y necesito una constancia de trabajo para un trámite."
+  },
+  {
+    "id": "L027",
+    "contexto": "Comprar boletos de autobús por teléfono",
+    "operadora": "Autobuses del Sur. ¿A dónde viaja?",
+    "respuesta_sugerida": "Quiero comprar dos boletos sencillos para viajar a la capital."
+  },
+  {
+    "id": "L028",
+    "contexto": "Informes sobre adopción de mascotas",
+    "operadora": "Refugio de animales, ¿quieres adoptar?",
+    "respuesta_sugerida": "Me interesa conocer los requisitos para adoptar a un perro."
+  },
+  {
+    "id": "L029",
+    "contexto": "Preguntar por cartelera del cine",
+    "operadora": "CineMax. Todas nuestras funciones están en la página web.",
+    "respuesta_sugerida": "No tengo internet, ¿me puede decir si proyectan películas de terror hoy?"
+  },
+  {
+    "id": "L030",
+    "contexto": "Llamar al veterinario de urgencia",
+    "operadora": "Clínica veterinaria veinticuatro horas, ¿cuál es la emergencia?",
+    "respuesta_sugerida": "Mi perro comió chocolate y está vomitando, voy en camino."
+  },
+  {
+    "id": "L031",
+    "contexto": "Reportar bache en la vía pública",
+    "operadora": "Atención ciudadana del ayuntamiento. ¿Cuál es su reporte?",
+    "respuesta_sugerida": "Quiero reportar un bache muy grande en la avenida principal."
+  },
+  {
+    "id": "L032",
+    "contexto": "Pedir garrafones de agua",
+    "operadora": "Agua purificada Cristal, ¿cuántos garrafones te dejo?",
+    "respuesta_sugerida": "Quiero que me traigan tres garrafones a mi casa, por favor."
+  },
+  {
+    "id": "L033",
+    "contexto": "Llamada a la policía por ruido",
+    "operadora": "Emergencias, ¿cuál es su situación?",
+    "respuesta_sugerida": "Hay una fiesta con volumen altísimo en la calle de atrás."
+  },
+  {
+    "id": "L034",
+    "contexto": "Preguntar por vacantes de empleo",
+    "operadora": "Gerencia del supermercado, buenas tardes.",
+    "respuesta_sugerida": "Llamo para saber si tienen alguna vacante disponible como cajero."
+  },
+  {
+    "id": "L035",
+    "contexto": "Solicitar estado de cuenta AFORE",
+    "operadora": "Administradora de fondos. Ingrese su número de seguro social.",
+    "respuesta_sugerida": "Quiero que me envíen mi estado de cuenta al correo electrónico."
+  },
+  {
+    "id": "L036",
+    "contexto": "Preguntar por requisitos de visa",
+    "operadora": "Consulado de atención. ¿En qué le asesoramos?",
+    "respuesta_sugerida": "Quisiera saber qué documentos debo llevar a mi entrevista de visa."
+  },
+  {
+    "id": "L037",
+    "contexto": "Comprar flores a domicilio",
+    "operadora": "Florería La Rosa, ¿qué arreglo buscaba?",
+    "respuesta_sugerida": "Necesito mandar un ramo de rosas rojas con tarjeta de cumpleaños."
+  },
+  {
+    "id": "L038",
+    "contexto": "Reportar tarjeta SIM perdida",
+    "operadora": "Compañía telefónica, ¿desde qué número nos llama?",
+    "respuesta_sugerida": "Me robaron el teléfono y necesito bloquear mi línea temporalmente."
+  },
+  {
+    "id": "L039",
+    "contexto": "Pedir cita para terapia física",
+    "operadora": "Centro de rehabilitación, ¿es su primera vez con nosotros?",
+    "respuesta_sugerida": "Sí, el doctor me recomendó diez sesiones de terapia física."
+  },
+  {
+    "id": "L040",
+    "contexto": "Solicitar servicio de tintorería a domicilio",
+    "operadora": "Tintorería Limpiamax. ¿Pasamos a recolectar su ropa?",
+    "respuesta_sugerida": "Tengo tres trajes y dos abrigos que necesitan lavado en seco."
+  },
+  {
+    "id": "L041",
+    "contexto": "Llamar a un programa de radio",
+    "operadora": "Cabina en vivo, ¿cuál es tu saludo o petición?",
+    "respuesta_sugerida": "Quiero mandar un saludo a mi familia y pedir una canción de rock."
+  },
+  {
+    "id": "L042",
+    "contexto": "Preguntar si abren los domingos",
+    "operadora": "Ferretería El Martillo. Le atiende José.",
+    "respuesta_sugerida": "Hola, quería saber si abren la tienda los domingos en la mañana."
+  },
+  {
+    "id": "L043",
+    "contexto": "Confirmar que un depósito bancario se realizó",
+    "operadora": "Línea bancaria, ¿qué trámite va a realizar?",
+    "respuesta_sugerida": "Quiero verificar si ya se reflejó un depósito que me hicieron hoy."
+  },
+  {
+    "id": "L044",
+    "contexto": "Quejarse por un producto defectuoso",
+    "operadora": "Atención al cliente de la tienda, ¿cuál es el problema?",
+    "respuesta_sugerida": "Compré una licuadora ayer y no enciende, quiero cambiarla."
+  },
+  {
+    "id": "L045",
+    "contexto": "Pedir un presupuesto de pintura",
+    "operadora": "Pinturas Comex, ¿qué material busca?",
+    "respuesta_sugerida": "Necesito cotizar tres cubetas de pintura blanca para interiores."
+  },
+  {
+    "id": "L046",
+    "contexto": "Solicitar desbloqueo de banca móvil",
+    "operadora": "Servicios digitales bancarios. ¿Olvidó su contraseña?",
+    "respuesta_sugerida": "Bloqueé mi aplicación del banco por meter mal el código."
+  },
+  {
+    "id": "L047",
+    "contexto": "Informes sobre clases de inglés",
+    "operadora": "Instituto de idiomas. ¿Para qué nivel buscas información?",
+    "respuesta_sugerida": "Busco informes sobre clases de inglés intensivas para principiantes."
+  },
+  {
+    "id": "L048",
+    "contexto": "Llamar para encargar un pastel",
+    "operadora": "Pastelería dulce, ¿para cuántas personas es el pastel?",
+    "respuesta_sugerida": "Necesito un pastel de chocolate para veinte personas el sábado."
+  },
+  {
+    "id": "L049",
+    "contexto": "Preguntar por envío de paquetería",
+    "operadora": "Envíos postales. ¿Nacional o internacional?",
+    "respuesta_sugerida": "Quiero saber cuánto cuesta mandar una caja de tres kilos al norte."
+  },
+  {
+    "id": "L050",
+    "contexto": "Contratar mariachis para una fiesta",
+    "operadora": "Mariachi Los Rancheros. ¿Para qué fecha los ocupa?",
+    "respuesta_sugerida": "Quería preguntar cuánto cobran por una hora de música en una fiesta."
+  },
+  {
+    "id": "L051",
+    "contexto": "Llamar para preguntar por un objeto perdido",
+    "operadora": "Seguridad de la plaza comercial, buenas noches.",
+    "respuesta_sugerida": "Llamo para preguntar si alguien entregó unas llaves de carro perdidas."
+  },
+  {
+    "id": "L052",
+    "contexto": "Solicitar fumigación",
+    "operadora": "Fumigaciones Efectivas. ¿Qué plaga tiene en su casa?",
+    "respuesta_sugerida": "Necesito que fumiguen mi casa porque hay muchas cucarachas."
+  },
+  {
+    "id": "L053",
+    "contexto": "Preguntar por resultados de análisis clínicos",
+    "operadora": "Laboratorios médicos. ¿Trae a la mano su número de folio?",
+    "respuesta_sugerida": "Quisiera saber si ya están listos mis resultados de sangre de ayer."
+  },
+  {
+    "id": "L054",
+    "contexto": "Llamada al contador",
+    "operadora": "Despacho contable, despacho de la licenciada García.",
+    "respuesta_sugerida": "Hola, necesito mandar mis facturas para la declaración mensual."
+  },
+  {
+    "id": "L055",
+    "contexto": "Renovar membresía de club",
+    "operadora": "Club deportivo, área de atención a socios.",
+    "respuesta_sugerida": "Mi membresía venció y quiero saber cómo pagarla por transferencia."
+  },
+  {
+    "id": "L056",
+    "contexto": "Pedir cita para cambiar llantas",
+    "operadora": "Llantera Michelin. ¿Qué rodada usa su coche?",
+    "respuesta_sugerida": "Necesito cambiar dos llantas y hacer balanceo, ¿tienen lugar hoy?"
+  },
+  {
+    "id": "L057",
+    "contexto": "Reportar un semáforo descompuesto",
+    "operadora": "Tránsito del estado, reporte ciudadano.",
+    "respuesta_sugerida": "El semáforo de la avenida Lázaro Cárdenas está apagado."
+  },
+  {
+    "id": "L058",
+    "contexto": "Consultar saldo de tarjeta de crédito",
+    "operadora": "Banca telefónica automática. Su saldo al corte es de dos mil pesos.",
+    "respuesta_sugerida": "Solo quería confirmar mi saldo, muchas gracias, hasta luego."
+  },
+  {
+    "id": "L059",
+    "contexto": "Cita para corte de perro",
+    "operadora": "Estética canina Peluchín, ¿qué raza es su perro?",
+    "respuesta_sugerida": "Es un poodle y quiero bañarlo y cortarle el pelo mañana."
+  },
+  {
+    "id": "L060",
+    "contexto": "Informes de clases de natación",
+    "operadora": "Alberca olímpica. ¿Para adultos o niños?",
+    "respuesta_sugerida": "Quiero información sobre clases de natación para adultos en la noche."
+  },
+  {
+    "id": "L061",
+    "contexto": "Preguntar disponibilidad de Xbox",
+    "operadora": "Tienda de videojuegos. ¿Qué título o consola buscas?",
+    "respuesta_sugerida": "Tienen en existencia la nueva consola de Xbox en la tienda."
+  },
+  {
+    "id": "L062",
+    "contexto": "Suspender servicio de televisión por cable",
+    "operadora": "Departamento de retención, ¿por qué desea cancelar?",
+    "respuesta_sugerida": "Me voy a mudar de ciudad y quiero cancelar mi servicio de cable."
+  },
+  {
+    "id": "L063",
+    "contexto": "Pedir informe sobre un familiar hospitalizado",
+    "operadora": "Módulo de información del hospital general.",
+    "respuesta_sugerida": "Quisiera saber el estado de salud del paciente ingresado en urgencias."
+  },
+  {
+    "id": "L064",
+    "contexto": "Cotizar un seguro de vida",
+    "operadora": "Aseguradora Nacional. ¿Es para usted o su familia?",
+    "respuesta_sugerida": "Me gustaría cotizar un seguro de vida básico para mi esposo."
+  },
+  {
+    "id": "L065",
+    "contexto": "Consultar requisitos de pensión",
+    "operadora": "Instituto de seguridad social. Trámites de pensión.",
+    "respuesta_sugerida": "Quiero saber cuántas semanas cotizadas necesito para mi pensión."
+  },
+  {
+    "id": "L066",
+    "contexto": "Llamada a una notaría",
+    "operadora": "Notaría pública número cinco, a sus órdenes.",
+    "respuesta_sugerida": "Quiero saber los requisitos y el costo para hacer un testamento."
+  },
+  {
+    "id": "L067",
+    "contexto": "Reportar agua sucia en la llave",
+    "operadora": "Servicios de agua y saneamiento. ¿Cuál es su reporte?",
+    "respuesta_sugerida": "El agua está saliendo turbia y con lodo en toda mi cuadra."
+  },
+  {
+    "id": "L068",
+    "contexto": "Pedir cita para sacar el INE",
+    "operadora": "Atención ciudadana electoral. ¿Trámite de primera vez o reposición?",
+    "respuesta_sugerida": "Perdí mi credencial y necesito una cita para sacar una reposición."
+  },
+  {
+    "id": "L069",
+    "contexto": "Consultar costo de pasaje de avión",
+    "operadora": "Aerolíneas del pacífico. ¿Cuál es su destino?",
+    "respuesta_sugerida": "Cuánto cuesta un vuelo redondo a Cancún para la próxima semana."
+  },
+  {
+    "id": "L070",
+    "contexto": "Comprar madera en la maderería",
+    "operadora": "Maderería el pino, ¿qué material ocupa?",
+    "respuesta_sugerida": "Quiero el precio de cinco hojas de triplay de doce milímetros."
+  },
+  {
+    "id": "L071",
+    "contexto": "Hablar a soporte de Xbox/PlayStation",
+    "operadora": "Soporte técnico de consolas. ¿Problemas con tu cuenta o consola?",
+    "respuesta_sugerida": "No puedo iniciar sesión en mi cuenta, dice que estoy suspendido."
+  },
+  {
+    "id": "L072",
+    "contexto": "Preguntar por una prenda en la tintorería",
+    "operadora": "Tintorería, dígame su folio por favor.",
+    "respuesta_sugerida": "Dejé un saco el lunes y quería saber si ya puedo pasar por él."
+  },
+  {
+    "id": "L073",
+    "contexto": "Rentar sillas y mesas para fiesta",
+    "operadora": "Alquiladora de eventos. ¿Para cuándo es su fiesta?",
+    "respuesta_sugerida": "Quiero rentar cincuenta sillas y cinco mesas redondas para el sábado."
+  },
+  {
+    "id": "L074",
+    "contexto": "Llamada al servicio de basura",
+    "operadora": "Limpia pública, ¿quiere reportar que no pasó el camión?",
+    "respuesta_sugerida": "Sí, el camión de la basura no ha pasado en tres días."
+  },
+  {
+    "id": "L075",
+    "contexto": "Hablar a recursos humanos por pago",
+    "operadora": "Nóminas, buenas tardes.",
+    "respuesta_sugerida": "Llamaba porque en mi depósito de esta quincena me faltó dinero."
+  },
+  {
+    "id": "L076",
+    "contexto": "Llamada al cerrajero",
+    "operadora": "Cerrajería las llaves mágicas, ¿se quedó afuera?",
+    "respuesta_sugerida": "Sí, dejé las llaves adentro de la casa y necesito que vengan a abrir."
+  },
+  {
+    "id": "L077",
+    "contexto": "Cita para alinear coche",
+    "operadora": "Taller de suspensión, ¿qué le falla a su carro?",
+    "respuesta_sugerida": "El volante vibra cuando voy rápido, quiero que lo revisen."
+  },
+  {
+    "id": "L078",
+    "contexto": "Contratar servicio de televisión",
+    "operadora": "Ventas, ¿quiere contratar internet o solo televisión?",
+    "respuesta_sugerida": "Me interesa un paquete de televisión básico con canales de deportes."
+  },
+  {
+    "id": "L079",
+    "contexto": "Preguntar sobre becas en escuela",
+    "operadora": "Departamento de becas universitarias.",
+    "respuesta_sugerida": "Quiero saber el promedio necesario para solicitar una beca académica."
+  },
+  {
+    "id": "L080",
+    "contexto": "Hablar con el administrador del edificio",
+    "operadora": "Administración de condominios, dime.",
+    "respuesta_sugerida": "Hay una fuga de agua en el pasillo del cuarto piso."
+  },
+  {
+    "id": "L081",
+    "contexto": "Solicitar préstamo en banco",
+    "operadora": "Asesor de créditos, ¿qué tipo de préstamo busca?",
+    "respuesta_sugerida": "Quisiera información sobre un crédito personal de diez mil pesos."
+  },
+  {
+    "id": "L082",
+    "contexto": "Llamar a bomberos por olor a gas",
+    "operadora": "Estación de bomberos, reporte su emergencia.",
+    "respuesta_sugerida": "Huele mucho a gas en mi cocina y no encuentro de dónde viene."
+  },
+  {
+    "id": "L083",
+    "contexto": "Comprar llanta de refacción",
+    "operadora": "Refaccionaria automotriz, ¿qué pieza busca?",
+    "respuesta_sugerida": "Tendrás de casualidad la llanta de refacción para un coche Versa."
+  },
+  {
+    "id": "L084",
+    "contexto": "Inscribirse a un curso de cocina",
+    "operadora": "Academia culinaria, ¿en qué curso está interesado?",
+    "respuesta_sugerida": "Me quiero inscribir al diplomado de repostería de los sábados."
+  },
+  {
+    "id": "L085",
+    "contexto": "Reportar animal muerto en la calle",
+    "operadora": "Control animal del municipio, ¿qué requiere?",
+    "respuesta_sugerida": "Hay un perrito muerto en el camellón central de mi colonia."
+  },
+  {
+    "id": "L086",
+    "contexto": "Solicitar mudanza",
+    "operadora": "Mudanzas seguras, ¿de dónde a dónde se cambia?",
+    "respuesta_sugerida": "Quiero cotizar una mudanza pequeña dentro de la misma ciudad."
+  },
+  {
+    "id": "L087",
+    "contexto": "Cita para masaje relajante",
+    "operadora": "Spa y bienestar. ¿Busca facial o masaje?",
+    "respuesta_sugerida": "Quiero agendar un masaje relajante de una hora para el viernes."
+  },
+  {
+    "id": "L088",
+    "contexto": "Queja por música en transporte público",
+    "operadora": "Atención a quejas de transporte público. ¿Ruta o placa?",
+    "respuesta_sugerida": "El chofer del camión ruta siete lleva la música altísima."
+  },
+  {
+    "id": "L089",
+    "contexto": "Preguntar costo de casetas",
+    "operadora": "Atención de carreteras, indique su ruta.",
+    "respuesta_sugerida": "Cuánto cuesta la caseta para llegar al puerto por la autopista."
+  },
+  {
+    "id": "L090",
+    "contexto": "Contratar mariachi para serenata",
+    "operadora": "Mariachis, ¿quiere una hora entera o media hora?",
+    "respuesta_sugerida": "Solo quiero una serenata corta de siete canciones para esta noche."
+  },
+  {
+    "id": "L091",
+    "contexto": "Hablar a correos por carta no entregada",
+    "operadora": "Servicio postal. Proporcione número de rastreo.",
+    "respuesta_sugerida": "Mande una carta hace un mes y la persona no la ha recibido."
+  },
+  {
+    "id": "L092",
+    "contexto": "Comprar cemento en la constructora",
+    "operadora": "Materiales para construcción, ¿qué necesitas?",
+    "respuesta_sugerida": "Quiero que me manden una tonelada de cemento a mi obra."
+  },
+  {
+    "id": "L093",
+    "contexto": "Cita en el SAT",
+    "operadora": "Atención fiscal. ¿Para qué trámite es su cita?",
+    "respuesta_sugerida": "Necesito sacar mi firma electrónica por primera vez."
+  },
+  {
+    "id": "L094",
+    "contexto": "Reportar fuga de gas en calle",
+    "operadora": "Protección civil. ¿Cuál es su reporte?",
+    "respuesta_sugerida": "Hay un olor fortísimo a gas saliendo de la coladera de la esquina."
+  },
+  {
+    "id": "L095",
+    "contexto": "Informes sobre guardería",
+    "operadora": "Guardería infantil los patitos, ¿qué edad tiene su niño?",
+    "respuesta_sugerida": "Mi hijo tiene dos años y quiero saber los horarios y mensualidad."
+  },
+  {
+    "id": "L096",
+    "contexto": "Reservar cancha de fútbol",
+    "operadora": "Deportivo las canchas. ¿Fútbol siete o rápido?",
+    "respuesta_sugerida": "Quiero rentar la cancha de fútbol rápido por dos horas hoy."
+  },
+  {
+    "id": "L097",
+    "contexto": "Pedir informe de multa de tránsito",
+    "operadora": "Tesorería, pago de infracciones.",
+    "respuesta_sugerida": "Quiero saber si mi vehículo tiene multas pendientes de pago."
+  },
+  {
+    "id": "L098",
+    "contexto": "Solicitar servicio de jardinería",
+    "operadora": "Servicios de jardinería integral. ¿En qué le ayudo?",
+    "respuesta_sugerida": "Necesito que vengan a podar el pasto y arreglar los rosales de mi casa."
+  },
+  {
+    "id": "L099",
+    "contexto": "Cancelar membresía del gimnasio",
+    "operadora": "Atención a socios del gimnasio.",
+    "respuesta_sugerida": "Ya no voy a poder asistir al gimnasio y quiero cancelar mi membresía."
+  },
+  {
+    "id": "L100",
+    "contexto": "Llamada de broma para practicar",
+    "operadora": "Bueno, ¿quién habla?",
+    "respuesta_sugerida": "Disculpe las molestias, me equivoqué de número. Que tenga buen día."
+  }
+]

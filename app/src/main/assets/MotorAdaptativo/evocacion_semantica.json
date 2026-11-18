@@ -1,0 +1,12 @@
+{
+  "ANIMALES": ["Perro", "Gato", "León", "Tigre", "Caballo", "Elefante", "Jirafa", "Oso", "Lobo", "Delfín"],
+  "FRUTAS": ["Manzana", "Plátano", "Naranja", "Uva", "Pera", "Sandía", "Fresa", "Mango", "Kiwi", "Cereza"],
+  "PAÍSES": ["México", "España", "Colombia", "Argentina", "Chile", "Francia", "Japón", "Canadá", "Brasil", "Italia"],
+  "COLORES": ["Rojo", "Azul", "Verde", "Amarillo", "Blanco", "Negro", "Morado", "Naranja", "Gris", "Turquesa"],
+  "PROFESIONES": ["Doctor", "Ingeniero", "Abogado", "Profesor", "Arquitecto", "Enfermera", "Policía", "Bombero", "Piloto", "Chef"],
+  "DEPORTES": ["Fútbol", "Básquetbol", "Béisbol", "Tenis", "Natación", "Atletismo", "Boxeo", "Golf", "Ciclismo", "Voleibol"],
+  "HERRAMIENTAS": ["Martillo", "Desarmador", "Pinzas", "Llave", "Taladro", "Sierra", "Clavo", "Tornillo", "Metro", "Cincel"],
+  "VEHÍCULOS": ["Automóvil", "Autobús", "Tren", "Avión", "Motocicleta", "Bicicleta", "Barco", "Helicóptero", "Submarino", "Taxi"],
+  "INSTRUMENTOS": ["Guitarra", "Piano", "Violín", "Batería", "Flauta", "Trompeta", "Saxofón", "Bajo", "Arpa", "Acordeón"],
+  "PRENDAS": ["Camisa", "Pantalón", "Zapatos", "Saco", "Abrigo", "Bufanda", "Gorra", "Calcetines", "Vestido", "Falda"]
+}

@@ -21,4 +21,8 @@ sealed class Screen(val route: String) {
     object Biofeedback : Screen("biofeedback_screen")
 
     object TarjetasArticulacion : Screen("tarjetas_articulacion")
+
+    object ConcienciaFonologica : Screen("conciencia_fonologica")
+
+    object ReporteMultidimensional : Screen("reporte_multidimensional")
 }

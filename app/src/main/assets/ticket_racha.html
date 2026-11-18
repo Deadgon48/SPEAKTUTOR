@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ticket Racha 3D</title>
+    <style>
+        @font-face {
+font-family: 'Blockstepped';
+src: url('fonts/blockstepped.ttf');
+}
+ @font-face {
+font-family: 'Blockstepped 3D';
+src: url('fonts/blockstepped3d.ttf');
+}
+@font-face {
+font-family: 'Blox2';
+src: url('fonts/blox2.ttf');
+}
+@font-face {
+font-family: 'MarioFont';
+src: url('fonts/font.ttf');
+}
+@font-face {
+font-family: 'HumanoidStraight';
+src: url('fonts/humanoidstraight.ttf');
+}
+@font-face {
+font-family: 'LotsOfDotz';
+src: url('fonts/lotsofdotz.ttf');
+}
+@font-face {
+font-family: 'PixelPlayer';
+src: url('fonts/ultimategameplayerpixel.ttf');
+}
+@font-face {
+font-family: '8bit';
+src: url('fonts/8bitlim.ttf');
+}
+@font-face {
+font-family: 'HigherPixels';
+src: url('fonts/HigherPixels.ttf');
+}
+@font-face {
+font-family: 'Nightmare';
+src: url('fonts/Nightmare Codehack.otf');
+}
+@font-face {
+font-family: 'LCD';
+src: url('fonts/Pixel Lcd-7.ttf');
+}
+@font-face {
+font-family: 'PB';
+src: url('fonts/PowerBomberman-COLR-nanoemoji.ttf');
+}
+@font-face {
+font-family: 'BS';
+src: url('fonts/BombermanStory-COLR-nanoemoji.ttf');
+}
+@font-face {
+font-family: 'B64';
+src: url('fonts/Bomberman64-COLR-nanoemoji.ttf');
+}
+
+/* Aplicación dinámica según el tema seleccionado */
+.insignia-card {
+font-family: var(--font-familia-activa, sans-serif);
+}
+
+ :root {
+   color-scheme: dark;
+   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+   background: #111;
+   color: #eee;
+ }
+ * { box-sizing: border-box; }
+ body {
+   margin: 0;
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 16px;
+ }
+
+ .relative { position: relative; }
+ .absolute { position: absolute; }
+ .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+ .top-0 { top: 0; }
+ .bottom-0 { bottom: 0; }
+ .select-none { user-select: none; }
+ .pointer-events-none { pointer-events: none; }
+ .grid { display: grid; }
+ .place-items-center { place-items: center; }
+ .font-bold { font-weight: 700; }
+ .font-medium { font-weight: 500; }
+ .tabular-nums { font-variant-numeric: tabular-nums; }
+ .whitespace-pre { white-space: pre; }
+ .whitespace-nowrap { white-space: nowrap; }
+ .uppercase { text-transform: uppercase; }
+ .w-fit { width: fit-content; }
+ .will-change-transform { will-change: transform; }
+
+ .back-btn {
+   position: fixed;
+   top: 24px;
+   left: 24px;
+   width: 44px;
+   height: 44px;
+   border-radius: 50%;
+   background: rgba(255, 255, 255, 0.1);
+   border: 1px solid rgba(255, 255, 255, 0.2);
+   color: #fff;
+   display: grid;
+   place-items: center;
+   cursor: pointer;
+   z-index: 50;
+   transition: background 0.2s;
+ }
+ .back-btn:active { background: rgba(255, 255, 255, 0.3); }
+
+ .tilt-card {
+   transform-style: preserve-3d;
+   transform: perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1);
+   transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+   cursor: pointer;
+   -webkit-tap-highlight-color: transparent;
+ }
+
+ @media (prefers-reduced-motion: reduce) {
+   .tilt-card { transition: none !important; transform: none !important; }
+ }
+    </style>
+</head>
+<body>
+
+<button class="back-btn" onclick="if(window.Android){window.Android.cerrarWebView();}else{window.history.back();}" aria-label="Regresar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+</button>
+
+<div id="ticket-container"></div>
+
+<script>
+
+    // 1. LEER EL TEMA DESDE LA URL
+     const params = new URLSearchParams(window.location.search);
+     const userName = params.get('nombre') || 'PACIENTE ESTRELLA';
+     const rachaDias = params.get('racha') || '3';
+     const temaSeleccionado = params.get('tema') || 'fuego';
+
+     // 2. DICCIONARIO DE TEMAS PARA EL TICKET
+     const THEMES = {
+       fuego: { // El original naranja
+         bg: "#ef671c", front: "#ffc691", ink: "#5a3520", water: "#ffdcbe", highlight: "#fe9046"
+       },
+       diamante: { // Sci-Fi / Cyberpunk
+         bg: "#020617", front: "#00f0ff", ink: "#0ea5e9", water: "#1e293b", highlight: "#38bdf8"
+       },
+       retro: { // Arcade de alto contraste
+         bg: "#111111", front: "#39ff14", ink: "#ff9900", water: "#222222", highlight: "#ff0000"
+       },
+       oro: { // Recompensa épica
+         bg: "#b8860b", front: "#fff2cd", ink: "#4a3500", water: "#d4af37", highlight: "#ffd700"
+       },
+       esmeralda: { // Salud y curación
+         bg: "#064e3b", front: "#34d399", ink: "#065f46", water: "#0f766e", highlight: "#6ee7b7"
+       }
+     };
+     const activeTheme = THEMES[temaSeleccionado] || THEMES['fuego'];
+
+   (() => {
+     "use strict";
+     const REF = 741;
+     const TICKET_GEOMETRY = { aspect: 741 / 425, cornerRadius: 25 / REF, notchRadius: 21 / REF, perforation: 562 / REF };
+     const TICKET_LAYOUT = {
+       padding: 57 / REF, labelTop: 58 / REF, labelSize: 19.72 / REF, labelLead: 28 / REF, labelTracking: 0.016,
+       nameTop: 185 / REF, nameSize: 64.79 / REF, nameLead: 65 / REF, nameTracking: -0.01,
+       footerTop: 348 / REF, footerSize: 19.72 / REF, footerTracking: 0.016,
+       stubSize: 67.61 / REF, stubTracking: 0, stubOpacity: 0.88,
+       watermarkSize: 144 / REF, watermarkOpacity: 0.6,
+       watermarkColor: activeTheme.water,
+       inkColor: activeTheme.ink
+     };
+     const TICKET_TEXTURE = {
+       engine: "generative",
+       colorBack: activeTheme.bg,
+       colorFront: activeTheme.front,
+       colorHighlight: activeTheme.highlight,
+       shape: temaSeleccionado === 'retro' ? "dots" : (temaSeleccionado === 'diamante' ? "sphere" : "warp"),
+       type: "random", size: 0.5, colorSteps: 4, originalColors: true,
+       scale: 1, rotation: 0, offsetX: 0, offsetY: 0, speed: 0.4
+     };
+
+     const DitheringShapes = { simplex: 1, warp: 2, dots: 3, wave: 4, ripple: 5, swirl: 6, sphere: 7 };
+     const DitheringTypes = { "random": 1, "2x2": 2, "4x4": 3, "8x8": 4 };
+     const ShaderFitOptions = { none: 0, contain: 1, cover: 2 };
+
+     function clamp(n, min, max) { return Math.min(Math.max(n, min), max); }
+     function hexToRgba(hex) {
+       hex = hex.replace(/^#/, "");
+       if (hex.length === 3) hex = hex.split("").map(char => char + char).join("");
+       if (hex.length === 6) hex += "ff";
+       return [
+         parseInt(hex.slice(0, 2), 16) / 255, parseInt(hex.slice(2, 4), 16) / 255,
+         parseInt(hex.slice(4, 6), 16) / 255, parseInt(hex.slice(6, 8), 16) / 255
+       ];
+     }
+     function getShaderColorFromString(colorString) {
+       if (typeof colorString !== "string" || !colorString.startsWith("#")) return [0, 0, 0, 1];
+       return hexToRgba(colorString).map(v => clamp(v, 0, 1));
+     }
+
+     function ticketClipPath(width, height, geometry = TICKET_GEOMETRY) {
+       const r = geometry.cornerRadius * width;
+       const n = geometry.notchRadius * width;
+       const p = geometry.perforation * width;
+       return [
+         `M ${r} 0 L ${p - n} 0 A ${n} ${n} 0 0 0 ${p + n} 0 L ${width - r} 0`,
+         `A ${r} ${r} 0 0 0 ${width} ${r} L ${width} ${height - r} A ${r} ${r} 0 0 0 ${width - r} ${height}`,
+         `L ${p + n} ${height} A ${n} ${n} 0 0 0 ${p - n} ${height} L ${r} ${height}`,
+         `A ${r} ${r} 0 0 0 0 ${height - r} L 0 ${r} A ${r} ${r} 0 0 0 ${r} 0 Z`
+       ].join(" ");
+     }
+
+     function splitName(name, max = 3) {
+       const clean = name.trim().replace(/\s+/g, " ").toUpperCase();
+       if (!clean) return [];
+       const lines = [];
+       for (const word of clean.split(" ")) {
+         if (lines.length < max) lines.push(word);
+         else lines[lines.length - 1] = `${lines[lines.length - 1]} ${word}`;
+       }
+       return lines;
+     }
+
+     function fitScale(lines, opts) {
+       if (lines.length === 0) return 1;
+       const { availableWidth, availableHeight, fontSize, lineHeight, tracking } = opts;
+       if (fontSize <= 0 || availableWidth <= 0) return 1;
+       const longest = Math.max(...lines.map(l => l.length));
+       const charWidth = (0.6 + tracking) * fontSize;
+       const block = lines.length * lineHeight;
+       return Math.max(0.05, Math.min(1, charWidth > 0 ? availableWidth / (longest * charWidth) : 1, block > 0 && availableHeight > 0 ? availableHeight / block : 1));
+     }
+
+     let audioCtx = null;
+     function burst(ctx, at, opts) {
+       const length = Math.ceil(0.05 * ctx.sampleRate);
+       const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+       const data = buffer.getChannelData(0);
+       for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1;
+       const source = ctx.createBufferSource(); source.buffer = buffer;
+       const filter = ctx.createBiquadFilter(); filter.type = "bandpass";
+       filter.frequency.value = opts.frequency; filter.Q.value = opts.q;
+       const gain = ctx.createGain(); gain.gain.setValueAtTime(1e-4, at);
+       gain.gain.exponentialRampToValueAtTime(opts.gain, at + 1e-3);
+       gain.gain.exponentialRampToValueAtTime(1e-4, at + opts.decay);
+       source.connect(filter).connect(gain).connect(ctx.destination);
+       source.start(at); source.stop(at + opts.decay + 0.02);
+     }
+     function playShutterSound({ volume = 0.35, gap = 0.045 } = {}) {
+       const Ctor = window.AudioContext || window.webkitAudioContext;
+       if (!Ctor) return;
+       audioCtx = audioCtx || new Ctor();
+       if (audioCtx.state === "suspended") audioCtx.resume();
+       const now = audioCtx.currentTime;
+       burst(audioCtx, now, { gain: volume, decay: 0.035, frequency: 3200, q: 1.1 });
+       burst(audioCtx, now + gap, { gain: volume * 0.75, decay: 0.055, frequency: 1800, q: 0.9 });
+     }
+
+     const vertexShaderSource = `#version 300 es
+       precision mediump float;
+       layout(location = 0) in vec4 a_position;
+       uniform vec2 u_resolution;
+       uniform float u_pixelRatio;
+       uniform float u_originX, u_originY;
+       uniform float u_worldWidth, u_worldHeight;
+       uniform float u_fit, u_scale, u_rotation, u_offsetX, u_offsetY;
+       out vec2 v_objectUV, v_objectBoxSize, v_responsiveUV, v_responsiveBoxGivenSize, v_patternUV, v_patternBoxSize, v_imageUV;
+
+       vec3 getBoxSize(float boxRatio, vec2 givenBoxSize) {
+         vec2 box = vec2(0.);
+         box.x = boxRatio * min(givenBoxSize.x / boxRatio, givenBoxSize.y);
+         float noFitBoxWidth = box.x;
+         if (u_fit == 1.) { box.x = boxRatio * min(u_resolution.x / boxRatio, u_resolution.y); }
+         else if (u_fit == 2.) { box.x = boxRatio * max(u_resolution.x / boxRatio, u_resolution.y); }
+         box.y = box.x / boxRatio;
+         return vec3(box, noFitBoxWidth);
+       }
+
+       void main() {
+         gl_Position = a_position;
+         vec2 uv = gl_Position.xy * .5;
+         vec2 boxOrigin = vec2(.5 - u_originX, u_originY - .5);
+         vec2 givenBoxSize = max(vec2(u_worldWidth, u_worldHeight), vec2(1.)) * u_pixelRatio;
+         float r = u_rotation * 3.14159265358979323846 / 180.;
+         mat2 graphicRotation = mat2(cos(r), sin(r), -sin(r), cos(r));
+         vec2 graphicOffset = vec2(-u_offsetX, u_offsetY);
+         vec2 patternBoxGivenSize = vec2((u_worldWidth == 0.) ? u_resolution.x : givenBoxSize.x, (u_worldHeight == 0.) ? u_resolution.y : givenBoxSize.y);
+         float patternBoxRatio = patternBoxGivenSize.x / patternBoxGivenSize.y;
+         vec3 boxSizeData = getBoxSize(patternBoxRatio, patternBoxGivenSize);
+         v_patternBoxSize = boxSizeData.xy;
+         float patternBoxNoFitBoxWidth = boxSizeData.z;
+         vec2 patternBoxScale = u_resolution.xy / v_patternBoxSize;
+
+         v_patternUV = uv;
+         v_patternUV += graphicOffset / patternBoxScale;
+         v_patternUV += boxOrigin;
+         v_patternUV -= boxOrigin / patternBoxScale;
+         v_patternUV *= u_resolution.xy;
+         v_patternUV /= u_pixelRatio;
+         if (u_fit > 0.) { v_patternUV *= (patternBoxNoFitBoxWidth / v_patternBoxSize.x); }
+         v_patternUV /= u_scale;
+         v_patternUV = graphicRotation * v_patternUV;
+         v_patternUV += boxOrigin / patternBoxScale;
+         v_patternUV -= boxOrigin;
+         v_patternUV *= .01;
+       }`;
+
+     const declarePI = `#define TWO_PI 6.28318530718\n#define PI 3.14159265358979323846`;
+     const proceduralHash11 = `float hash11(float p) { p = fract(p * 0.3183099) + 0.1; p *= p + 19.19; return fract(p * p); }`;
+     const proceduralHash21 = `float hash21(vec2 p) { p = fract(p * vec2(0.3183099, 0.3678794)) + 0.1; p += dot(p, p + 19.19); return fract(p.x * p.y); }`;
+     const simplexNoise = `
+       vec3 permute(vec3 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
+       float snoise(vec2 v) {
+         const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+         vec2 i = floor(v + dot(v, C.yy)); vec2 x0 = v - i + dot(i, C.xx); vec2 i1;
+         i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+         vec4 x12 = x0.xyxy + C.xxzz; x12.xy -= i1; i = mod(i, 289.0);
+         vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+         vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
+         m = m * m; m = m * m;
+         vec3 x = 2.0 * fract(p * C.www) - 1.0; vec3 h = abs(x) - 0.5; vec3 ox = floor(x + 0.5); vec3 a0 = x - ox;
+         m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+         vec3 g; g.x = a0.x * x0.x + h.x * x0.y; g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+         return 130.0 * dot(m, g);
+       }`;
+
+     const ditheringFragmentShader = `#version 300 es
+       precision mediump float;
+       uniform float u_time;
+       uniform vec2 u_resolution;
+       uniform float u_pixelRatio, u_originX, u_originY, u_worldWidth, u_worldHeight;
+       uniform float u_fit, u_scale, u_rotation, u_offsetX, u_offsetY;
+       uniform float u_pxSize, u_shape, u_type;
+       uniform vec4 u_colorBack, u_colorFront;
+       out vec4 fragColor;
+
+       ${simplexNoise}\n${declarePI}\n${proceduralHash11}\n${proceduralHash21}
+
+       float getSimplexNoise(vec2 uv, float t) {
+         float noise = .5 * snoise(uv - vec2(0., .3 * t));
+         noise += .5 * snoise(2. * uv + vec2(0., .32 * t));
+         return noise;
+       }
+
+       const int bayer2x2[4] = int[4](0, 2, 3, 1);
+       const int bayer4x4[16] = int[16](0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5);
+       const int bayer8x8[64] = int[64](
+         0, 32, 8, 40, 2, 34, 10, 42, 48, 16, 56, 24, 50, 18, 58, 26, 12, 44, 4, 36, 14, 46, 6, 38,
+         60, 28, 52, 20, 62, 30, 54, 22, 3, 35, 11, 43, 1, 33, 9, 41, 51, 19, 59, 27, 49, 17, 57, 25,
+         15, 47, 7, 39, 13, 45, 5, 37, 63, 31, 55, 23, 61, 29, 53, 21
+       );
+
+       float getBayerValue(vec2 uv, int size) {
+         ivec2 pos = ivec2(fract(uv / float(size)) * float(size));
+         int index = pos.y * size + pos.x;
+         if (size == 2) return float(bayer2x2[index]) / 4.0;
+         if (size == 4) return float(bayer4x4[index]) / 16.0;
+         if (size == 8) return float(bayer8x8[index]) / 64.0;
+         return 0.0;
+       }
+
+       void main() {
+         float t = .5 * u_time;
+         float pxSize = u_pxSize * u_pixelRatio;
+         vec2 pxSizeUV = gl_FragCoord.xy - .5 * u_resolution;
+         pxSizeUV /= pxSize;
+         vec2 canvasPixelizedUV = (floor(pxSizeUV) + .5) * pxSize;
+         vec2 normalizedUV = canvasPixelizedUV / u_resolution;
+         vec2 ditheringNoiseUV = canvasPixelizedUV;
+         vec2 shapeUV = normalizedUV;
+
+         vec2 boxOrigin = vec2(.5 - u_originX, u_originY - .5);
+         vec2 givenBoxSize = max(vec2(u_worldWidth, u_worldHeight), vec2(1.)) * u_pixelRatio;
+         float r = u_rotation * PI / 180.;
+         mat2 graphicRotation = mat2(cos(r), sin(r), -sin(r), cos(r));
+         vec2 boxSize = vec2((u_worldWidth == 0.) ? u_resolution.x : givenBoxSize.x, (u_worldHeight == 0.) ? u_resolution.y : givenBoxSize.y);
+
+         if (u_shape > 3.5) {
+           vec2 objectBoxSize = vec2(0.);
+           objectBoxSize.x = min(boxSize.x, boxSize.y);
+           if (u_fit == 1.) objectBoxSize.x = min(u_resolution.x, u_resolution.y);
+           else if (u_fit == 2.) objectBoxSize.x = max(u_resolution.x, u_resolution.y);
+           objectBoxSize.y = objectBoxSize.x;
+           vec2 objectWorldScale = u_resolution.xy / objectBoxSize;
+           shapeUV *= objectWorldScale;
+           shapeUV += boxOrigin * (objectWorldScale - 1.);
+           shapeUV += vec2(-u_offsetX, u_offsetY);
+           shapeUV /= u_scale;
+           shapeUV = graphicRotation * shapeUV;
+         }
+
+         float shape = 0.;
+         if (u_shape < 1.5) {
+           shapeUV *= .001; shape = 0.5 + 0.5 * getSimplexNoise(shapeUV, t); shape = smoothstep(0.3, 0.9, shape);
+         } else if (u_shape < 2.5) {
+           shapeUV *= .003;
+           for (float i = 1.0; i < 6.0; i++) {
+             shapeUV.x += 0.6 / i * cos(i * 2.5 * shapeUV.y + t);
+             shapeUV.y += 0.6 / i * cos(i * 1.5 * shapeUV.x + t);
+           }
+           shape = .15 / max(0.001, abs(sin(t - shapeUV.y - shapeUV.x))); shape = smoothstep(0.02, 1., shape);
+         } else if (u_shape < 3.5) {
+           shapeUV *= .05; float stripeIdx = floor(2. * shapeUV.x / TWO_PI);
+           float rand = hash11(stripeIdx * 10.); rand = sign(rand - .5) * pow(.1 + abs(rand), .4);
+           shape = sin(shapeUV.x) * cos(shapeUV.y - 5. * rand * t); shape = pow(abs(shape), 6.);
+         } else if (u_shape < 4.5) {
+           shapeUV *= 4.; float wave = cos(.5 * shapeUV.x - 2. * t) * sin(1.5 * shapeUV.x + t) * (.75 + .25 * cos(3. * t));
+           shape = 1. - smoothstep(-1., 1., shapeUV.y + wave);
+         } else if (u_shape < 5.5) {
+           float dist = length(shapeUV); float waves = sin(pow(dist, 1.7) * 7. - 3. * t) * .5 + .5; shape = waves;
+         } else if (u_shape < 6.5) {
+           float l = length(shapeUV); float angle = 6. * atan(shapeUV.y, shapeUV.x) + 4. * t;
+           float twist = 1.2; float offset = 1. / pow(max(l, 1e-6), twist) + angle / TWO_PI;
+           shape = mix(0., fract(offset), smoothstep(0., 1., pow(l, twist)));
+         } else {
+           shapeUV *= 2.; float d = 1. - pow(length(shapeUV), 2.);
+           vec3 pos = vec3(shapeUV, sqrt(max(0., d)));
+           vec3 lightPos = normalize(vec3(cos(1.5 * t), .8, sin(1.25 * t)));
+           shape = .5 + .5 * dot(lightPos, pos); shape *= step(0., d);
+         }
+
+         int type = int(floor(u_type));
+         float dithering = 0.0;
+         if (type == 1) dithering = step(hash21(ditheringNoiseUV), shape);
+         else if (type == 2) dithering = getBayerValue(pxSizeUV, 2);
+         else if (type == 3) dithering = getBayerValue(pxSizeUV, 4);
+         else dithering = getBayerValue(pxSizeUV, 8);
+
+         dithering -= .5;
+         float res = step(.5, shape + dithering);
+         vec3 fgColor = u_colorFront.rgb * u_colorFront.a;
+         float fgOpacity = u_colorFront.a;
+         vec3 bgColor = u_colorBack.rgb * u_colorBack.a;
+         float bgOpacity = u_colorBack.a;
+         vec3 color = fgColor * res; float opacity = fgOpacity * res;
+         color += bgColor * (1. - opacity); opacity += bgOpacity * (1. - opacity);
+         fragColor = vec4(color, opacity);
+       }`;
+
+     function createShader(gl, type, source) {
+       const shader = gl.createShader(type);
+       gl.shaderSource(shader, source); gl.compileShader(shader);
+       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) { console.error("Shader error: " + gl.getShaderInfoLog(shader)); return null; }
+       return shader;
+     }
+     function createProgram(gl, vsSource, fsSource) {
+       const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+       const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+       const program = gl.createProgram();
+       gl.attachShader(program, vs); gl.attachShader(program, fs); gl.linkProgram(program);
+       return program;
+     }
+
+     class ShaderMount {
+       constructor(parentElement, fragmentShader, uniforms, speed = 0) {
+         this.parentElement = parentElement;
+         this.fragmentShader = fragmentShader;
+         this.providedUniforms = uniforms;
+         this.speed = speed;
+         this.currentSpeed = speed;
+         this.currentFrame = 0;
+         this.lastRenderTime = 0;
+         this.rafId = null;
+         this.uniformLocations = {};
+         this.renderScale = 1;
+         this.parentWidth = 0;
+         this.parentHeight = 0;
+         this.resolutionChanged = true;
+         this.hasBeenDisposed = false;
+         this.uniformCache = {};
+
+         this.canvasElement = document.createElement("canvas");
+         this.parentElement.prepend(this.canvasElement);
+         this.parentElement.setAttribute("data-paper-shader", "");
+
+         this.gl = this.canvasElement.getContext("webgl2", { alpha: true });
+         this.program = createProgram(this.gl, vertexShaderSource, this.fragmentShader);
+
+         const posLoc = this.gl.getAttribLocation(this.program, "a_position");
+         const posBuf = this.gl.createBuffer();
+         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, posBuf);
+         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), this.gl.STATIC_DRAW);
+         this.gl.enableVertexAttribArray(posLoc);
+         this.gl.vertexAttribPointer(posLoc, 2, this.gl.FLOAT, false, 0, 0);
+
+         this.uniformLocations.u_time = this.gl.getUniformLocation(this.program, "u_time");
+         this.uniformLocations.u_pixelRatio = this.gl.getUniformLocation(this.program, "u_pixelRatio");
+         this.uniformLocations.u_resolution = this.gl.getUniformLocation(this.program, "u_resolution");
+
+         Object.keys(this.providedUniforms).forEach(key => {
+           this.uniformLocations[key] = this.gl.getUniformLocation(this.program, key);
+         });
+
+         this.setUniformValues(this.providedUniforms);
+
+         this.resizeObserver = new ResizeObserver(([entry]) => {
+           if (entry?.borderBoxSize[0]) {
+             this.parentWidth = entry.borderBoxSize[0].inlineSize;
+             this.parentHeight = entry.borderBoxSize[0].blockSize;
+             this.handleResize();
+           }
+         });
+         this.resizeObserver.observe(this.parentElement);
+
+         if (this.currentSpeed !== 0) {
+           this.lastRenderTime = performance.now();
+           this.rafId = requestAnimationFrame(this.render.bind(this));
+         } else {
+           this.handleResize();
+         }
+       }
+
+       handleResize() {
+         const dpr = Math.max(1, window.devicePixelRatio);
+         const newWidth = Math.round((this.parentWidth || window.innerWidth) * dpr);
+         const newHeight = Math.round((this.parentHeight || window.innerHeight) * dpr);
+         if (this.canvasElement.width !== newWidth || this.canvasElement.height !== newHeight) {
+           this.renderScale = dpr;
+           this.canvasElement.width = newWidth;
+           this.canvasElement.height = newHeight;
+           this.resolutionChanged = true;
+           this.gl.viewport(0, 0, newWidth, newHeight);
+           this.render(performance.now());
+         }
+       }
+
+       areUniformValuesEqual(a, b) {
+         if (a === b) return true;
+         if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) return a.every((v, i) => v === b[i]);
+         return false;
+       }
+
+       setUniformValues(updatedUniforms) {
+         this.gl.useProgram(this.program);
+         Object.entries(updatedUniforms).forEach(([key, value]) => {
+           if (this.areUniformValuesEqual(this.uniformCache[key], value)) return;
+           this.uniformCache[key] = value;
+           const loc = this.uniformLocations[key];
+           if (!loc) return;
+           if (Array.isArray(value)) {
+             if (value.length === 4) this.gl.uniform4fv(loc, value);
+             else if (value.length === 2) this.gl.uniform2fv(loc, value);
+           } else if (typeof value === "number") {
+             this.gl.uniform1f(loc, value);
+           }
+         });
+       }
+
+       render(currentTime) {
+         if (this.hasBeenDisposed) return;
+         const dt = currentTime - this.lastRenderTime;
+         this.lastRenderTime = currentTime;
+         if (this.currentSpeed !== 0) this.currentFrame += dt * this.currentSpeed;
+
+         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+         this.gl.useProgram(this.program);
+         this.gl.uniform1f(this.uniformLocations.u_time, this.currentFrame * 1e-3);
+
+         if (this.resolutionChanged) {
+           this.gl.uniform2f(this.uniformLocations.u_resolution, this.canvasElement.width, this.canvasElement.height);
+           this.gl.uniform1f(this.uniformLocations.u_pixelRatio, this.renderScale);
+           this.resolutionChanged = false;
+         }
+         this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+
+         if (this.currentSpeed !== 0) this.rafId = requestAnimationFrame(this.render.bind(this));
+       }
+     }
+
+     function createAdmitOneTicket(options = {}) {
+       const {
+         name = "Humberto Acosta", presenter = "Racha de 7 días", event = "Premio Especial",
+         venue = "Recompensa", dates = "2026", stubText = "ADMIT ONE", watermark = "RACHA",
+         width = Math.min(window.innerWidth - 32, 741)
+       } = options;
+
+       const height = width / TICKET_GEOMETRY.aspect;
+       const perfX = TICKET_GEOMETRY.perforation * width;
+
+       const wrapper = document.createElement('div');
+       wrapper.className = 'tilt-card relative w-fit will-change-transform';
+
+       const ticket = document.createElement('div');
+       ticket.className = 'relative select-none';
+       ticket.style.width = width + 'px';
+       ticket.style.height = height + 'px';
+       const clipPathStr = `path('${ticketClipPath(width, height, TICKET_GEOMETRY)}')`;
+       ticket.style.clipPath = clipPathStr;
+       ticket.style.webkitClipPath = clipPathStr;
+
+       const scale = fitScale(splitName(name), {
+         availableWidth: perfX - TICKET_LAYOUT.padding * width - 0.03 * width,
+         availableHeight: TICKET_LAYOUT.footerTop * width - TICKET_LAYOUT.nameTop * width - 0.02 * width,
+         fontSize: TICKET_LAYOUT.nameSize * width,
+         lineHeight: TICKET_LAYOUT.nameLead * width,
+         tracking: TICKET_LAYOUT.nameTracking
+       });
+       const nameLines = splitName(name).map(line => `<div>${line}</div>`).join('');
+
+       ticket.innerHTML = `
+         <div class="absolute inset-0" style="background: ${TICKET_TEXTURE.colorBack}"></div>
+         <div class="absolute inset-0 shader-container"></div>
+         <div class="absolute top-0 bottom-0" style="left: ${perfX}px; width: ${Math.max(1, 22e-4 * width)}px; background-image: repeating-linear-gradient(to bottom, ${TICKET_LAYOUT.inkColor}55 0 ${0.012 * width}px, transparent ${0.012 * width}px ${0.024 * width}px)"></div>
+         <div class="pointer-events-none absolute grid place-items-center font-bold tabular-nums" style="left: ${perfX}px; top: 0; width: ${width - perfX}px; height: ${height}px; color: ${TICKET_LAYOUT.watermarkColor}; opacity: ${TICKET_LAYOUT.watermarkOpacity}">
+           <span style="writing-mode: vertical-rl; font-size: ${TICKET_LAYOUT.watermarkSize * width}px; line-height: 1; letter-spacing: -0.04em;">${watermark}</span>
+         </div>
+         <div class="absolute inset-0" style="color: ${TICKET_LAYOUT.inkColor}">
+           <div class="absolute whitespace-pre uppercase" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.labelTop * width}px; font-size: ${TICKET_LAYOUT.labelSize * width}px; line-height: ${TICKET_LAYOUT.labelLead * width}px; letter-spacing: ${TICKET_LAYOUT.labelTracking}em;">${presenter}\n${event}</div>
+           <div class="absolute font-medium" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.nameTop * width}px; font-size: ${TICKET_LAYOUT.nameSize * width * scale}px; line-height: ${TICKET_LAYOUT.nameLead * width * scale}px; letter-spacing: ${TICKET_LAYOUT.nameTracking}em;">
+             ${nameLines}
+           </div>
+           <div class="absolute whitespace-nowrap uppercase" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.footerTop * width}px; font-size: ${TICKET_LAYOUT.footerSize * width}px; letter-spacing: ${TICKET_LAYOUT.footerTracking}em;">${venue} &middot; ${dates}</div>
+           <div class="absolute grid place-items-center font-medium whitespace-nowrap uppercase" style="left: ${perfX}px; top: 0; width: ${width - perfX}px; height: ${height}px; font-size: ${TICKET_LAYOUT.stubSize * width}px; letter-spacing: ${TICKET_LAYOUT.stubTracking}em; opacity: ${TICKET_LAYOUT.stubOpacity}">
+             <span style="writing-mode: vertical-rl">${stubText}</span>
+           </div>
+         </div>
+       `;
+       wrapper.appendChild(ticket);
+
+       const glare = document.createElement('div');
+       glare.className = 'pointer-events-none absolute inset-0';
+       glare.style.clipPath = clipPathStr;
+       glare.style.webkitClipPath = clipPathStr;
+       glare.style.transition = 'background 420ms ease-out';
+       wrapper.appendChild(glare);
+
+       const shaderContainer = ticket.querySelector('.shader-container');
+       const uniforms = {
+         u_colorBack: getShaderColorFromString(TICKET_TEXTURE.colorBack),
+         u_colorFront: getShaderColorFromString(TICKET_TEXTURE.colorFront),
+         u_shape: DitheringShapes[TICKET_TEXTURE.shape],
+         u_type: DitheringTypes[TICKET_TEXTURE.type],
+         u_pxSize: TICKET_TEXTURE.size,
+         u_fit: ShaderFitOptions.contain,
+         u_scale: TICKET_TEXTURE.scale,
+         u_rotation: TICKET_TEXTURE.rotation,
+         u_offsetX: TICKET_TEXTURE.offsetX,
+         u_offsetY: TICKET_TEXTURE.offsetY,
+         u_originX: 0.5, u_originY: 0.5, u_worldWidth: 0, u_worldHeight: 0
+       };
+
+       const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+       new ShaderMount(shaderContainer, ditheringFragmentShader, uniforms, isReducedMotion ? 0 : TICKET_TEXTURE.speed);
+
+       let hovering = false;
+       const maxTilt = 9;
+       const tiltScale = 1.02;
+
+       wrapper.addEventListener('pointerenter', () => {
+         hovering = true;
+         wrapper.style.transition = 'none';
+         glare.style.transition = 'none';
+       });
+       wrapper.addEventListener('pointermove', (e) => {
+         if (!hovering || isReducedMotion) return;
+         const rect = wrapper.getBoundingClientRect();
+         const dx = (e.clientX - rect.left) / rect.width - 0.5;
+         const dy = (e.clientY - rect.top) / rect.height - 0.5;
+         wrapper.style.transform = `perspective(1200px) rotateX(${-(dy * 2) * maxTilt}deg) rotateY(${dx * 2 * maxTilt}deg) scale(${tiltScale})`;
+         glare.style.background = `radial-gradient(38% 55% at ${(dx + 0.5) * 100}% ${(dy + 0.5) * 100}%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 70%)`;
+       });
+       wrapper.addEventListener('pointerleave', () => {
+         hovering = false;
+         wrapper.style.transition = 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)';
+         wrapper.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
+         glare.style.transition = 'background 420ms ease-out';
+         glare.style.background = 'transparent';
+       });
+
+       wrapper.addEventListener('click', () => { playShutterSound(); });
+
+       return wrapper;
+     }
+
+     const ticketContainer = document.getElementById("ticket-container");
+     const ticketInstance = createAdmitOneTicket({
+       name: userName.toUpperCase(),
+       presenter: `RACHA DE ${rachaDias} DÍAS`,
+       event: "PRÁCTICA CONTINUA",
+       venue: "SPEAKTUTOR",
+       dates: "2026",
+       stubText: `RCH-${rachaDias}`,
+       watermark: "RACHA"
+     });
+
+     ticketContainer.appendChild(ticketInstance);
+   })();
+</script>
+</body>
+</html>

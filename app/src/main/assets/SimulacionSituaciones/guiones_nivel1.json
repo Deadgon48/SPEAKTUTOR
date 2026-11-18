@@ -1,0 +1,2602 @@
+[
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 1)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 2)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 3)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 4)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 5)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 6)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 7)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 8)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 9)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 10)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 11)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 12)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 13)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 14)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 15)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 16)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 17)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 18)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 19)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 20)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 21)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 22)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 23)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 24)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 25)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 26)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 27)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 28)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 29)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 30)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 31)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 32)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 33)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 34)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 35)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 36)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 37)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 38)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 39)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 40)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 41)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 42)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 43)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 44)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 45)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 46)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 47)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 48)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 49)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 50)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 51)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 52)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 53)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 54)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 55)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 56)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 57)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 58)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 59)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 60)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 61)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 62)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 63)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 64)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 65)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 66)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 67)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 68)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 69)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 70)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 71)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 72)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 73)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 74)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 75)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 76)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 77)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 78)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 79)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 80)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 81)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 82)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 83)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 84)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 85)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 86)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 87)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 88)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 89)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 90)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Sucursal Norte",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 91)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Sucursal Sur",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 92)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Turno Matutino",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 93)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Turno Vespertino",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 94)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Mostrador Principal",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 95)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🛎️ Recepción de Hotel - Área de Atención",
+    "descripcion": "Interacción de rutina para check-in y registro básico. (Rutina 96)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Bienvenido al hotel. ¿Tiene una reserva a su nombre?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, reservé una habitación individual para dos noches.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "Perfecto, ¿me proporciona una identificación oficial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro que sí, aquí tiene mi credencial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎫 Compra de Boletos de Autobús - Módulo 1",
+    "descripcion": "Conversación transaccional predecible en taquilla. (Rutina 97)",
+    "dialogos": [
+      {
+        "rol": "Taquillero",
+        "texto": "Buenas tardes, ¿a dónde viaja el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenas tardes. Quiero un boleto sencillo para la capital.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquillero",
+        "texto": "Tengo salidas a las dos y a las cuatro. ¿Cuál prefiere?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "El de las dos de la tarde, por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍿 Taquilla de Cine - Módulo 2",
+    "descripcion": "Entorno ruidoso pero con diálogo estructurado. (Rutina 98)",
+    "dialogos": [
+      {
+        "rol": "Taquilla",
+        "texto": "Hola, ¿qué película vas a ver?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero dos boletos para la función de estreno.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Taquilla",
+        "texto": "Me quedan lugares en la fila G o en las primeras filas.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "En la fila G está perfecto, al centro por favor.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📚 Biblioteca Pública - Servicio Rápido",
+    "descripcion": "Solicitud de ubicación de material bibliográfico. (Rutina 99)",
+    "dialogos": [
+      {
+        "rol": "Bibliotecario",
+        "texto": "Buenas tardes, ¿buscas algún título en especial?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, estoy buscando libros sobre historia universal moderna.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Bibliotecario",
+        "texto": "Esos ejemplares están en el pasillo cuatro, sección B.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Muchas gracias, iré a buscar ahí.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍔 Comida Rápida (Mostrador) - Acceso General",
+    "descripcion": "Pedido de alimentos con opciones sencillas. (Rutina 100)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Bienvenido, ¿toma su orden por favor?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quiero el combo número tres, sin cebolla.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Combo tres sin cebolla. ¿De tomar qué le ofrezco?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un refresco de cola grande, con poco hielo.",
+        "esDeApp": false
+      }
+    ]
+  }
+]

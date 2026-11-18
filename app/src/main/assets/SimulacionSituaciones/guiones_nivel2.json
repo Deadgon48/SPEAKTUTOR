@@ -1,0 +1,2602 @@
+[
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 1)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 2)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 3)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 4)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 5)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 6)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 7)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 8)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 9)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 10)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 11)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 12)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 13)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 14)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 15)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 16)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 17)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 18)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 19)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 20)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 21)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 22)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 23)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 24)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 25)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 26)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 27)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 28)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 29)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 30)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 31)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 32)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 33)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 34)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 35)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 36)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 37)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 38)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 39)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 40)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 41)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 42)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 43)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 44)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 45)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 46)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 47)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 48)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 49)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 50)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 51)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 52)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 53)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 54)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 55)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 56)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 57)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 58)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 59)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 60)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 61)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 62)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 63)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 64)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 65)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 66)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 67)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 68)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 69)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 70)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 71)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 72)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 73)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 74)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 75)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 76)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 77)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 78)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 79)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 80)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 81)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 82)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 83)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 84)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 85)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 86)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 87)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 88)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 89)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 90)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Consulta Matutina",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 91)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Horario Vespertino",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 92)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Línea Directa",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 93)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Sucursal Centro",
+    "descripcion": "Llamada seria a banco. (Variación 94)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Express",
+    "descripcion": "Renegociar condiciones. (Variación 95)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🍕 Pedir Pizza - Atención Especial",
+    "descripcion": "Teléfono, sin contacto visual. (Variación 96)",
+    "dialogos": [
+      {
+        "rol": "Pizzería",
+        "texto": "Pizzería Luigi, buenas noches. ¿En qué le ayudo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quisiera pedir una pizza a domicilio.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Pizzería",
+        "texto": "¿De qué especialidad y tamaño sería?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Una grande de pepperoni con orilla de queso.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🩺 Agendar Cita - Servicio a Domicilio",
+    "descripcion": "Sincronizar horarios bajo presión. (Variación 97)",
+    "dialogos": [
+      {
+        "rol": "Asistente",
+        "texto": "Consultorio del Doctor, ¿en qué le puedo ayudar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Hola, quisiera agendar una cita de revisión.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Asistente",
+        "texto": "Tengo espacio el jueves a las cuatro, ¿le queda bien?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Se me complica. ¿Tendrá algo libre el viernes?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👕 Devolución - Zona Norte",
+    "descripcion": "Asertividad para explicar un defecto. (Variación 98)",
+    "dialogos": [
+      {
+        "rol": "Cajero",
+        "texto": "Hola, ¿en qué te puedo ayudar el día de hoy?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me gustaría devolver esta camisa. Tiene un defecto.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Cajero",
+        "texto": "Lo siento. ¿Tienes tu recibo de compra contigo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, aquí está. La compré ayer por la tarde.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💳 Cargo no reconocido - Zona Sur",
+    "descripcion": "Llamada seria a banco. (Variación 99)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Banco central. ¿Cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quiero reportar un cargo que yo no realicé.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Para su seguridad, ¿me indica los últimos dígitos?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Claro, los números son cuatro, nueve, uno, siete.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📅 Cambiar reservación - Emergencia Operativa",
+    "descripcion": "Renegociar condiciones. (Variación 100)",
+    "dialogos": [
+      {
+        "rol": "Recepcionista",
+        "texto": "Restaurante El Balcón, ¿en qué le sirvo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo una reservación hoy, necesito cambiar la hora.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Recepcionista",
+        "texto": "¿Para qué hora era originalmente?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Era para las ocho, quisiera cambiarla a las nueve.",
+        "esDeApp": false
+      }
+    ]
+  }
+]

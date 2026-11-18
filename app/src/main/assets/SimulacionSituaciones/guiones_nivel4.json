@@ -1,0 +1,2602 @@
+[
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 1)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 2)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 3)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 4)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 5)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 6)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 7)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 8)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 9)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 10)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 11)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 12)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 13)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 14)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 15)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 16)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 17)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 18)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 19)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 20)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 21)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 22)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 23)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 24)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 25)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 26)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 27)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 28)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 29)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 30)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 31)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 32)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 33)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 34)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 35)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 36)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 37)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 38)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 39)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 40)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 41)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 42)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 43)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 44)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 45)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 46)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 47)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 48)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 49)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 50)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 51)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 52)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 53)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 54)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 55)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 56)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 57)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 58)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 59)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 60)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 61)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 62)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 63)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 64)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 65)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 66)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 67)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 68)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 69)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 70)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 71)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 72)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 73)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 74)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 75)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 76)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 77)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 78)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 79)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 80)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 81)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 82)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 83)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 84)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 85)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 86)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 87)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 88)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 89)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 90)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Corporativo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 91)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Nivel Senior",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 92)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Evaluación Anual",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 93)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Consejo Directivo",
+    "descripcion": "Carga emocional fuerte. (Evaluación 94)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Discusión Privada",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 95)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💼 Entrevista de Trabajo - Cierre de Ciclo",
+    "descripcion": "Tensión de evaluación y competencia. (Evaluación 96)",
+    "dialogos": [
+      {
+        "rol": "Entrevistador",
+        "texto": "Cuéntame sobre tu experiencia profesional.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Tengo tres años de experiencia en desarrollo en la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Entrevistador",
+        "texto": "¿Por qué te gustaría trabajar con nosotros?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Admiro su cultura y puedo aportar valor al equipo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "📈 Aumento de Sueldo - Negociación Estratégica",
+    "descripcion": "Negociación de alto riesgo. (Evaluación 97)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Me pediste hablar. ¿De qué se trata?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Quería revisar mi crecimiento dentro de la empresa.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "He notado que has tomado más responsabilidades.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Basado en mis métricas, solicito un ajuste salarial.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚪 Renunciar al Trabajo - Revisión de Desempeño",
+    "descripcion": "Conversación incómoda con un superior. (Evaluación 98)",
+    "dialogos": [
+      {
+        "rol": "Jefe",
+        "texto": "Pasa. Me dijiste que tenías algo importante que decirme.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Agradezco la oportunidad, pero decidí presentar mi renuncia.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Jefe",
+        "texto": "Es una sorpresa. ¿Tienes alguna otra oferta de trabajo?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, una oferta más alineada con mis metas a largo plazo.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "💔 Confrontar a un Amigo - Auditoría Interna",
+    "descripcion": "Carga emocional fuerte. (Evaluación 99)",
+    "dialogos": [
+      {
+        "rol": "Amigo",
+        "texto": "¿Qué pasa? Me dijiste que querías hablar seriamente.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Me sentí mal por lo que dijiste frente a todos ayer.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Amigo",
+        "texto": "Solo era una broma, no lo tomes tan a pecho.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Cruzaste un límite y te pido que no lo vuelvas a hacer.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🙇‍♂️ Disculpa por un Error - Comité de Ética",
+    "descripcion": "Aceptar responsabilidad por un fallo técnico crítico. (Evaluación 100)",
+    "dialogos": [
+      {
+        "rol": "Gerente",
+        "texto": "Se cayó el servidor. ¿Sabes qué fue lo que pasó?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Fui yo. Ejecuté un comando incorrecto en la actualización.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Gerente",
+        "texto": "Eso nos costó horas inactivos. ¿Cómo lo vas a arreglar?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Ya documenté el error y creé un script de prevención automático.",
+        "esDeApp": false
+      }
+    ]
+  }
+]
