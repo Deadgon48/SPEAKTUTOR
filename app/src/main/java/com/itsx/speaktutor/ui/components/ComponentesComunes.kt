@@ -319,6 +319,8 @@ fun BarraNavegacionModulos(
     onNavigateProgreso: () -> Unit,
     onNavigateEjerciciosAdaptativos: () -> Unit,
     onNavigateTarjetasArticulacion: () -> Unit,
+    onNavigateConcienciaFonologica: () -> Unit, // Letra minúscula
+    onNavigateReporteMultidimensional: () -> Unit, // Nuevo parámetro
     onNavigateBio: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -366,11 +368,21 @@ fun BarraNavegacionModulos(
         colorFondo = listOf(Color(0xFFC2185B), Color(0xFFE91E63)),
         onClick = onNavigateBio
     )
+        MiniTarjetaBoton(
+            titulo = "Conciencia fonologica",
+            colorFondo = listOf(Color(0xFFC45632), Color(0xFFF08443)),
+            onClick = onNavigateConcienciaFonologica
+        )
     MiniTarjetaBoton(
         titulo = "Mi Progreso",
         colorFondo = listOf(Color(0xFF00695C), Color(0xFF00897B)),
         onClick = onNavigateProgreso
     )
+        MiniTarjetaBoton(
+            titulo = "Mi Reporte Multidimensional",
+            colorFondo = listOf(Color(0xFF3F51B5), Color(0xFF7986CB)),
+            onClick = onNavigateReporteMultidimensional
+        )
     MiniTarjetaBoton(
         titulo = "Ejercicios adaptativos",
         colorFondo = listOf(Color(0xFF00356B), Color(0xFF00897B)),

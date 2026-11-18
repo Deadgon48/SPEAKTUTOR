@@ -55,15 +55,13 @@ fun MenuScreen(navController: NavController) {
                     mostrarDialogoRegistro = false
                 }
             },
-            onGuardar = { nombre, correo, diagnostico, objetivos, observaciones, recomendaciones ->
+            onGuardar = { nombre, correo, diagnostico, objetivos->
                 ProgresoStorage.guardarPerfilClinico(
                     context,
                     nombre,
                     correo,
                     diagnostico,
-                    objetivos,
-                    observaciones,
-                    recomendaciones
+                    objetivos
                 )
                 perfil = ProgresoStorage.obtenerPerfilClinico(context) // Actualiza el estado reactivo
                 mostrarDialogoRegistro = false

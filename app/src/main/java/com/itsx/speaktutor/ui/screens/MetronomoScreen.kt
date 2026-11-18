@@ -148,7 +148,9 @@ fun MetronomoScreen(navController: NavController, onBack: () -> Unit, motorDSP: 
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
                 onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
-                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) },
+                onNavigateConcienciaFonologica = { navController.navigate(Screen.ConcienciaFonologica.route) },
+                onNavigateReporteMultidimensional = { navController.navigate(Screen.ReporteMultidimensional.route) },
             )
             Spacer(modifier = Modifier.height(8.dp))
 

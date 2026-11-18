@@ -1,11 +1,36 @@
-cmake_minimum_required(VERSION 3.18.1)
-project("oboe_dsp")
 
-# Buscar y cargar la librería Oboe desde Prefab
+cmake_minimum_required(VERSION 3.22.1)
+
+project("speaktutor")
+
+add_library(
+        oboe_dsp
+        SHARED
+        native-lib.cpp
+)
+
 find_package(oboe REQUIRED CONFIG)
 
-# Declarar nuestro archivo C++
-add_library(oboe_dsp SHARED native-lib.cpp)
+find_library(
+        log-lib
+        log
+)
 
-# Conectar nuestro código con Oboe y la librería de logs de Android
-target_link_libraries(oboe_dsp oboe::oboe log)
+target_compile_features(
+        oboe_dsp
+        PRIVATE
+        cxx_std_17
+)
+
+target_compile_options(
+        oboe_dsp
+        PRIVATE
+        -Wall
+        -Wextra
+)
+
+target_link_libraries(
+        oboe_dsp
+        oboe::oboe
+        ${log-lib}
+)

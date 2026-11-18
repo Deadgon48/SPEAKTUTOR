@@ -8,9 +8,10 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -57,47 +58,23 @@ fun BiofeedbackScreen(navController: NavController, onBack: () -> Unit, motorDSP
                 navigationIcon = { IconButton(onClick = onBack) { Icon(ArrowLeftCircleIcon, "Regresar") } }
             )
         },
-
         bottomBar = {
-            // Este contenedor anclará tu botón perfectamente a la parte inferior
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
+            Box(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                 Button(
                     onClick = onBack,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
+                    modifier = Modifier.fillMaxWidth().height(55.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer)
                 ) {
-                    Icon(
-                        imageVector = HomeIcon,
-                        contentDescription = "Menú Principal",
-                        modifier = Modifier.size(24.dp)
-                    )
+                    Icon(imageVector = HomeIcon, contentDescription = "Menú Principal", modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Regresar al Menú Principal",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Text(text = "Regresar al Menú Principal", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
-
     ) { innerPadding ->
-        // Contenedor principal con centrado estricto vertical y horizontal
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
+            modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -111,42 +88,22 @@ fun BiofeedbackScreen(navController: NavController, onBack: () -> Unit, motorDSP
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { navController.navigate(Screen.EjerciciosAdaptativos.route) },
                 onNavigateBio = { /* Ya estás aquí */ },
-                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) },
+                onNavigateConcienciaFonologica = { navController.navigate(Screen.ConcienciaFonologica.route) },
+                onNavigateReporteMultidimensional = { navController.navigate(Screen.ReporteMultidimensional.route) }
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            ScrollableTabRow(
-                selectedTabIndex = tabSeleccionada,
-                edgePadding = 0.dp,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Tab(
-                    selected = tabSeleccionada == 0,
-                    onClick = { tabSeleccionada = 0 },
-                    text = { Text("Koeppen", fontWeight = FontWeight.Bold) }
-                )
-                Tab(
-                    selected = tabSeleccionada == 1,
-                    onClick = { tabSeleccionada = 1 },
-                    text = { Text("Soplido", fontWeight = FontWeight.Bold) }
-                )
-                Tab(
-                    selected = tabSeleccionada == 2,
-                    onClick = { tabSeleccionada = 2 },
-                    text = { Text("Pluma", fontWeight = FontWeight.Bold) }
-                )
+            ScrollableTabRow(selectedTabIndex = tabSeleccionada, edgePadding = 0.dp, modifier = Modifier.fillMaxWidth()) {
+                Tab(selected = tabSeleccionada == 0, onClick = { tabSeleccionada = 0 }, text = { Text("Koeppen", fontWeight = FontWeight.Bold) })
+                Tab(selected = tabSeleccionada == 1, onClick = { tabSeleccionada = 1 }, text = { Text("Soplido", fontWeight = FontWeight.Bold) })
+                Tab(selected = tabSeleccionada == 2, onClick = { tabSeleccionada = 2 }, text = { Text("Pluma", fontWeight = FontWeight.Bold) })
             }
 
             Spacer(modifier = Modifier.height(16.dp))
             val ctx = LocalContext.current
 
-            // Caja flexible centrada para que el contenido NUNCA se desplace hacia arriba o los lados
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
                 when (tabSeleccionada) {
                     0 -> EjercicioKoeppen(metricasDSP, ctx)
                     1 -> EjercicioSoplidoSostenido(metricasDSP, ctx)
@@ -165,10 +122,8 @@ fun EjercicioKoeppen(metricasDSP: ParametrosAcusticos, context: Context) {
 
     val transition = rememberInfiniteTransition(label = "koppen")
     val escala by transition.animateFloat(
-        initialValue = 0.7f,
-        targetValue = 1.3f,
-        animationSpec = infiniteRepeatable(tween(4000, easing = LinearEasing), RepeatMode.Reverse),
-        label = "escala"
+        initialValue = 0.7f, targetValue = 1.3f,
+        animationSpec = infiniteRepeatable(tween(4000, easing = LinearEasing), RepeatMode.Reverse), label = "escala"
     )
 
     LaunchedEffect(escala) {
@@ -177,7 +132,6 @@ fun EjercicioKoeppen(metricasDSP: ParametrosAcusticos, context: Context) {
         fase = nuevaFase
     }
 
-    // Koeppen: detecta si emites sonido/tensión indebida en fase de exhalación/relajación
     val rmsSensible = metricasDSP.rmsEnergia * 3.0f
     LaunchedEffect(rmsSensible) {
         if (fase == "EXHALAR" && rmsSensible > 500f) {
@@ -185,57 +139,23 @@ fun EjercicioKoeppen(metricasDSP: ParametrosAcusticos, context: Context) {
         }
     }
 
-    val colorCirculo by animateColorAsState(
-        targetValue = when (fase) {
-            "INHALAR" -> Color(0xFF0277BD)
-            else -> Color(0xFF388E3C)
-        },
-        label = "color"
-    )
+    val colorCirculo by animateColorAsState(targetValue = if (fase == "INHALAR") Color(0xFF0277BD) else Color(0xFF388E3C), label = "color")
 
-    // Columna estricta centrada
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = if (fase == "INHALAR") "Inhala profundamente..." else "Exhala con total relajación...",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = colorCirculo,
-            textAlign = TextAlign.Center
-        )
+    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Text(text = if (fase == "INHALAR") "Inhala profundamente..." else "Exhala con total relajación...", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = colorCirculo, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(8.dp))
         Text("Ciclos limpios: $ciclosCompletos | Tensiones: $erroresTension", fontSize = 14.sp, textAlign = TextAlign.Center)
-
         Spacer(modifier = Modifier.height(30.dp))
-        Box(
-            modifier = Modifier
-                .size((160 * escala).dp)
-                .clip(CircleShape)
-                .background(colorCirculo),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = fase,
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center
-            )
+        Box(modifier = Modifier.size((160 * escala).dp).clip(CircleShape).background(colorCirculo), contentAlignment = Alignment.Center) {
+            Text(text = fase, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp, textAlign = TextAlign.Center)
         }
-
         Spacer(modifier = Modifier.height(40.dp))
         Button(
             onClick = {
                 val total = ciclosCompletos + erroresTension
                 ProgresoStorage.guardarSesionMultidimensional(context, "Koeppen", ciclosCompletos, erroresTension, if (total > 0) (ciclosCompletos * 100) / total else 0)
-            },
-            modifier = Modifier.fillMaxWidth(0.75f)
-        ) {
-            Text("Guardar Progreso")
-        }
+            }, modifier = Modifier.fillMaxWidth(0.75f)
+        ) { Text("Guardar Progreso") }
     }
 }
 
@@ -245,161 +165,96 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
     var exitosTotales by remember { mutableStateOf(0) }
     var fallosFuerza by remember { mutableStateOf(0) }
 
-    // Multiplicador ajustado para el micrófono (puede variar por dispositivo)
-    val rmsSoplido = metricasDSP.rmsEnergia * 4.5f
-
-    // Zona Verde: El rango de volumen ideal para el soplo continuo
-    val LIMITE_INFERIOR = 250f
-    val LIMITE_SUPERIOR = 35000f
+    // 🔧 OPTIMIZACIÓN SOPLIDO: Ampliamos el multiplicador y ajustamos límites para una detección más dócil
+    val rmsSoplido = metricasDSP.rmsEnergia * 6.0f
+    val LIMITE_INFERIOR = 150f
+    val LIMITE_SUPERIOR = 45000f
 
     val enZonaVerde = rmsSoplido in LIMITE_INFERIOR..LIMITE_SUPERIOR
     val demasiadaFuerza = rmsSoplido > LIMITE_SUPERIOR
 
     LaunchedEffect(rmsSoplido) {
         if (enZonaVerde) {
-            tiempoSostenido += 0.1f // Añade tiempo si está en la zona correcta
-            if (tiempoSostenido >= 50f) { // 5.0 segundos = 50 decimas
+            tiempoSostenido += 0.1f
+            if (tiempoSostenido >= 50f) {
                 exitosTotales++
                 tiempoSostenido = 0f
             }
         } else {
-            // Si hay tensión laríngea (se pasa de fuerza), penaliza vaciando rápido
             if (demasiadaFuerza) {
                 fallosFuerza++
                 tiempoSostenido = 0f
             } else {
-                // Si falta aire, se vacía lentamente
                 tiempoSostenido = (tiempoSostenido - 0.5f).coerceAtLeast(0f)
             }
         }
     }
 
-    // Animación suave del medidor de voz
-    val alturaMedidor by animateFloatAsState(
-        targetValue = (rmsSoplido / (LIMITE_SUPERIOR * 1.2f)).coerceIn(0f, 1f),
-        animationSpec = tween(100),
-        label = "altura_voz"
-    )
+    val alturaMedidor by animateFloatAsState(targetValue = (rmsSoplido / (LIMITE_SUPERIOR * 1.2f)).coerceIn(0f, 1f), animationSpec = tween(100), label = "altura_voz")
 
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "💨 Control Respiratorio",
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = "Mantén el aire en la ZONA VERDE por 5 segundos",
-            fontSize = 14.sp,
-            textAlign = TextAlign.Center,
-            color = Color.Gray
-        )
+    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Text("💨 Control Respiratorio", fontWeight = FontWeight.Bold, fontSize = 20.sp, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.primary)
+        Text("Mantén el aire en la ZONA VERDE por 5 segundos", fontSize = 14.sp, textAlign = TextAlign.Center, color = Color.Gray)
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // MEDIDOR DE INTENSIDAD (Velocímetro Vertical)
-            Box(
-                modifier = Modifier
-                    .width(60.dp)
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(30.dp))
-                    .background(Color(0xFFEEEEEE)),
-                contentAlignment = Alignment.BottomCenter
-            ) {
-                // Barra de nivel de voz que sube y baja
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(alturaMedidor)
-                        .background(
-                            when {
-                                demasiadaFuerza -> Color(0xFFD32F2F) // Rojo (Mucha tensión)
-                                enZonaVerde -> Color(0xFF388E3C) // Verde (Perfecto)
-                                else -> Color(0xFF0277BD) // Azul (Muy débil)
-                            }
-                        )
-                )
-
-                // Overlay estático marcando los límites de la Zona Verde
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
+            Box(modifier = Modifier.width(60.dp).height(200.dp).clip(RoundedCornerShape(30.dp)).background(Color(0xFFEEEEEE)), contentAlignment = Alignment.BottomCenter) {
+                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(alturaMedidor).background(when { demasiadaFuerza -> Color(0xFFD32F2F); enZonaVerde -> Color(0xFF388E3C); else -> Color(0xFF0277BD) }))
                 Column(modifier = Modifier.fillMaxSize()) {
-                    Box(modifier = Modifier.weight(0.2f).fillMaxWidth().background(Color.Red.copy(alpha = 0.2f))) // Zona de peligro (arriba)
-                    Box(modifier = Modifier.weight(0.6f).fillMaxWidth().background(Color.Green.copy(alpha = 0.2f))) // Zona Verde (medio)
-                    Box(modifier = Modifier.weight(0.2f).fillMaxWidth().background(Color.Blue.copy(alpha = 0.2f))) // Zona Baja (abajo)
+                    Box(modifier = Modifier.weight(0.2f).fillMaxWidth().background(Color.Red.copy(alpha = 0.2f)))
+                    Box(modifier = Modifier.weight(0.6f).fillMaxWidth().background(Color.Green.copy(alpha = 0.2f)))
+                    Box(modifier = Modifier.weight(0.2f).fillMaxWidth().background(Color.Blue.copy(alpha = 0.2f)))
                 }
             }
 
-            // TEMPORIZADOR CIRCULAR OBJETIVO
             Box(contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(
-                    progress = { (tiempoSostenido / 50f).coerceIn(0f, 1f) },
-                    modifier = Modifier.size(120.dp),
-                    color = Color(0xFF388E3C),
-                    strokeWidth = 12.dp,
-                    trackColor = Color(0xFFE0E0E0)
-                )
+                CircularProgressIndicator(progress = { (tiempoSostenido / 50f).coerceIn(0f, 1f) }, modifier = Modifier.size(120.dp), color = Color(0xFF388E3C), strokeWidth = 12.dp, trackColor = Color(0xFFE0E0E0))
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "${(tiempoSostenido / 10f).toInt()}",
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color(0xFF388E3C)
-                    )
+                    Text("${(tiempoSostenido / 10f).toInt()}", fontSize = 32.sp, fontWeight = FontWeight.ExtraBold, color = Color(0xFF388E3C))
                     Text("segundos", fontSize = 12.sp, color = Color.Gray)
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = "Logros: $exitosTotales | Cortes por tensión: $fallosFuerza",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
-        )
+        Text("Logros: $exitosTotales | Cortes por tensión: $fallosFuerza", fontSize = 15.sp, fontWeight = FontWeight.Medium, textAlign = TextAlign.Center)
 
         Spacer(modifier = Modifier.height(30.dp))
         Button(
             onClick = {
                 val total = exitosTotales + fallosFuerza
                 ProgresoStorage.guardarSesionMultidimensional(context, "Soplido", exitosTotales, fallosFuerza, if (total > 0) (exitosTotales * 100) / total else 0)
-            },
-            modifier = Modifier.fillMaxWidth(0.75f)
-        ) {
-            Text("Guardar Progreso")
-        }
+            }, modifier = Modifier.fillMaxWidth(0.75f)
+        ) { Text("Guardar Progreso") }
     }
 }
+
 @Composable
 fun EjercicioToqueDePluma(motorDSP: MotorAudioDSP, context: Context) {
     val metricasDSP by motorDSP.metricasAcusticas.collectAsState()
 
-    val listaPalabras = listOf(
-        "Perro", "Barco", "Camino", "Tigre", "Puerta",
-        "Gato", "Fuego", "Cielo", "Tren", "Sol",
-        "Agua", "Viento", "Nube", "Pájaro", "Tierra",
-        "Mar", "Luna", "Flor", "Zapato", "Café",
-        "Piedra", "Diente", "Bosque", "Sombra", "Pluma",
-        "Beso", "Casa", "Dado", "Gota", "Juego"
-    ).shuffled() // Agregamos shuffled() para que el orden sea aleatorio en cada sesión
+    val listaPalabras = remember {
+        listOf(
+            "Perro", "Barco", "Camino", "Tigre", "Puerta",
+            "Gato", "Fuego", "Cielo", "Tren", "Sol",
+            "Agua", "Viento", "Nube", "Pájaro", "Tierra",
+            "Mar", "Luna", "Flor", "Zapato", "Café",
+            "Piedra", "Diente", "Bosque", "Sombra", "Pluma",
+            "Beso", "Casa", "Dado", "Gota", "Juego"
+        ).shuffled()
+    }
 
-    var indice by remember { mutableStateOf(0) }
-    var aciertosLimpios by remember { mutableStateOf(0) }
-    var bloqueosDuros by remember { mutableStateOf(0) }
+    var indice by remember { mutableIntStateOf(0) }
+    var aciertosLimpios by remember { mutableIntStateOf(0) }
+    var bloqueosDuros by remember { mutableIntStateOf(0) }
 
-    // Pluma: Responde a la emisión de voz y ataques bruscos al pronunciar
-    val vozActiva = metricasDSP.rmsEnergia * 3.0f > 400f
-    val esTension = metricasDSP.ataqueBrusco > 0.15f ||
-            metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO ||
-            metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO
+    // 🔧 OPTIMIZACIÓN PLUMA: Umbral de voz más accesible (250f) y menor sensibilidad al ataque brusco (0.75f) para evitar falsas tensiones
+    val vozActiva = metricasDSP.rmsEnergia * 3.0f > 250f
+    val esTension = vozActiva && (
+            metricasDSP.ataqueBrusco > 0.75f ||
+                    metricasDSP.estado == EstadoVozDSP.BLOQUEO_TONICO ||
+                    metricasDSP.estado == EstadoVozDSP.BLOQUEO_CLONICO
+            )
 
     LaunchedEffect(esTension) {
         if (esTension) {
@@ -416,7 +271,7 @@ fun EjercicioToqueDePluma(motorDSP: MotorAudioDSP, context: Context) {
     }
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -424,14 +279,11 @@ fun EjercicioToqueDePluma(motorDSP: MotorAudioDSP, context: Context) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Card(
-            modifier = Modifier.size(240.dp, 150.dp),
+            modifier = Modifier.size(240.dp, 100.dp),
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = if (esTension) Color(0xFFD32F2F) else if (vozActiva) Color(0xFF81C784) else Color(0xFFE0F2F1))
         ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                 Text(
                     text = listaPalabras[indice],
                     fontSize = 36.sp,
@@ -444,10 +296,7 @@ fun EjercicioToqueDePluma(motorDSP: MotorAudioDSP, context: Context) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        MonitorFonologicoYCAA(
-            motorDSP = motorDSP,
-            palabraObjetivoActual = listaPalabras[indice]
-        )
+        MonitorFonologicoYCAA(motorDSP = motorDSP, palabraObjetivoActual = listaPalabras[indice])
 
         Text(
             text = if (esTension) "⚠️ ¡Tensión detectada!" else if (vozActiva) "🗣️ ¡Voz detectada!" else "✨ Esperando fonación suave...",
@@ -461,22 +310,15 @@ fun EjercicioToqueDePluma(motorDSP: MotorAudioDSP, context: Context) {
             onClick = {
                 aciertosLimpios++
                 indice = (indice + 1) % listaPalabras.size
-            },
-            modifier = Modifier.fillMaxWidth(0.75f)
-        ) {
-            Text("Siguiente Palabra")
-        }
+            }, modifier = Modifier.fillMaxWidth(0.75f)
+        ) { Text("Siguiente Palabra") }
 
         Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = {
                 val total = aciertosLimpios + bloqueosDuros
                 ProgresoStorage.guardarSesionMultidimensional(context, "Toque Pluma", aciertosLimpios, bloqueosDuros, if (total > 0) (aciertosLimpios * 100) / total else 0)
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00695C)),
-            modifier = Modifier.fillMaxWidth(0.75f)
-        ) {
-            Text("Guardar Progreso")
-        }
+            }, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00695C)), modifier = Modifier.fillMaxWidth(0.75f)
+        ) { Text("Guardar Progreso") }
     }
 }

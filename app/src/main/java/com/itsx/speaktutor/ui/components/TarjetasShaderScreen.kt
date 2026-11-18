@@ -58,6 +58,8 @@ fun TarjetasShaderScreen(
     onNavigateEjerciciosAdaptativos: () -> Unit,
     onNavigateBio: () -> Unit,
     onNavigateTarjetasArticulacion: () -> Unit,
+    onNavigateConcienciaFonologica: () -> Unit, // Letra minúscula
+    onNavigateReporteMultidimensional: () -> Unit, // Nuevo parámetro
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -94,15 +96,13 @@ fun TarjetasShaderScreen(
                     mostrarDialogoRegistro = false
                 }
             },
-            onGuardar = { nombre, correo, diagnostico, objetivos, observaciones, recomendaciones ->
+            onGuardar = { nombre, correo, diagnostico, objetivos->
                 ProgresoStorage.guardarPerfilClinico(
                     context,
                     nombre,
                     correo,
                     diagnostico,
-                    objetivos,
-                    observaciones,
-                    recomendaciones
+                    objetivos
                 )
                 perfil = ProgresoStorage.obtenerPerfilClinico(context) // Actualiza el estado reactivo
                 mostrarDialogoRegistro = false
@@ -162,11 +162,26 @@ fun TarjetasShaderScreen(
         ) { onNavigateTarjetasArticulacion() },
 
         FeatureItem(
+            title = "Conciencia Fonologica",
+            description = "Evaluacion de sonidos individuañes del ususario.",
+            icon = Icons.Default.Hearing,
+            colors = listOf(Color(0xFFC45632), Color(0xFFE49343), Color(0xFFF08443))
+        ) { onNavigateConcienciaFonologica() },
+
+        FeatureItem(
             title = "Mi Progreso y Estadísticas",
             description = "Consulta tu historial de práctica, aciertos y promedio general.",
             icon = Icons.Default.Assessment,
             colors = listOf(Color(0xFF00695C), Color(0xFF00897B), Color(0xFF4DB6AC))
         ) { onNavigateProgreso() },
+
+        // Nueva tarjeta para Reportes Multidimensionales
+        FeatureItem(
+            title = "Reportes Multidimensionales",
+            description = "Analiza tu rendimiento acústico por categoría clínica.",
+            icon = Icons.Default.Analytics,
+            colors = listOf(Color(0xFF3F51B5), Color(0xFF5C6BC0), Color(0xFF7986CB))
+        ) { onNavigateReporteMultidimensional() },
 
         FeatureItem(
             title = "Ejercicios Adaptativos",

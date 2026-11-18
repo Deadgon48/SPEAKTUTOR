@@ -50,6 +50,7 @@ import com.itsx.speaktutor.logic.EstadoVozDSP
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
 import com.itsx.speaktutor.ui.components.BiofeedbackVisualAvanzadoDSP
+import com.itsx.speaktutor.ui.components.ControlesAAF
 import com.itsx.speaktutor.ui.components.HomeIcon
 import com.itsx.speaktutor.ui.components.MetronomoReutilizableComponent
 import com.itsx.speaktutor.ui.components.MonitorFonologicoYCAA
@@ -212,7 +213,9 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                 onNavigateProgreso = { navController.navigate(Screen.Progreso.route) },
                 onNavigateEjerciciosAdaptativos = { /* Ya estás aquí */ },
                 onNavigateBio = { navController.navigate(Screen.Biofeedback.route) },
-                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) }
+                onNavigateTarjetasArticulacion = { navController.navigate(Screen.TarjetasArticulacion.route) },
+                onNavigateConcienciaFonologica = { navController.navigate(Screen.ConcienciaFonologica.route) },
+                onNavigateReporteMultidimensional = { navController.navigate(Screen.ReporteMultidimensional.route) },
             )
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -291,6 +294,7 @@ fun EjerciciosAdaptativosScreen(navController: NavController, onBack: () -> Unit
                             }
 
                             if (isThisDSPActive) {
+                                ControlesAAF(motorDSP = motorDSP)
                                 BiofeedbackVisualAvanzadoDSP(metricasDSP)
                                 Text(feedbackDSP, color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
 

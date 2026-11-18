@@ -1,0 +1,2602 @@
+[
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 1)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 2)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 3)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 4)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 5)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 6)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 7)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 8)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 9)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 10)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 11)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 12)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 13)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 14)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 15)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 16)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 17)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 18)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 19)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 20)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 21)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 22)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 23)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 24)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 25)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 26)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 27)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 28)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 29)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 30)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 31)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 32)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 33)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 34)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 35)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 36)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 37)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 38)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 39)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 40)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 41)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 42)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 43)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 44)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 45)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 46)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 47)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 48)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 49)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 50)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 51)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 52)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 53)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 54)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 55)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 56)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 57)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 58)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 59)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 60)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 61)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 62)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 63)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 64)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 65)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 66)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 67)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 68)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 69)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 70)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 71)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 72)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 73)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 74)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 75)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 76)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 77)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 78)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 79)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 80)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 81)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 82)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 83)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 84)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 85)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 86)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 87)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 88)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 89)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 90)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Auditorio Principal",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 91)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Sala de Juntas",
+    "descripcion": "Hablar estando frustrado. (Escenario 92)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Plenaria",
+    "descripcion": "Presión por buena impresión social. (Escenario 93)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Simposio",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 94)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Reunión Familiar",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 95)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🎤 Exposición en Clase - Evento Masivo",
+    "descripcion": "Frente a un grupo y autoridad. (Escenario 96)",
+    "dialogos": [
+      {
+        "rol": "Profesor",
+        "texto": "Puedes comenzar con tu introducción.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Buenos días a todos. Hoy presentaremos el proyecto final.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Profesor",
+        "texto": "¿Cuál es el objetivo principal de su investigación?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Analizar el impacto del cambio climático en la ciudad.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "😠 Queja de Servicio - Crisis en Vivo",
+    "descripcion": "Hablar estando frustrado. (Escenario 97)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Soporte técnico. ¿Cuál es su problema?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Llevo dos días enteros sin servicio de internet.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "Veo una falla en su zona. Quedará resuelta hoy.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Habrá algún ajuste en mi factura por los días perdidos?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "👋 Conocer a los Suegros - Panel Abierto",
+    "descripcion": "Presión por buena impresión social. (Escenario 98)",
+    "dialogos": [
+      {
+        "rol": "Suegro",
+        "texto": "Por fin nos conocemos. He escuchado mucho sobre ti.",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Mucho gusto en conocerlos, gracias por invitarme.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Suegro",
+        "texto": "¿Qué tal estuvo el tráfico de camino hacia acá?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Un poco pesado, pero llegamos a buena hora.",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🗣️ Pregunta en Auditorio - Debate",
+    "descripcion": "Silencio absoluto mientras tú hablas. (Escenario 99)",
+    "dialogos": [
+      {
+        "rol": "Ponente",
+        "texto": "¿Alguien tiene alguna pregunta final?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí. Quería preguntar sobre la implementación de la nube.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Ponente",
+        "texto": "Adelante, te escuchamos. ¿Cuál es tu duda?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "¿Cómo aseguraron la integridad durante la migración?",
+        "esDeApp": false
+      }
+    ]
+  },
+  {
+    "titulo": "🚑 Llamada de Emergencia - Evaluación Pública",
+    "descripcion": "Presión de tiempo extrema y pánico simulado. (Escenario 100)",
+    "dialogos": [
+      {
+        "rol": "Operador",
+        "texto": "Nueve uno uno, ¿cuál es su emergencia?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Necesito una ambulancia. Hubo un choque fuerte.",
+        "esDeApp": false
+      },
+      {
+        "rol": "Operador",
+        "texto": "¿Hay personas lesionadas? ¿Cuál es la dirección?",
+        "esDeApp": true
+      },
+      {
+        "rol": "Tú",
+        "texto": "Sí, en la esquina de Avenida Juárez y Morelos.",
+        "esDeApp": false
+      }
+    ]
+  }
+]
