@@ -25,10 +25,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import coil.compose.AsyncImage
 import coil.decode.ImageDecoderDecoder
@@ -36,6 +36,8 @@ import coil.request.ImageRequest
 import com.itsx.speaktutor.R
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.DialogoPerfilClinico
+import com.itsx.speaktutor.ui.theme.ModoTema
+import com.itsx.speaktutor.ui.theme.TemaStorage
 
 data class FeatureItem(
     val title: String,
@@ -58,8 +60,8 @@ fun TarjetasShaderScreen(
     onNavigateEjerciciosAdaptativos: () -> Unit,
     onNavigateBio: () -> Unit,
     onNavigateTarjetasArticulacion: () -> Unit,
-    onNavigateConcienciaFonologica: () -> Unit, // Letra minúscula
-    onNavigateReporteMultidimensional: () -> Unit, // Nuevo parámetro
+    onNavigateConcienciaFonologica: () -> Unit,
+    onNavigateReporteMultidimensional: () -> Unit,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -67,8 +69,8 @@ fun TarjetasShaderScreen(
     // --- ESTADOS DE PERFIL CLÍNICO Y REGISTRO INICIAL ---
     var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfilClinico(context)) }
     var mostrarDialogoRegistro by remember { mutableStateOf(perfil == null) }
+    var menuTemaExpandido by remember { mutableStateOf(false) }
 
-    // Lanzador para solicitar permisos de micrófono al abrir la app
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -86,17 +88,15 @@ fun TarjetasShaderScreen(
         }
     }
 
-    // DIÁLOGO DE PRIMERA VEZ (ONBOARDING CLÍNICO)
     if (mostrarDialogoRegistro) {
         DialogoPerfilClinico(
-            perfilActual = perfil, // Si es null, el componente bloqueará el cierre obligando el registro
+            perfilActual = perfil,
             onDismiss = {
-                // Solo permite cerrar si el perfil ya existe previamente
                 if (perfil != null) {
                     mostrarDialogoRegistro = false
                 }
             },
-            onGuardar = { nombre, correo, diagnostico, objetivos->
+            onGuardar = { nombre, correo, diagnostico, objetivos ->
                 ProgresoStorage.guardarPerfilClinico(
                     context,
                     nombre,
@@ -104,7 +104,7 @@ fun TarjetasShaderScreen(
                     diagnostico,
                     objetivos
                 )
-                perfil = ProgresoStorage.obtenerPerfilClinico(context) // Actualiza el estado reactivo
+                perfil = ProgresoStorage.obtenerPerfilClinico(context)
                 mostrarDialogoRegistro = false
                 Toast.makeText(context, "¡Expediente configurado con éxito!", Toast.LENGTH_SHORT).show()
             }
@@ -175,7 +175,6 @@ fun TarjetasShaderScreen(
             colors = listOf(Color(0xFF00695C), Color(0xFF00897B), Color(0xFF4DB6AC))
         ) { onNavigateProgreso() },
 
-        // Nueva tarjeta para Reportes Multidimensionales
         FeatureItem(
             title = "Reportes Multidimensionales",
             description = "Analiza tu rendimiento acústico por categoría clínica.",
@@ -198,8 +197,73 @@ fun TarjetasShaderScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = ArrowLeftCircleIcon, contentDescription = "Regresar", tint = MaterialTheme.colorScheme.onSurface
+                            imageVector = ArrowLeftCircleIcon,
+                            contentDescription = "Regresar",
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
+                    }
+                },
+                actions = {
+                    Box {
+                        TextButton(onClick = { menuTemaExpandido = true }) {
+                            val iconoTema = when (TemaStorage.modoActual) {
+                                ModoTema.SISTEMA -> Icons.Default.BrightnessAuto
+                                ModoTema.CLARO -> Icons.Default.LightMode
+                                ModoTema.OSCURO -> Icons.Default.DarkMode
+                            }
+                            Icon(
+                                imageVector = iconoTema,
+                                contentDescription = "Cambiar tema",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = TemaStorage.modoActual.etiqueta,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+
+                        DropdownMenu(
+                            expanded = menuTemaExpandido,
+                            onDismissRequest = { menuTemaExpandido = false }
+                        ) {
+                            ModoTema.entries.forEach { modo ->
+                                val iconoItem = when (modo) {
+                                    ModoTema.SISTEMA -> Icons.Default.BrightnessAuto
+                                    ModoTema.CLARO -> Icons.Default.LightMode
+                                    ModoTema.OSCURO -> Icons.Default.DarkMode
+                                }
+                                DropdownMenuItem(
+                                    text = { Text(modo.etiqueta) },
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = iconoItem,
+                                            contentDescription = null,
+                                            tint = if (TemaStorage.modoActual == modo) {
+                                                MaterialTheme.colorScheme.primary
+                                            } else {
+                                                MaterialTheme.colorScheme.onSurfaceVariant
+                                            }
+                                        )
+                                    },
+                                    trailingIcon = {
+                                        if (TemaStorage.modoActual == modo) {
+                                            Icon(
+                                                imageVector = Icons.Default.Check,
+                                                contentDescription = "Seleccionado",
+                                                tint = MaterialTheme.colorScheme.primary
+                                            )
+                                        }
+                                    },
+                                    onClick = {
+                                        TemaStorage.cambiarModo(context, modo)
+                                        menuTemaExpandido = false
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             )
@@ -210,9 +274,8 @@ fun TarjetasShaderScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp, vertical = 8.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(R.drawable.ascii_effect_animado)
@@ -225,13 +288,11 @@ fun TarjetasShaderScreen(
                     .padding(bottom = 8.dp)
             )
 
-            // --- AQUÍ VA EL ANUNCIO (Debajo del logo) ---
             BannerAdMob(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 12.dp)
             )
-            // ---------------------------------------------
 
             Text(
                 text = "Herramientas Principales",

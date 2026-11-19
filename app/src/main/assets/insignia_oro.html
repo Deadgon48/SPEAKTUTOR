@@ -78,10 +78,10 @@
         body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
 
         main { width: min(900px, 100%); margin: 0 auto; padding: 24px; }
-        .badge-card { min-width: 0; padding: 22px; border: 1px solid rgba(128,128,128,0.2); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
-        .badge-card h2 { margin: 0 0 16px; font-size: 15px; font-weight: 600; text-align: center; }
+        .badge-card { min-width: 0; padding: 22px; border: 1px solid rgba(128,128,128,0.25); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.18); background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); }
+        .badge-card h2 { margin: 0 0 16px; font-size: 18px; font-weight: 700; text-align: center; }
 
-        .award-badge { display: block; width: 260px; max-width: 100%; height: auto; cursor: pointer; text-decoration: none; -webkit-tap-highlight-color: transparent; margin: 0 auto; }
+        .award-badge { display: block; width: 310px; max-width: 100%; height: auto; cursor: pointer; text-decoration: none; -webkit-tap-highlight-color: transparent; margin: 0 auto; }
         .award-badge__tilt { transform-origin: center center; transition: transform 200ms ease-out; }
         .award-badge svg { display: block; width: 100%; height: auto; overflow: visible; }
         .award-badge:focus-visible { outline: 3px solid #ff6154; outline-offset: 5px; border-radius: 10px; }
@@ -107,7 +107,7 @@
         @media (max-width: 639px) {
           main { padding: 16px; }
           .badge-card { padding: 18px; }
-          .award-badge { width: 180px; }
+          .award-badge { width: 280px; }
         }
         @media (prefers-reduced-motion: reduce) {
           .award-badge__tilt { transition-duration: 0ms; }
@@ -139,33 +139,40 @@
       // 🏆 DICCIONARIO DE TEMAS GAMIFICADOS
       const THEMES = {
         oro: { // Clásico Original
-          bodyBg: "#f7f7f8", badgeBg: "#f3e3ac", text: "#666666", border: "#bbbbbb",
-          text: "#000000",
-          fontTitle: "'BlockStepped', sans-serif",
+          bodyBg: "#f7f7f8", badgeBg: "#f3e3ac", text: "#2c1e00", border: "#9a7b2c",
+          headingColor: "#2c1e00",
+          fontTitle: "'Blockstepped', sans-serif",
+          fontBadge: "'HumanoidStraight', sans-serif",
           overlays: ["hsl(358,100%,62%)", "hsl(30,100%,50%)", "hsl(60,100%,50%)", "hsl(96,100%,50%)", "hsl(271,85%,47%)", "transparent", "white"],
           iconPath: "M14.963 9.075c.787-3-.188-5.887-.188-5.887S12.488 5.175 11.7 8.175c-.787 3 .188 5.887.188 5.887s2.25-1.987 3.075-4.987m-4.5 1.987c.787 3-.188 5.888-.188 5.888S7.988 14.962 7.2 11.962c-.787-3 .188-5.887.188-5.887s2.287 1.987 3.075 4.987m.862 10.388s-.6-2.962-2.775-5.175C6.337 14.1 3.375 13.5 3.375 13.5s.6 2.962 2.775 5.175c2.213 2.175 5.175 2.775 5.175 2.775m3.3 3.413s-1.988-2.288-4.988-3.075-5.887.187-5.887.187 1.987 2.287 4.988 3.075c3 .787 5.887-.188 5.887-.188Zm6.75 0s1.988-2.288 4.988-3.075c3-.826 5.887.187 5.887.187s-1.988 2.287-4.988 3.075c-3 .787-5.887-.188-5.887-.188ZM32.625 13.5s-2.963.6-5.175 2.775c-2.213 2.213-2.775 5.175-2.775 5.175s2.962-.6 5.175-2.775c2.175-2.213 2.775-5.175 2.775-5.175M28.65 6.075s.975 2.887.188 5.887c-.826 3-3.076 4.988-3.076 4.988s-.974-2.888-.187-5.888c.788-3 3.075-4.987 3.075-4.987m-4.5 7.987s.975-2.887.188-5.887c-.788-3-3.076-4.988-3.076-4.988s-.974 2.888-.187 5.888c.788 3 3.075 4.988 3.075 4.988ZM18 26.1c.975-.225 3.113-.6 5.325 0 3 .788 5.063 3.038 5.063 3.038s-2.888.975-5.888.187a13 13 0 0 1-1.425-.525c.563.788 1.125 1.425 2.288 1.913l-.863 2.062c-2.063-.862-2.925-2.137-3.675-3.262-.262-.375-.525-.713-.787-1.05-.26.293-.465.586-.686.903l-.102.147-.048.068c-.775 1.108-1.643 2.35-3.627 3.194l-.862-2.062c1.162-.488 1.725-1.125 2.287-1.913-.45.225-.938.375-1.425.525-3 .788-5.887-.187-5.887-.187s1.987-2.288 4.987-3.075c2.212-.563 4.35-.188 5.325.037"
         },
         diamante: { // Estilo Sci-Fi Holográfico
           bodyBg: "#0f172a", badgeBg: "#1e293b", text: "#00f0ff", border: "#00f0ff",
+          headingColor: "#e0f2fe",
           fontTitle: "Helvetica-Bold, sans-serif",
+          fontBadge: "'HumanoidStraight', sans-serif",
           overlays: ["hsl(180,100%,50%)", "hsl(300,100%,50%)", "hsl(240,100%,60%)", "transparent", "rgba(0,255,255,0.4)"],
           iconPath: "M6 2 L26 2 L32 10 L16 30 L0 10 L6 2 Z M0 10 L32 10 M16 2 L16 30 M6 2 L16 10 L26 2"
         },
-       retro: { // Estilo Arcade / Pixel Art (Neón CRT)
-          bodyBg: "#f7f7f8",
-          badgeBg: "##f3e3ac",
-          text: "#000000",       // Verde fósforo arcade
+        retro: { // Estilo Arcade / Pixel Art (Neón CRT)
+          bodyBg: "#090d16",
+          badgeBg: "#0f172a",
+          text: "#39ff14",       // Verde fósforo arcade
           border: "#ff007f",     // Magenta neón
-          fontTitle: "'PixelPlayer', monospace",
+          headingColor: "#39ff14",
+          fontTitle: "'8bit', monospace",
+          fontBadge: "'HumanoidStraight', sans-serif",
           overlays: ["hsl(330,100%,50%)", "hsl(110,100%,50%)", "hsl(190,100%,50%)", "transparent"],
           iconPath: "M9 2h14v3h3v3h3v9h-3v-3h-3v6h-3v-3h-6v3h-3v-6H8v3H5v-9h3V5h3V2zm3 6v3h-3v-3h3zm10 0v3h-3v-3h3z"
         },
         rpg: { // Estilo Fantasía / Gremio (Pergamino y Carmesí)
           bodyBg: "#0d1b0e",
-          badgeBg: "#4a0e0e",
-          text: "#f3e5ab",       // Marfil / pergamino brillante
-          border: "#e6c687",     // Dorado antiguo
+          badgeBg: "#fffbeb",
+          border: "#92400e",
+          text: "#271306",
+          headingColor: "#fde68a",
           fontTitle: "'Blockstepped 3D', serif",
+          fontBadge: "'HumanoidStraight', sans-serif",
           overlays: ["hsl(45,90%,60%)", "hsl(15,80%,50%)", "hsl(0,90%,50%)", "transparent", "rgba(243,229,171,0.25)"],
           iconPath: "M16 0L0 5v10c0 8 16 15 16 15s16-7 16-15V5L16 0zm0 4.5l10 3.5v6c0 5-10 10-10 10S6 19 6 14v-6l10-3.5z"
         }
@@ -178,7 +185,7 @@
 
       // Aplicar color de fondo global de la pantalla
       document.documentElement.style.background = activeTheme.bodyBg;
-      document.getElementById('btn-regreso').style.color = activeTheme.text;
+      document.getElementById('btn-regreso').style.color = activeTheme.headingColor || activeTheme.text;
 
       let instanceNumber = 0;
 
@@ -186,68 +193,61 @@
         const namespace = "http://www.w3.org/2000/svg";
         const svg = document.createElementNS(namespace, "svg");
         svg.setAttribute("xmlns", namespace);
-        svg.setAttribute("viewBox", "0 0 260 54");
+        svg.setAttribute("viewBox", "0 0 320 76");
         svg.setAttribute("role", "img");
 
         const defs = document.createElementNS(namespace, "defs");
-        const filter = document.createElementNS(namespace, "filter");
-        filter.setAttribute("id", `${id}-blur`);
-        const blur = document.createElementNS(namespace, "feGaussianBlur");
-        blur.setAttribute("in", "SourceGraphic");
-        blur.setAttribute("stdDeviation", "3");
-        filter.appendChild(blur);
-        defs.appendChild(filter);
         const mask = document.createElementNS(namespace, "mask");
         mask.setAttribute("id", `${id}-mask`);
         const maskRect = document.createElementNS(namespace, "rect");
-        maskRect.setAttribute("width", "260"); maskRect.setAttribute("height", "54");
-        maskRect.setAttribute("rx", temaSeleccionado === 'diamante' || temaSeleccionado === 'retro' ? "2" : "10");
+        maskRect.setAttribute("x", "4"); maskRect.setAttribute("y", "4");
+        maskRect.setAttribute("width", "312"); maskRect.setAttribute("height", "68");
+        maskRect.setAttribute("rx", temaSeleccionado === 'diamante' || temaSeleccionado === 'retro' ? "4" : "12");
         maskRect.setAttribute("fill", "white");
         mask.appendChild(maskRect);
         defs.appendChild(mask);
         svg.appendChild(defs);
 
         const rect = document.createElementNS(namespace, "rect");
-        rect.setAttribute("width", "260"); rect.setAttribute("height", "54");
-        rect.setAttribute("rx", temaSeleccionado === 'diamante' || temaSeleccionado === 'retro' ? "2" : "10");
+        rect.setAttribute("x", "4"); rect.setAttribute("y", "4");
+        rect.setAttribute("width", "312"); rect.setAttribute("height", "68");
+        rect.setAttribute("rx", temaSeleccionado === 'diamante' || temaSeleccionado === 'retro' ? "4" : "12");
         rect.setAttribute("fill", activeTheme.badgeBg);
         svg.appendChild(rect);
 
         const border = document.createElementNS(namespace, "rect");
-        border.setAttribute("x", "4"); border.setAttribute("y", "4");
-        border.setAttribute("width", "252"); border.setAttribute("height", "46");
-        border.setAttribute("rx", temaSeleccionado === 'diamante' || temaSeleccionado === 'retro' ? "2" : "8");
+        border.setAttribute("x", "8"); border.setAttribute("y", "8");
+        border.setAttribute("width", "304"); border.setAttribute("height", "60");
+        border.setAttribute("rx", temaSeleccionado === 'diamante' || temaSeleccionado === 'retro' ? "3" : "9");
         border.setAttribute("fill", "transparent");
         border.setAttribute("stroke", activeTheme.border);
-        border.setAttribute("stroke-width", temaSeleccionado === 'retro' ? "2" : "1");
+        border.setAttribute("stroke-width", temaSeleccionado === 'retro' ? "2" : "1.5");
         if(temaSeleccionado === 'retro') border.setAttribute("stroke-dasharray", "4 4");
         svg.appendChild(border);
 
         const brand = document.createElementNS(namespace, "text");
-        brand.setAttribute("font-family", activeTheme.fontTitle);
-        brand.setAttribute("font-size", "9"); brand.setAttribute("font-weight", "bold");
-        brand.setAttribute("fill", activeTheme.text); brand.setAttribute("x", "53"); brand.setAttribute("y", "20");
+        brand.setAttribute("font-family", activeTheme.fontBadge);
+        brand.setAttribute("font-size", "11"); brand.setAttribute("font-weight", "800");
+        brand.setAttribute("letter-spacing", "1");
+        brand.setAttribute("fill", activeTheme.text); brand.setAttribute("x", "64"); brand.setAttribute("y", "28");
         brand.textContent = "SPEAKTUTOR";
         svg.appendChild(brand);
 
         const title = document.createElementNS(namespace, "text");
-        title.setAttribute("font-family", activeTheme.fontTitle);
-        title.setAttribute("font-size", "16"); title.setAttribute("font-weight", "bold");
-        title.setAttribute("fill", activeTheme.text); title.setAttribute("x", "52"); title.setAttribute("y", "40");
+        title.setAttribute("font-family", activeTheme.fontBadge);
+        title.setAttribute("font-size", "18"); title.setAttribute("font-weight", "900");
+        title.setAttribute("fill", activeTheme.text); title.setAttribute("x", "64"); title.setAttribute("y", "52");
         title.textContent = customTitle;
         svg.appendChild(title);
 
         // ÍCONO DINÁMICO
         const iconGroup = document.createElementNS(namespace, "g");
-        iconGroup.setAttribute("transform", "translate(10, 11) scale(0.9)");
+        iconGroup.setAttribute("transform", "translate(16, 19) scale(1.12)");
         const iconPath = document.createElementNS(namespace, "path");
         iconPath.setAttribute("fill", "transparent");
         iconPath.setAttribute("stroke", activeTheme.text);
-        iconPath.setAttribute("stroke-width", "1.5");
-        if(temaSeleccionado === 'oro') {
-            iconPath.setAttribute("fill", activeTheme.text);
-            iconPath.setAttribute("stroke", "none");
-        } else if (temaSeleccionado === 'retro' || temaSeleccionado === 'rpg') {
+        iconPath.setAttribute("stroke-width", "1.6");
+        if(temaSeleccionado === 'oro' || temaSeleccionado === 'retro' || temaSeleccionado === 'rpg') {
             iconPath.setAttribute("fill", activeTheme.text);
             iconPath.setAttribute("stroke", "none");
         }
@@ -257,16 +257,15 @@
 
         const overlayGroup = document.createElementNS(namespace, "g");
         overlayGroup.setAttribute("mask", `url(#${id}-mask)`);
-        overlayGroup.style.mixBlendMode = temaSeleccionado === 'diamante' ? "color-dodge" : "overlay";
+        overlayGroup.style.mixBlendMode = temaSeleccionado === 'diamante' ? "color-dodge" : "soft-light";
 
         activeTheme.overlays.forEach((fill, index) => {
           const layer = document.createElementNS(namespace, "g");
           layer.classList.add("award-badge__overlay", `${id}-overlay-${index + 1}`);
           const polygon = document.createElementNS(namespace, "polygon");
-          polygon.setAttribute("points", "0,0 260,54 260,0 0,54");
+          polygon.setAttribute("points", "0,0 320,76 320,0 0,76");
           polygon.setAttribute("fill", fill);
-          polygon.setAttribute("filter", `url(#${id}-blur)`);
-          polygon.setAttribute("opacity", "0.5");
+          polygon.setAttribute("opacity", "0.22");
           layer.appendChild(polygon);
           overlayGroup.appendChild(layer);
         });
@@ -405,11 +404,11 @@
       const container = document.getElementById("badge-container");
       const card = document.createElement("div");
       card.className = "badge-card";
-      card.style.maxWidth = "320px";
+      card.style.maxWidth = "360px";
 
       const heading = document.createElement("h2");
       heading.textContent = tituloInsignia;
-      heading.style.color = activeTheme.text;
+      heading.style.color = activeTheme.headingColor || activeTheme.text;
       heading.style.fontFamily = activeTheme.fontTitle;
       card.appendChild(heading);
 
