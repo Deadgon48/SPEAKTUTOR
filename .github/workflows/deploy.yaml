@@ -2,7 +2,7 @@ name: Deploy SpeakTutor Docs
 
 on:
   push:
-    branches: [ main ]
+    branches: [ docs, master ]
     paths:
       - 'docs/**'
 
