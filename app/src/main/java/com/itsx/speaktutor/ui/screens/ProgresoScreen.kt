@@ -105,6 +105,7 @@ object ProgresoStorage {
     private const val KEY_PERFIL = "hce_perfil_v2"
     private const val KEY_TIEMPO_USO = "hce_tiempo_diario"
     private const val KEY_ARCHIVO_FONOLOGICO = "hce_archivo_fonologico"
+    private const val KEY_RECOMPENSAS = "hce_recompensas_desbloqueadas"
 
     class WebAppInterface(private val onClose: () -> Unit) {
         @JavascriptInterface
@@ -120,6 +121,19 @@ object ProgresoStorage {
         val desbloqueada: Boolean,
         val icono: androidx.compose.ui.graphics.vector.ImageVector
     )
+
+    fun obtenerRecompensasDesbloqueadas(context: Context): Set<String> {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        return prefs.getStringSet(KEY_RECOMPENSAS, emptySet()) ?: emptySet()
+    }
+
+    fun registrarRecompensaDesbloqueada(context: Context, idRecompensa: String) {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val actuales = (prefs.getStringSet(KEY_RECOMPENSAS, emptySet()) ?: emptySet()).toMutableSet()
+        if (actuales.add(idRecompensa)) {
+            prefs.edit { putStringSet(KEY_RECOMPENSAS, actuales) }
+        }
+    }
 
     fun guardarPerfilClinico(context: Context, nombre: String, correo: String, diagnostico: String, objetivos: String) {
         val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -279,11 +293,12 @@ object ProgresoStorage {
         val sesiones = prefs.getString(KEY_SESIONES, "") ?: ""
         val tiempo = prefs.getString(KEY_TIEMPO_USO, "") ?: ""
         val fonologia = prefs.getString(KEY_ARCHIVO_FONOLOGICO, "") ?: ""
+        val recompensas = obtenerRecompensasDesbloqueadas(context).joinToString(";")
 
         val prefsFonologia = context.getSharedPreferences("SpeakTutorFonologia", Context.MODE_PRIVATE)
         val grafemas = prefsFonologia.getStringSet("grafemas_pendientes", emptySet())?.joinToString(";") ?: ""
 
-        val backupData = "PERFIL=$perfil\nSESIONES=$sesiones\nTIEMPO=$tiempo\nGRAFEMAS=$grafemas\nARCHIVO_FONOLOGICO=$fonologia"
+        val backupData = "PERFIL=$perfil\nSESIONES=$sesiones\nTIEMPO=$tiempo\nGRAFEMAS=$grafemas\nARCHIVO_FONOLOGICO=$fonologia\nRECOMPENSAS=$recompensas"
         val fileName = "SpeakTutor_Backup_${System.currentTimeMillis()}.stb"
 
         return try {
@@ -316,6 +331,10 @@ object ProgresoStorage {
                         prefsFonologia.edit().putStringSet("grafemas_pendientes", g).apply()
                     }
                     line.startsWith("ARCHIVO_FONOLOGICO=") -> prefs.edit().putString(KEY_ARCHIVO_FONOLOGICO, line.substringAfter("ARCHIVO_FONOLOGICO=")).apply()
+                    line.startsWith("RECOMPENSAS=") -> {
+                        val r = line.substringAfter("RECOMPENSAS=").split(";").filter { it.isNotBlank() }.toSet()
+                        prefs.edit().putStringSet(KEY_RECOMPENSAS, r).apply()
+                    }
                 }
             }
             true
@@ -689,7 +708,7 @@ fun CajonFonologico(silaba: String, palabrasErrores: Map<String, Int>) {
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
                         Text("Sonido /$silaba/", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                        Text("$totalFallos bloqueos registrados", fontSize = 12.sp, color = Color.Gray)
+                        Text(if (totalFallos == 1) "1 bloqueo registrado" else "$totalFallos bloqueos registrados", fontSize = 12.sp, color = Color.Gray)
                     }
                 }
                 Icon(if (expandido) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown, "Expandir")
@@ -708,7 +727,7 @@ fun CajonFonologico(silaba: String, palabrasErrores: Map<String, Int>) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(palabra, fontSize = 14.sp)
-                            Text("$fallos fallos", fontSize = 14.sp, color = Color(0xFFC62828), fontWeight = FontWeight.Medium)
+                            Text(if (fallos == 1) "1 fallo" else "$fallos fallos", fontSize = 14.sp, color = Color(0xFFC62828), fontWeight = FontWeight.Medium)
                         }
                     }
                 }
@@ -1252,14 +1271,25 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
     var perfil by remember { mutableStateOf(ProgresoStorage.obtenerPerfilClinico(context)) }
     var mostrarDialogoPerfil by remember { mutableStateOf(perfil == null) }
     var sesiones by remember { mutableStateOf(ProgresoStorage.obtenerSesionesClinicas(context)) }
-    val analiticas = remember { ProgresoStorage.obtenerAnaliticasClinicas(context) }
-    val registrosTiempo = remember { ProgresoStorage.obtenerRegistrosTiempo(context) }
-    val archivoFonologico = remember { ProgresoStorage.obtenerArchivoFonologico(context) }
+    val analiticas = remember(sesiones) { ProgresoStorage.obtenerAnaliticasClinicas(context) }
+    val registrosTiempo = remember(sesiones) { ProgresoStorage.obtenerRegistrosTiempo(context) }
+    val archivoFonologico = remember(sesiones) { ProgresoStorage.obtenerArchivoFonologico(context) }
 
+    var desbloqueadasGuardadas by remember { mutableStateOf(ProgresoStorage.obtenerRecompensasDesbloqueadas(context)) }
     var recompensaUrlWeb by remember { mutableStateOf<String?>(null) }
     var alertaSistema by remember { mutableStateOf<Pair<TonoAlerta, String>?>(null) }
 
     val promedioGlobal = if (sesiones.isNotEmpty()) sesiones.map { it.calificacionGlobal }.average() else 0.0
+
+    fun verificarYDesbloquear(id: String, condicionActual: Boolean): Boolean {
+        if (desbloqueadasGuardadas.contains(id)) return true
+        if (condicionActual) {
+            ProgresoStorage.registrarRecompensaDesbloqueada(context, id)
+            desbloqueadasGuardadas = desbloqueadasGuardadas + id
+            return true
+        }
+        return false
+    }
 
     val restoreLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
@@ -1268,6 +1298,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                 alertaSistema = Pair(TonoAlerta.EXITO, "Progreso restaurado correctamente. Datos actualizados.")
                 perfil = ProgresoStorage.obtenerPerfilClinico(context)
                 sesiones = ProgresoStorage.obtenerSesionesClinicas(context)
+                desbloqueadasGuardadas = ProgresoStorage.obtenerRecompensasDesbloqueadas(context)
             } else {
                 alertaSistema = Pair(TonoAlerta.PELIGRO, "El archivo es inválido o está dañado.")
             }
@@ -1409,28 +1440,28 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         "Racha: Primera vez",
                         "Mantén 1 día de práctica.",
                         "file:///android_asset/ticket_racha.html?nombre=$nombreUrl&racha=$rachaActual&tema=fuego",
-                        analiticas.rachaDias >= 1,
+                        verificarYDesbloquear("racha_1", analiticas.rachaDias >= 1),
                         Icons.Default.LocalFireDepartment
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Racha: Principiante",
                         "Mantén 3 días de práctica continua.",
                         "file:///android_asset/ticket_racha.html?nombre=$nombreUrl&racha=$rachaActual&tema=retro",
-                        analiticas.rachaDias >= 3,
+                        verificarYDesbloquear("racha_3", analiticas.rachaDias >= 3),
                         Icons.Default.LocalFireDepartment
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Racha: Constante",
                         "Mantén 7 días de práctica continua.",
                         "file:///android_asset/ticket_racha.html?nombre=$nombreUrl&racha=$rachaActual&tema=esmeralda",
-                        analiticas.rachaDias >= 7,
+                        verificarYDesbloquear("racha_7", analiticas.rachaDias >= 7),
                         Icons.Default.WaterDrop
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Racha: Imparable",
                         "Mantén 14 días de práctica continua.",
                         "file:///android_asset/ticket_racha.html?nombre=$nombreUrl&racha=$rachaActual&tema=oro",
-                        analiticas.rachaDias >= 14,
+                        verificarYDesbloquear("racha_14", analiticas.rachaDias >= 14),
                         Icons.Default.Whatshot
                     ),
 
@@ -1439,28 +1470,28 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         "Insignia Oro",
                         "Alcanza 60% de precisión global.",
                         "file:///android_asset/insignia_oro.html?titulo=$tituloOroUrl&tema=oro",
-                        promedioGlobal >= 60,
+                        verificarYDesbloquear("insignia_oro", promedioGlobal >= 60),
                         Icons.Default.WorkspacePremium
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Insignia Platino",
                         "Alcanza 70% de precisión global.",
                         "file:///android_asset/insignia_oro.html?titulo=$tituloPlatinoUrl&tema=diamante",
-                        promedioGlobal >= 70,
+                        verificarYDesbloquear("insignia_platino", promedioGlobal >= 70),
                         Icons.Default.Diamond
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Rango Épico",
                         "Alcanza 80% de precisión (Diseño Pixel Art).",
                         "file:///android_asset/insignia_oro.html?titulo=Rango%20Epico&tema=retro",
-                        promedioGlobal >= 80,
+                        verificarYDesbloquear("rango_epico", promedioGlobal >= 80),
                         Icons.Default.VideogameAsset
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Rango Leyenda",
                         "Precisión del 90% (Diseño Gremio RPG).",
                         "file:///android_asset/insignia_oro.html?titulo=Rango%20Leyenda&tema=rpg",
-                        promedioGlobal >= 90,
+                        verificarYDesbloquear("rango_leyenda", promedioGlobal >= 90),
                         Icons.Default.Shield
                     ),
 
@@ -1469,35 +1500,35 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         "Gafete Clasico",
                         "Completa tu primera sesión clínica.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=clasico",
-                        sesiones.isNotEmpty(),
+                        verificarYDesbloquear("gafete_1", sesiones.isNotEmpty()),
                         Icons.Default.Badge
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Gafete Oro",
                         "Completa 5 sesiones clínicas.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=oro",
-                        sesiones.size >= 5,
+                        verificarYDesbloquear("gafete_5", sesiones.size >= 5),
                         Icons.Default.Badge
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Gafete Zafiro",
                         "Completa 10 sesiones clínicas.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=diamante",
-                        sesiones.size >= 10,
+                        verificarYDesbloquear("gafete_10", sesiones.size >= 10),
                         Icons.Default.Badge
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Gafete Esmeralda",
                         "Completa 15 sesiones clínicas.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=esmeralda",
-                        sesiones.size >= 15,
+                        verificarYDesbloquear("gafete_15", sesiones.size >= 15),
                         Icons.Default.Badge
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Gafete Rubí",
                         "Completa 20 sesiones clínicas.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=rpg",
-                        sesiones.size >= 20,
+                        verificarYDesbloquear("gafete_20", sesiones.size >= 20),
                         Icons.Default.Badge
                     ),
 
@@ -1506,35 +1537,35 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         "VIP: Neón Clásico",
                         "Logra 0 bloqueos tónicos en tu última sesión.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=SESION%20PERFECTA&tema=vip",
-                        sesiones.isNotEmpty() && analiticas.promedioTonicos == 0,
+                        verificarYDesbloquear("vip_neon", sesiones.isNotEmpty() && analiticas.promedioTonicos == 0),
                         Icons.Default.ConfirmationNumber
                     ),
                     ProgresoStorage.Recompensa3D(
                         "VIP: Llamas",
-                        "Supera el 85% de contactos ligeros.",
+                        "Supera el 70% de contactos ligeros.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=FLUIDEZ%20TOTAL&tema=fuego",
-                        analiticas.promedioContactosLigeros >= 70,
+                        verificarYDesbloquear("vip_llamas", analiticas.promedioContactosLigeros >= 70),
                         Icons.Default.LocalActivity
                     ),
                     ProgresoStorage.Recompensa3D(
                         "VIP: Ciberpunk",
-                        "Mantén un 90% de precisión general.",
+                        "Mantén un 80% de precisión general.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=CIBER%20TERAPIA&tema=diamante",
-                        promedioGlobal >= 90,
+                        verificarYDesbloquear("vip_ciberpunk", promedioGlobal >= 80),
                         Icons.Default.Memory
                     ),
                     ProgresoStorage.Recompensa3D(
                         "VIP: Retro 8-bit",
                         "Consigue una racha de 10 días seguidos.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=ARCADE%20MASTER&tema=retro",
-                        analiticas.rachaDias >= 10,
+                        verificarYDesbloquear("vip_retro", analiticas.rachaDias >= 10),
                         Icons.Default.Gamepad
                     ),
                     ProgresoStorage.Recompensa3D(
                         "VIP: Oro Imperial",
-                        "Logra un 70% en contactos ligeros.",
+                        "Logra al menos 70% en contactos ligeros.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=LOGRO%20IMPERIAL&tema=oro",
-                        analiticas.promedioContactosLigeros == 70,
+                        verificarYDesbloquear("vip_oro", analiticas.promedioContactosLigeros >= 70),
                         Icons.Default.Stars
                     ),
 
@@ -1543,35 +1574,35 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         "Placa: Papel Vintage",
                         "Tómate un respiro. (Recompensa de bienvenida).",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=INICIO&tema=paper",
-                        sesiones.isNotEmpty(),
+                        verificarYDesbloquear("placa_paper", sesiones.isNotEmpty()),
                         Icons.Default.MenuBook
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Placa: Carmesí Oscuro",
                         "Mantén un promedio menor a 2 bloqueos tónicos.",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=ENFOQUE&tema=crimson",
-                        sesiones.isNotEmpty() && analiticas.promedioTonicos <= 2,
+                        verificarYDesbloquear("placa_crimson", sesiones.isNotEmpty() && analiticas.promedioTonicos <= 2),
                         Icons.Default.FilterVintage
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Placa: Oro Puro",
-                        "Alcanza 15 días de racha.",
+                        "Alcanza 5 días de racha.",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=EXCELENTE&tema=oro",
-                        analiticas.rachaDias >= 15,
+                        verificarYDesbloquear("placa_oro", analiticas.rachaDias >= 5),
                         Icons.Default.CardMembership
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Placa: Diamante Azul",
                         "Completa 20 sesiones clínicas.",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=CONSTANCIA&tema=diamante",
-                        sesiones.size >= 20,
+                        verificarYDesbloquear("placa_diamante", sesiones.size >= 20),
                         Icons.Default.Spa
                     ),
                     ProgresoStorage.Recompensa3D(
                         "Placa: Matriz Retro",
-                        "Desbloqueo final: Precisión perfecta global.",
+                        "Desbloqueo final: Precisión del 85% global.",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=MAESTRO&tema=retro",
-                        promedioGlobal >= 100,
+                        verificarYDesbloquear("placa_retro", promedioGlobal >= 85),
                         Icons.Default.Code
                     )
                 )

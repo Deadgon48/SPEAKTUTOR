@@ -154,19 +154,19 @@ font-family: var(--font-familia-activa, sans-serif);
      // 2. DICCIONARIO DE TEMAS PARA EL TICKET
      const THEMES = {
        fuego: { // El original naranja
-         bg: "#ef671c", front: "#ffc691", ink: "#5a3520", water: "#ffdcbe", highlight: "#fe9046"
+         bg: "#ef671c", front: "#ffc691", ink: "#3b1a08", water: "#ffdcbe", highlight: "#fe9046", panel: "rgba(255, 248, 240, 0.88)"
        },
        diamante: { // Sci-Fi / Cyberpunk
-         bg: "#020617", front: "#00f0ff", ink: "#0ea5e9", water: "#1e293b", highlight: "#38bdf8"
+         bg: "#020617", front: "#00f0ff", ink: "#e0f2fe", water: "#1e293b", highlight: "#38bdf8", panel: "rgba(2, 6, 23, 0.88)"
        },
        retro: { // Arcade de alto contraste
-         bg: "#111111", front: "#39ff14", ink: "#ff9900", water: "#222222", highlight: "#ff0000"
+         bg: "#111111", front: "#39ff14", ink: "#fef08a", water: "#222222", highlight: "#ff0000", panel: "rgba(17, 17, 17, 0.88)"
        },
        oro: { // Recompensa épica
-         bg: "#b8860b", front: "#fff2cd", ink: "#4a3500", water: "#d4af37", highlight: "#ffd700"
+         bg: "#b8860b", front: "#fff2cd", ink: "#2e1d00", water: "#d4af37", highlight: "#ffd700", panel: "rgba(255, 250, 235, 0.90)"
        },
        esmeralda: { // Salud y curación
-         bg: "#064e3b", front: "#34d399", ink: "#065f46", water: "#0f766e", highlight: "#6ee7b7"
+         bg: "#064e3b", front: "#34d399", ink: "#ecfdf5", water: "#0f766e", highlight: "#6ee7b7", panel: "rgba(6, 78, 59, 0.88)"
        }
      };
      const activeTheme = THEMES[temaSeleccionado] || THEMES['fuego'];
@@ -176,10 +176,10 @@ font-family: var(--font-familia-activa, sans-serif);
      const REF = 741;
      const TICKET_GEOMETRY = { aspect: 741 / 425, cornerRadius: 25 / REF, notchRadius: 21 / REF, perforation: 562 / REF };
      const TICKET_LAYOUT = {
-       padding: 57 / REF, labelTop: 58 / REF, labelSize: 19.72 / REF, labelLead: 28 / REF, labelTracking: 0.016,
-       nameTop: 185 / REF, nameSize: 64.79 / REF, nameLead: 65 / REF, nameTracking: -0.01,
-       footerTop: 348 / REF, footerSize: 19.72 / REF, footerTracking: 0.016,
-       stubSize: 67.61 / REF, stubTracking: 0, stubOpacity: 0.88,
+       padding: 57 / REF, labelTop: 42 / REF, labelSize: 19.72 / REF, labelLead: 26 / REF, labelTracking: 0.016,
+       nameTop: 124 / REF, nameSize: 64.79 / REF, nameLead: 65 / REF, nameTracking: -0.01,
+       footerTop: 364 / REF, footerSize: 19.72 / REF, footerTracking: 0.016,
+       stubSize: 54 / REF, stubTracking: 0, stubOpacity: 0.95,
        watermarkSize: 144 / REF, watermarkOpacity: 0.6,
        watermarkColor: activeTheme.water,
        inkColor: activeTheme.ink
@@ -605,7 +605,7 @@ font-family: var(--font-familia-activa, sans-serif);
 
        const scale = fitScale(splitName(name), {
          availableWidth: perfX - TICKET_LAYOUT.padding * width - 0.03 * width,
-         availableHeight: TICKET_LAYOUT.footerTop * width - TICKET_LAYOUT.nameTop * width - 0.02 * width,
+         availableHeight: TICKET_LAYOUT.footerTop * width - TICKET_LAYOUT.nameTop * width - 0.025 * width,
          fontSize: TICKET_LAYOUT.nameSize * width,
          lineHeight: TICKET_LAYOUT.nameLead * width,
          tracking: TICKET_LAYOUT.nameTracking
@@ -615,17 +615,19 @@ font-family: var(--font-familia-activa, sans-serif);
        ticket.innerHTML = `
          <div class="absolute inset-0" style="background: ${TICKET_TEXTURE.colorBack}"></div>
          <div class="absolute inset-0 shader-container"></div>
+         <div class="absolute pointer-events-none" style="left: ${0.03 * width}px; top: ${0.03 * width}px; width: ${perfX - 0.06 * width}px; height: ${height - 0.06 * width}px; background: ${activeTheme.panel}; border-radius: ${0.022 * width}px;"></div>
+         <div class="absolute pointer-events-none" style="left: ${perfX + 0.02 * width}px; top: ${0.03 * width}px; width: ${width - perfX - 0.05 * width}px; height: ${height - 0.06 * width}px; background: ${activeTheme.panel}; border-radius: ${0.022 * width}px;"></div>
          <div class="absolute top-0 bottom-0" style="left: ${perfX}px; width: ${Math.max(1, 22e-4 * width)}px; background-image: repeating-linear-gradient(to bottom, ${TICKET_LAYOUT.inkColor}55 0 ${0.012 * width}px, transparent ${0.012 * width}px ${0.024 * width}px)"></div>
          <div class="pointer-events-none absolute grid place-items-center font-bold tabular-nums" style="left: ${perfX}px; top: 0; width: ${width - perfX}px; height: ${height}px; color: ${TICKET_LAYOUT.watermarkColor}; opacity: ${TICKET_LAYOUT.watermarkOpacity}">
-           <span style="writing-mode: vertical-rl; font-size: ${TICKET_LAYOUT.watermarkSize * width}px; line-height: 1; letter-spacing: -0.04em;">${watermark}</span>
+           <span style="writing-mode: vertical-rl; display: none; font-size: ${TICKET_LAYOUT.watermarkSize * width}px; line-height: 1; letter-spacing: -0.04em;">${watermark}</span>
          </div>
          <div class="absolute inset-0" style="color: ${TICKET_LAYOUT.inkColor}">
-           <div class="absolute whitespace-pre uppercase" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.labelTop * width}px; font-size: ${TICKET_LAYOUT.labelSize * width}px; line-height: ${TICKET_LAYOUT.labelLead * width}px; letter-spacing: ${TICKET_LAYOUT.labelTracking}em;">${presenter}\n${event}</div>
-           <div class="absolute font-medium" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.nameTop * width}px; font-size: ${TICKET_LAYOUT.nameSize * width * scale}px; line-height: ${TICKET_LAYOUT.nameLead * width * scale}px; letter-spacing: ${TICKET_LAYOUT.nameTracking}em;">
+           <div class="absolute whitespace-pre uppercase font-bold" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.labelTop * width}px; font-size: ${TICKET_LAYOUT.labelSize * width}px; line-height: ${TICKET_LAYOUT.labelLead * width}px; letter-spacing: ${TICKET_LAYOUT.labelTracking}em;">${presenter}\n${event}</div>
+           <div class="absolute font-bold" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.nameTop * width}px; font-size: ${TICKET_LAYOUT.nameSize * width * scale}px; line-height: ${TICKET_LAYOUT.nameLead * width * scale}px; letter-spacing: ${TICKET_LAYOUT.nameTracking}em;">
              ${nameLines}
            </div>
-           <div class="absolute whitespace-nowrap uppercase" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.footerTop * width}px; font-size: ${TICKET_LAYOUT.footerSize * width}px; letter-spacing: ${TICKET_LAYOUT.footerTracking}em;">${venue} &middot; ${dates}</div>
-           <div class="absolute grid place-items-center font-medium whitespace-nowrap uppercase" style="left: ${perfX}px; top: 0; width: ${width - perfX}px; height: ${height}px; font-size: ${TICKET_LAYOUT.stubSize * width}px; letter-spacing: ${TICKET_LAYOUT.stubTracking}em; opacity: ${TICKET_LAYOUT.stubOpacity}">
+           <div class="absolute whitespace-nowrap uppercase font-bold" style="left: ${TICKET_LAYOUT.padding * width}px; top: ${TICKET_LAYOUT.footerTop * width}px; font-size: ${TICKET_LAYOUT.footerSize * width}px; letter-spacing: ${TICKET_LAYOUT.footerTracking}em;">${venue} &middot; ${dates}</div>
+           <div class="absolute grid place-items-center font-bold whitespace-nowrap uppercase" style="left: ${perfX}px; top: 0; width: ${width - perfX}px; height: ${height}px; font-size: ${TICKET_LAYOUT.stubSize * width}px; letter-spacing: ${TICKET_LAYOUT.stubTracking}em; opacity: ${TICKET_LAYOUT.stubOpacity}">
              <span style="writing-mode: vertical-rl">${stubText}</span>
            </div>
          </div>
