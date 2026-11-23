@@ -109,7 +109,9 @@ dependencies {
 
     implementation("com.google.oboe:oboe:1.9.3")
 
-    implementation("com.google.android.gms:play-services-ads:25.5.0")
+    // implementation("com.google.android.gms:play-services-ads:25.5.0")
+
+    implementation("com.startapp:inapp-sdk:5.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

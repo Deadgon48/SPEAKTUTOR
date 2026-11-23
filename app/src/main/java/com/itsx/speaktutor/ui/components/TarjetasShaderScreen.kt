@@ -1,6 +1,6 @@
 package com.itsx.speaktutor.ui.screens
 
-import BannerAdMob
+import BannerAd
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
@@ -288,10 +288,11 @@ fun TarjetasShaderScreen(
                     .padding(bottom = 8.dp)
             )
 
-            BannerAdMob(
+            BannerAd(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 12.dp)
+                    .background(Color.Red.copy(alpha = 0.2f)) // Temporal para diagnóstico
             )
 
             Text(

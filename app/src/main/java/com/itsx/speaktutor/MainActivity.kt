@@ -22,7 +22,6 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.ads.MobileAds
 import com.itsx.speaktutor.logic.MotorAudioDSP
 import com.itsx.speaktutor.ui.navigation.Screen
 import com.itsx.speaktutor.ui.screens.ConcienciaFonologicaScreen
@@ -41,6 +40,9 @@ import com.itsx.speaktutor.ui.theme.ModoTema
 import com.itsx.speaktutor.ui.theme.SPEAKTUTORTheme
 import com.itsx.speaktutor.ui.theme.TemaStorage
 
+import com.startapp.sdk.adsbase.StartAppAd
+import com.startapp.sdk.adsbase.StartAppSDK
+
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,8 +51,11 @@ class MainActivity : ComponentActivity() {
         // Cargar preferencia guardada (Sistema / Claro / Oscuro)
         TemaStorage.inicializar(this)
 
-        // --- INICIALIZAR ADMOB ---
-        MobileAds.initialize(this) {}
+        // --- INICIALIZAR START.IO ---
+        StartAppSDK.init(this, "210570586", false)
+
+        // Desactiva el anuncio automático al abrir la app para no interrumpir la terapia
+        StartAppAd.disableSplash()
 
         enableEdgeToEdge()
         setContent {
