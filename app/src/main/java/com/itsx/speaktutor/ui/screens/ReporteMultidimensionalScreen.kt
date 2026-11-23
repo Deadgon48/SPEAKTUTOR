@@ -33,30 +33,75 @@ fun ReporteMultidimensionalScreen(navController: NavController) {
     val context = LocalContext.current
     val sesiones = remember { ProgresoStorage.obtenerSesionesClinicas(context) }
 
-    // EXTRACCIÓN Y CÁLCULO DE MÉTRICAS DINÁMICAS DESDE ROOM/SHARED PREFERENCES
-    val avancePraxias = sesiones.filter { it.modulo.contains("Praxias", ignoreCase = true) }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
-    val avanceFonologia = sesiones.filter { it.modulo.contains("Fonológica", ignoreCase = true) }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
-    val avanceFluidez = sesiones.filter { it.modulo.contains("Habla Estirada", ignoreCase = true) || it.modulo.contains("Fluidez") }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
-    val avanceSimulacion = sesiones.filter { it.modulo.contains("Simulación") || it.modulo.contains("Llamada") }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
+    // 1. EJE TONO / RELAJACIÓN: Biofeedback (Koeppen, Soplido, Pluma) y Praxias
+    val avanceTono = sesiones.filter {
+        it.modulo.contains("Praxias", ignoreCase = true) ||
+                it.modulo.contains("Koeppen", ignoreCase = true) ||
+                it.modulo.contains("Soplido", ignoreCase = true) ||
+                it.modulo.contains("Pluma", ignoreCase = true) ||
+                it.modulo.contains("Biofeedback", ignoreCase = true)
+    }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
 
-    // Extracción del OASES (Impacto psicosocial clínico)
+    // 2. EJE PRONUNCIACIÓN / ARTICULACIÓN: Conciencia Fonológica, Tarjetas Articulación y Pronunciación al Instante
+    val avanceArticulacion = sesiones.filter {
+        it.modulo.contains("Fonológica", ignoreCase = true) ||
+                it.modulo.contains("Fonologica", ignoreCase = true) ||
+                it.modulo.contains("Articulación", ignoreCase = true) ||
+                it.modulo.contains("Articulacion", ignoreCase = true) ||
+                it.modulo.contains("Pronunciación", ignoreCase = true) ||
+                it.modulo.contains("Pronunciacion", ignoreCase = true) ||
+                it.modulo.contains("Instante", ignoreCase = true)
+    }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
+
+    // 3. EJE FLUIDEZ: Habla Estirada, Ritmo y Fluidez, Metrónomo y Ejercicios Adaptativos
+    val avanceFluidez = sesiones.filter {
+        it.modulo.contains("Habla Estirada", ignoreCase = true) ||
+                it.modulo.contains("Estirada", ignoreCase = true) ||
+                it.modulo.contains("Fluidez", ignoreCase = true) ||
+                it.modulo.contains("Metrónomo", ignoreCase = true) ||
+                it.modulo.contains("Metronomo", ignoreCase = true) ||
+                it.modulo.contains("Adaptativo", ignoreCase = true)
+    }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
+
+    // 4. EJE DESENSIBILIZACIÓN / SIMULACIÓN: Simulación de Situaciones, Llamadas e Impacto OASES
+    val sesionesSimulacion = sesiones.filter {
+        it.modulo.contains("Simulación", ignoreCase = true) ||
+                it.modulo.contains("Simulacion", ignoreCase = true) ||
+                it.modulo.contains("Situaciones", ignoreCase = true) ||
+                it.modulo.contains("Llamada", ignoreCase = true)
+    }
+    val avanceSimulacion = sesionesSimulacion.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
+
     val sesionesConPsicosocial = sesiones.filter { it.impactoPsicosocial > 0 }
     val avanceOases = if (sesionesConPsicosocial.isNotEmpty()) {
         sesionesConPsicosocial.map { it.impactoPsicosocial }.average()
-    } else 0.0
+    } else {
+        avanceSimulacion // Si aún no hay encuesta OASES directa, refleja el avance en Simulación de Situaciones
+    }
 
+    // 5. EJE RITMO GLOBAL Y MÉTRICAS ACÚSTICAS DE TODOS LOS MÓDULOS
     val totalTonicos = sesiones.sumOf { it.bloqueosTonicos }
     val totalClonicos = sesiones.sumOf { it.bloqueosClonicos }
-    val latenciaPromedio = sesiones.map { it.latenciaMediaMs }.average().takeIf { !it.isNaN() } ?: 0.0
+    val sesionesConLatencia = sesiones.filter { it.latenciaMediaMs > 0 }
+    val latenciaPromedio = if (sesionesConLatencia.isNotEmpty()) {
+        sesionesConLatencia.map { it.latenciaMediaMs }.average()
+    } else 0.0
 
-    // CONVERSIÓN PARA EL GRÁFICO RADAR (Escala 0.0 a 1.0)
-    val ritmoCalculado = (1f - (latenciaPromedio / 2500f).toFloat()).coerceIn(0.1f, 1f)
+    val ritmoPorcentaje = if (sesionesConLatencia.isNotEmpty()) {
+        ((1f - (latenciaPromedio / 2500f).toFloat()) * 100f).coerceIn(10f, 100f).toInt()
+    } else if (sesiones.isNotEmpty()) {
+        // Respaldo si las sesiones guardadas no registraron latencia en ms
+        avanceFluidez.toInt().coerceAtLeast(10)
+    } else {
+        0
+    }
 
+    // CONVERSIÓN PARA EL GRÁFICO RADAR (Escala 0.1f a 1.0f)
     val valFluidez = (avanceFluidez / 100f).toFloat().coerceIn(0.1f, 1f)
-    val valPronunciacion = (avanceFonologia / 100f).toFloat().coerceIn(0.1f, 1f)
-    val valTono = (avancePraxias / 100f).toFloat().coerceIn(0.1f, 1f)
-    val valSimulacion = (avanceSimulacion / 100f).toFloat().coerceIn(0.1f, 1f)
-    val valVolumen = (avanceOases / 100f).toFloat().coerceIn(0.1f, 1f)
+    val valPronunciacion = (avanceArticulacion / 100f).toFloat().coerceIn(0.1f, 1f)
+    val valRitmo = (ritmoPorcentaje / 100f).toFloat().coerceIn(0.1f, 1f)
+    val valTono = (avanceTono / 100f).toFloat().coerceIn(0.1f, 1f)
+    val valConfianza = (avanceOases / 100f).toFloat().coerceIn(0.1f, 1f)
 
     Scaffold(
         topBar = {
@@ -123,54 +168,70 @@ fun ReporteMultidimensionalScreen(navController: NavController) {
                     ReporteMultidimensionalCanvas(
                         fluidez = valFluidez,
                         pronunciacion = valPronunciacion,
-                        ritmo = ritmoCalculado,
+                        ritmo = valRitmo,
                         tono = valTono,
-                        volumen = valVolumen
+                        volumen = valConfianza
                     )
                 }
 
                 item {
-                    Text(
-                        text = "Rendimiento por Categoría",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    Column {
+                        Text(
+                            text = "Rendimiento por Categoría",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = "Cada indicador se calcula promediando los módulos clínicos vinculados:",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
                 }
 
                 item {
                     TarjetaProgresoCategoria(
-                        titulo = "Praxias Faciales (Tono)",
-                        porcentaje = avancePraxias.toInt(),
+                        titulo = "Control Motor y Relajación (Tono)",
+                        porcentaje = avanceTono.toInt(),
                         color = Color(0xFF43A047),
-                        descripcion = "Ejercicios de articulación y gesticulación"
+                        descripcion = "Sube con: Biofeedback (Koeppen, Soplido, Toque de Pluma) y Praxias"
                     )
                 }
 
                 item {
                     TarjetaProgresoCategoria(
-                        titulo = "Conciencia Fonológica (Pronunciación)",
-                        porcentaje = avanceFonologia.toInt(),
+                        titulo = "Articulación y Fonología (Pronunciación)",
+                        porcentaje = avanceArticulacion.toInt(),
                         color = Color(0xFF1E88E5),
-                        descripcion = "Segmentación e identificación de sonidos"
+                        descripcion = "Sube con: Conciencia Fonológica, Tarjetas de Articulación y Pronunciación al Instante"
                     )
                 }
 
                 item {
                     TarjetaProgresoCategoria(
-                        titulo = "Ejercicios de Fluidez (DSP)",
+                        titulo = "Fluidez y Control Temporal (DSP)",
                         porcentaje = avanceFluidez.toInt(),
                         color = Color(0xFF8E24AA),
-                        descripcion = "Habla estirada, inicios suaves, lectura"
+                        descripcion = "Sube con: Habla Estirada, Ritmo y Fluidez, Metrónomo y Ejercicios Adaptativos"
                     )
                 }
 
                 item {
                     TarjetaProgresoCategoria(
-                        titulo = "Impacto Clínico OASES (Volumen/Confianza)",
+                        titulo = "Desensibilización y Confianza (Simulación / OASES)",
                         porcentaje = avanceOases.toInt(),
                         color = Color(0xFFF57C00),
-                        descripcion = "Evaluación mHealth de experiencia y confort al hablar"
+                        descripcion = "Sube con: Simulación de Situaciones, Llamadas y Escala Psicosocial OASES"
+                    )
+                }
+
+                item {
+                    TarjetaProgresoCategoria(
+                        titulo = "Agilidad de Inicio Vocal (Ritmo)",
+                        porcentaje = ritmoPorcentaje,
+                        color = Color(0xFF00897B),
+                        descripcion = "Sube al reducir la latencia fonatoria en todos los módulos con micrófono activo"
                     )
                 }
 
@@ -193,6 +254,11 @@ fun ReporteMultidimensionalScreen(navController: NavController) {
                             modifier = Modifier.padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text("Total de Sesiones Evaluadas:", fontWeight = FontWeight.Medium)
+                                Text("${sesiones.size}", fontWeight = FontWeight.Bold)
+                            }
+                            HorizontalDivider()
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                 Text("Latencia Fonatoria Promedio:", fontWeight = FontWeight.Medium)
                                 Text("${latenciaPromedio.toInt()} ms", fontWeight = FontWeight.Bold)
@@ -232,11 +298,17 @@ fun TarjetaProgresoCategoria(titulo: String, porcentaje: Int, color: Color, desc
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(titulo, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                Text(
+                    text = titulo,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp,
+                    modifier = Modifier.weight(1f).padding(end = 8.dp)
+                )
                 Text("$porcentaje%", fontWeight = FontWeight.ExtraBold, color = color, fontSize = 18.sp)
             }
-            Text(descripcion, fontSize = 12.sp, color = Color.Gray)
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(descripcion, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(modifier = Modifier.height(10.dp))
             LinearProgressIndicator(
                 progress = { (porcentaje / 100f).coerceIn(0f, 1f) },
                 modifier = Modifier
@@ -268,7 +340,19 @@ fun ReporteMultidimensionalCanvas(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Mapa Estructural del Habla", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(bottom = 16.dp))
+        Text(
+            text = "Mapa Estructural del Habla",
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Text(
+            text = "Fluidez · Pronunciación · Ritmo · Tono · Confianza",
+            fontSize = 12.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
 
         Box(modifier = Modifier.size(240.dp), contentAlignment = Alignment.Center) {
             val primaryColor = MaterialTheme.colorScheme.primary
