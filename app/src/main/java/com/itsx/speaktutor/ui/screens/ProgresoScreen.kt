@@ -52,6 +52,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.FileProvider
 import androidx.core.content.edit
 import androidx.navigation.NavController
+import com.itsx.speaktutor.ui.components.StartIoAdManager
 import com.itsx.speaktutor.ui.components.AlertaInPlace
 import com.itsx.speaktutor.ui.components.ArrowLeftCircleIcon
 import com.itsx.speaktutor.ui.components.BarraNavegacionModulos
@@ -115,6 +116,7 @@ object ProgresoStorage {
     }
 
     data class Recompensa3D(
+        val id: String,
         val titulo: String,
         val descripcion: String,
         val htmlFile: String,
@@ -362,7 +364,6 @@ fun GraficaUsoDiario(registrosTiempo: Map<String, Int>) {
                 val maxMinutos = (ultimosDias.maxOfOrNull { it.value } ?: 30).coerceAtLeast(15).toFloat()
 
                 Row(modifier = Modifier.fillMaxWidth().height(140.dp), verticalAlignment = Alignment.CenterVertically) {
-                    // Eje Y (Minutos)
                     Column(
                         modifier = Modifier.fillMaxHeight().padding(end = 8.dp),
                         verticalArrangement = Arrangement.SpaceBetween,
@@ -424,7 +425,6 @@ fun GraficaFluidezInteractiva(sesiones: List<SesionClinica>) {
 
     Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
         Row(modifier = Modifier.fillMaxWidth().height(180.dp), verticalAlignment = Alignment.CenterVertically) {
-            // Eje Y (Porcentajes)
             Column(
                 modifier = Modifier.fillMaxHeight().padding(end = 8.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
@@ -473,7 +473,6 @@ fun GraficaFluidezInteractiva(sesiones: List<SesionClinica>) {
             }
         }
 
-        // Eje X (Fechas y Calificación)
         Spacer(modifier = Modifier.height(6.dp))
         Row(
             modifier = Modifier.fillMaxWidth().padding(start = 32.dp),
@@ -504,7 +503,6 @@ fun GraficaEvolucionLatencia(sesiones: List<SesionClinica>) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(modifier = Modifier.fillMaxWidth().height(140.dp), verticalAlignment = Alignment.CenterVertically) {
-                // Eje Y (Milisegundos)
                 Column(
                     modifier = Modifier.fillMaxHeight().padding(end = 8.dp),
                     verticalArrangement = Arrangement.SpaceBetween,
@@ -543,7 +541,6 @@ fun GraficaEvolucionLatencia(sesiones: List<SesionClinica>) {
                 }
             }
 
-            // Eje X (Fechas y valores en ms)
             Spacer(modifier = Modifier.height(6.dp))
             Row(
                 modifier = Modifier.fillMaxWidth().padding(start = 42.dp),
@@ -606,7 +603,6 @@ fun GraficaHistorialBloqueos(sesiones: List<SesionClinica>) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(modifier = Modifier.fillMaxWidth().height(150.dp), verticalAlignment = Alignment.CenterVertically) {
-                // Eje Y (Cantidad de bloqueos)
                 Column(
                     modifier = Modifier.fillMaxHeight().padding(end = 8.dp),
                     verticalArrangement = Arrangement.SpaceBetween,
@@ -639,7 +635,6 @@ fun GraficaHistorialBloqueos(sesiones: List<SesionClinica>) {
                 }
             }
 
-            // Eje X (Total de bloqueos y día por barra)
             Spacer(modifier = Modifier.height(6.dp))
             Row(modifier = Modifier.fillMaxWidth().padding(start = 24.dp), horizontalArrangement = Arrangement.SpaceAround) {
                 ultimas.forEach { sesion ->
@@ -874,7 +869,6 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
         canvas.drawText("No hay sesiones registradas para mostrar en la gráfica.", chartLeft + 15f, chartTop + 50f, pBody)
     }
 
-    // BLOQUE PDF: DATOS MULTIDIMENSIONALES Y RADAR NATIVO
     val yM = 225f
     canvas.drawText("7. Análisis Multidimensional de Habilidades", 40f, yM, pTitle)
     canvas.drawLine(40f, yM + 6f, 555f, yM + 6f, pLine)
@@ -1112,7 +1106,6 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     canvas.drawText("11. Análisis Avanzado de Latencia y Módulos", 40f, 45f, pTitle)
     canvas.drawLine(40f, 55f, 555f, 55f, pLine)
 
-    // Gráfica de Latencia Media
     canvas.drawText("Evolución de Latencia de Fonación (Milisegundos)", 40f, 75f, pTitle)
     canvas.drawRect(RectF(40f, 85f, 555f, 235f), pBox)
 
@@ -1163,7 +1156,6 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     }
     canvas.drawText("* Valores menores indican mayor rapidez para iniciar la fonación (menos bloqueos iniciales).", 40f, 250f, pBody.apply { color = AndroidColor.GRAY; textSize = 9f })
 
-    // Gráfica Horizontal de Rendimiento por Módulo
     pBody.color = AndroidColor.BLACK; pBody.textSize = 11f
     canvas.drawText("Rendimiento Promedio por Módulo Clínico", 40f, 290f, pTitle)
 
@@ -1279,6 +1271,13 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
     var recompensaUrlWeb by remember { mutableStateOf<String?>(null) }
     var alertaSistema by remember { mutableStateOf<Pair<TonoAlerta, String>?>(null) }
 
+    // --- GESTOR DE ANUNCIOS RECOMPENSADOS START.IO ---
+    val adManager = remember { StartIoAdManager(context) }
+    LaunchedEffect(Unit) {
+        adManager.precargarVideo()
+    }
+    var premioParaDesbloquearPorAnuncio by remember { mutableStateOf<ProgresoStorage.Recompensa3D?>(null) }
+
     val promedioGlobal = if (sesiones.isNotEmpty()) sesiones.map { it.calificacionGlobal }.average() else 0.0
 
     fun verificarYDesbloquear(id: String, condicionActual: Boolean): Boolean {
@@ -1314,6 +1313,36 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                 perfil = ProgresoStorage.obtenerPerfilClinico(context)
                 mostrarDialogoPerfil = false
                 alertaSistema = Pair(TonoAlerta.EXITO, "¡Expediente configurado con éxito!")
+            }
+        )
+    }
+
+    // --- DIÁLOGO PARA DESBLOQUEAR RECOMPENSA 3D VIENDO VIDEO ---
+    premioParaDesbloquearPorAnuncio?.let { premio ->
+        AlertDialog(
+            onDismissRequest = { premioParaDesbloquearPorAnuncio = null },
+            title = { Text("Desbloquear ${premio.titulo}") },
+            text = {
+                Text("Requisito clínico: ${premio.descripcion}\n\n¿Quieres ver un breve video patrocinado para desbloquear esta recompensa 3D ahora mismo?")
+            },
+            confirmButton = {
+                Button(onClick = {
+                    val target = premio
+                    premioParaDesbloquearPorAnuncio = null
+                    adManager.mostrarVideoRecompensado {
+                        ProgresoStorage.registrarRecompensaDesbloqueada(context, target.id)
+                        desbloqueadasGuardadas = ProgresoStorage.obtenerRecompensasDesbloqueadas(context)
+                        recompensaUrlWeb = target.htmlFile
+                        alertaSistema = Pair(TonoAlerta.EXITO, "¡Has desbloqueado ${target.titulo}!")
+                    }
+                }) {
+                    Text("Ver Video")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { premioParaDesbloquearPorAnuncio = null }) {
+                    Text("Cancelar")
+                }
             }
         )
     }
@@ -1437,6 +1466,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                 val listaRecompensas = listOf(
                     // 1. TICKETS DE RACHA
                     ProgresoStorage.Recompensa3D(
+                        "racha_1",
                         "Racha: Primera vez",
                         "Mantén 1 día de práctica.",
                         "file:///android_asset/ticket_racha.html?nombre=$nombreUrl&racha=$rachaActual&tema=fuego",
@@ -1444,6 +1474,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.LocalFireDepartment
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "racha_3",
                         "Racha: Principiante",
                         "Mantén 3 días de práctica continua.",
                         "file:///android_asset/ticket_racha.html?nombre=$nombreUrl&racha=$rachaActual&tema=retro",
@@ -1451,6 +1482,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.LocalFireDepartment
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "racha_7",
                         "Racha: Constante",
                         "Mantén 7 días de práctica continua.",
                         "file:///android_asset/ticket_racha.html?nombre=$nombreUrl&racha=$rachaActual&tema=esmeralda",
@@ -1458,6 +1490,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.WaterDrop
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "racha_14",
                         "Racha: Imparable",
                         "Mantén 14 días de práctica continua.",
                         "file:///android_asset/ticket_racha.html?nombre=$nombreUrl&racha=$rachaActual&tema=oro",
@@ -1467,6 +1500,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
 
                     // 2. INSIGNIAS DE PRECISIÓN
                     ProgresoStorage.Recompensa3D(
+                        "insignia_oro",
                         "Insignia Oro",
                         "Alcanza 60% de precisión global.",
                         "file:///android_asset/insignia_oro.html?titulo=$tituloOroUrl&tema=oro",
@@ -1474,6 +1508,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.WorkspacePremium
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "insignia_platino",
                         "Insignia Platino",
                         "Alcanza 70% de precisión global.",
                         "file:///android_asset/insignia_oro.html?titulo=$tituloPlatinoUrl&tema=diamante",
@@ -1481,6 +1516,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.Diamond
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "rango_epico",
                         "Rango Épico",
                         "Alcanza 80% de precisión (Diseño Pixel Art).",
                         "file:///android_asset/insignia_oro.html?titulo=Rango%20Epico&tema=retro",
@@ -1488,6 +1524,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.VideogameAsset
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "rango_leyenda",
                         "Rango Leyenda",
                         "Precisión del 90% (Diseño Gremio RPG).",
                         "file:///android_asset/insignia_oro.html?titulo=Rango%20Leyenda&tema=rpg",
@@ -1497,6 +1534,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
 
                     // 3. GAFETES DE EVENTO
                     ProgresoStorage.Recompensa3D(
+                        "gafete_1",
                         "Gafete Clasico",
                         "Completa tu primera sesión clínica.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=clasico",
@@ -1504,6 +1542,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.Badge
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "gafete_5",
                         "Gafete Oro",
                         "Completa 5 sesiones clínicas.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=oro",
@@ -1511,6 +1550,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.Badge
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "gafete_10",
                         "Gafete Zafiro",
                         "Completa 10 sesiones clínicas.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=diamante",
@@ -1518,6 +1558,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.Badge
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "gafete_15",
                         "Gafete Esmeralda",
                         "Completa 15 sesiones clínicas.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=esmeralda",
@@ -1525,6 +1566,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.Badge
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "gafete_20",
                         "Gafete Rubí",
                         "Completa 20 sesiones clínicas.",
                         "file:///android_asset/lanyard-badge.html?nombre=$nombreUrl&tema=rpg",
@@ -1534,6 +1576,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
 
                     // 4. TICKETS VIP WEBGL
                     ProgresoStorage.Recompensa3D(
+                        "vip_neon",
                         "VIP: Neón Clásico",
                         "Logra 0 bloqueos tónicos en tu última sesión.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=SESION%20PERFECTA&tema=vip",
@@ -1541,6 +1584,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.ConfirmationNumber
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "vip_llamas",
                         "VIP: Llamas",
                         "Supera el 70% de contactos ligeros.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=FLUIDEZ%20TOTAL&tema=fuego",
@@ -1548,6 +1592,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.LocalActivity
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "vip_ciberpunk",
                         "VIP: Ciberpunk",
                         "Mantén un 80% de precisión general.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=CIBER%20TERAPIA&tema=diamante",
@@ -1555,6 +1600,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.Memory
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "vip_retro",
                         "VIP: Retro 8-bit",
                         "Consigue una racha de 10 días seguidos.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=ARCADE%20MASTER&tema=retro",
@@ -1562,6 +1608,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.Gamepad
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "vip_oro",
                         "VIP: Oro Imperial",
                         "Logra al menos 70% en contactos ligeros.",
                         "file:///android_asset/ticket/index.html?nombre=$nombreUrl&evento=LOGRO%20IMPERIAL&tema=oro",
@@ -1571,6 +1618,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
 
                     // 5. PLACAS GRABADAS 3D
                     ProgresoStorage.Recompensa3D(
+                        "placa_paper",
                         "Placa: Papel Vintage",
                         "Tómate un respiro. (Recompensa de bienvenida).",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=INICIO&tema=paper",
@@ -1578,6 +1626,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.MenuBook
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "placa_crimson",
                         "Placa: Carmesí Oscuro",
                         "Mantén un promedio menor a 2 bloqueos tónicos.",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=ENFOQUE&tema=crimson",
@@ -1585,6 +1634,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.FilterVintage
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "placa_oro",
                         "Placa: Oro Puro",
                         "Alcanza 5 días de racha.",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=EXCELENTE&tema=oro",
@@ -1592,6 +1642,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.CardMembership
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "placa_diamante",
                         "Placa: Diamante Azul",
                         "Completa 20 sesiones clínicas.",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=CONSTANCIA&tema=diamante",
@@ -1599,6 +1650,7 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                         Icons.Default.Spa
                     ),
                     ProgresoStorage.Recompensa3D(
+                        "placa_retro",
                         "Placa: Matriz Retro",
                         "Desbloqueo final: Precisión del 85% global.",
                         "file:///android_asset/card_3d.html?nombre=$nombreUrl&palabra=MAESTRO&tema=retro",
@@ -1610,19 +1662,50 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                 item {
                     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         Text("Tus Logros y Recompensas 3D", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                        Text("Toca un premio desbloqueado para interactuar en 3D.", fontSize = 13.sp, color = Color.Gray)
+                        Text("Toca un premio desbloqueado para interactuar en 3D o mira un video para desbloquearlo.", fontSize = 13.sp, color = Color.Gray)
 
                         LazyRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(vertical = 8.dp)) {
                             items(listaRecompensas) { premio ->
                                 Card(
-                                    modifier = Modifier.width(160.dp).height(120.dp).clip(RoundedCornerShape(12.dp)).clickable(enabled = premio.desbloqueada) { recompensaUrlWeb = premio.htmlFile },
-                                    colors = CardDefaults.cardColors(containerColor = if (premio.desbloqueada) Color(0xFFFFF3E0) else Color(0xFFF5F5F5))
+                                    modifier = Modifier
+                                        .width(165.dp)
+                                        .height(130.dp)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .clickable {
+                                            if (premio.desbloqueada) {
+                                                recompensaUrlWeb = premio.htmlFile
+                                            } else {
+                                                premioParaDesbloquearPorAnuncio = premio
+                                            }
+                                        },
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = if (premio.desbloqueada) Color(0xFFFFF3E0) else Color(0xFFF5F5F5)
+                                    )
                                 ) {
-                                    Column(modifier = Modifier.padding(12.dp).fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                                        Icon(imageVector = if (premio.desbloqueada) premio.icono else Icons.Default.Lock, contentDescription = null, tint = if (premio.desbloqueada) Color(0xFFE65100) else Color.LightGray, modifier = Modifier.size(32.dp))
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(premio.titulo, fontWeight = FontWeight.Bold, fontSize = 13.sp, color = if (premio.desbloqueada) Color.Black else Color.Gray)
-                                        Text(premio.descripcion, fontSize = 10.sp, color = Color.Gray, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                                    Column(
+                                        modifier = Modifier.padding(12.dp).fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = if (premio.desbloqueada) premio.icono else Icons.Default.PlayCircleOutline,
+                                            contentDescription = null,
+                                            tint = if (premio.desbloqueada) Color(0xFFE65100) else Color(0xFF1976D2),
+                                            modifier = Modifier.size(32.dp)
+                                        )
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        Text(
+                                            premio.titulo,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 13.sp,
+                                            color = if (premio.desbloqueada) Color.Black else Color.DarkGray
+                                        )
+                                        Text(
+                                            if (premio.desbloqueada) premio.descripcion else "Ver video para desbloquear",
+                                            fontSize = 10.sp,
+                                            color = if (premio.desbloqueada) Color.Gray else Color(0xFF1976D2),
+                                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                        )
                                     }
                                 }
                             }
