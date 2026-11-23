@@ -8,7 +8,9 @@ viewport: width=device-width, initial-scale=1.0
 
 # 🗣️ SpeakTutor
 
-Política de Privacidad · Última actualización: 19 de noviembre de 2026
+Política de Privacidad · Última actualización: 23 de noviembre de 2026
+
+**[📥 Descargar APK oficial para Android (MEGA)](https://mega.nz/file/TU_ENLACE_COMPLETO_CON_CLAVE){target="_blank"}**
 
 </div>
 
@@ -42,10 +44,10 @@ diagnóstico o tratamiento clínico.
     Google](https://policies.google.com/privacy){target="_blank"} para
     saber cómo procesa ese audio Google LLC.
 -   **Identificadores del dispositivo (ID de publicidad):** La app
-    integra el SDK de Google AdMob
-    (`com.google.android.gms:play-services-ads`), que puede recopilar el
-    *Android Advertising ID (AAID)* con fines de publicidad
-    personalizada. El usuario puede restablecer o inhabilitar este
+    integra el SDK de **Start.io** (`com.startapp:inapp-sdk`), que puede
+    recopilar el *Android Advertising ID (AAID)* e información técnica
+    básica del dispositivo con fines de publicidad y medición de
+    anuncios. El usuario puede restablecer o inhabilitar este
     identificador en *Ajustes \> Google \> Anuncios* de su dispositivo.
 
 ## 3. Finalidad del tratamiento
@@ -54,27 +56,24 @@ diagnóstico o tratamiento clínico.
     real durante los ejercicios de fluidez.
 -   Almacenar el historial de progreso local para que el motor
     adaptativo pueda personalizar los ejercicios.
--   Mostrar anuncios publicitarios mediante Google AdMob para financiar
-    el desarrollo de la app.
+-   Mostrar anuncios publicitarios (banners y videos recompensados
+    opcionales) mediante **Start.io** para financiar el desarrollo de la
+    app.
 
-## 4. Publicidad (Google AdMob)
+## 4. Publicidad (Start.io)
 
-SpeakTutor muestra banners publicitarios suministrados por **Google
-AdMob**. AdMob puede utilizar el ID de publicidad del dispositivo para
-mostrar anuncios personalizados basados en los intereses del usuario.
-Para más información, consulta la [política de privacidad de
-AdMob](https://support.google.com/admob/answer/6128543){target="_blank"}.
-
-Si publicas en la Unión Europea o el Reino Unido, la app implementa el
-**SDK Google UMP (User Messaging Platform)** para solicitar el
-consentimiento del usuario antes de cargar anuncios personalizados, en
-cumplimiento del RGPD/GDPR.
+SpeakTutor muestra banners publicitarios y videos recompensados
+opcionales suministrados por **Start.io**. Start.io puede utilizar el ID
+de publicidad del dispositivo para mostrar anuncios relevantes y validar
+el desbloqueo de recompensas visuales dentro de la app. Para más
+información, consulta la [Política de Privacidad de
+Start.io](https://www.start.io/policy/privacy-policy/){target="_blank"}.
 
 ## 5. Datos compartidos con terceros
 
 Tercero                 Dato compartido                       Finalidad
-  ----------------------- ------------------------------------- --------------------------
-Google AdMob            ID de publicidad (AAID)               Publicidad personalizada
+  ----------------------- ------------------------------------- --------------------------------------------
+Start.io                ID de publicidad (AAID)               Publicidad y videos recompensados
 Google Speech-to-Text   Audio de voz durante ejercicios STT   Reconocimiento de habla
 
 Los datos clínicos locales (sesiones, progreso, grabaciones de práctica)
@@ -88,9 +87,9 @@ Los datos clínicos locales (sesiones, progreso, grabaciones de práctica)
 -   **Opt-out de publicidad personalizada:** El usuario puede
     inhabilitar la personalización de anuncios en *Ajustes \> Google \>
     Anuncios \> Inhabilitar la personalización de anuncios*.
--   **Usuarios UE/UK:** En el primer inicio se mostrará un diálogo de
-    consentimiento de publicidad; el usuario puede cambiar su elección
-    en cualquier momento desde los ajustes de la app.
+-   **Respaldo portátil:** El usuario puede exportar o eliminar su
+    expediente clínico en cualquier momento mediante archivos locales
+    `.stb` o `.pdf`.
 
 ## 7. Seguridad
 
@@ -102,9 +101,9 @@ en la nube para almacenar información personal de los usuarios.
 ## 8. Menores de edad
 
 SpeakTutor no está dirigida específicamente a menores de 13 años. Los
-anuncios de AdMob están configurados para audiencia general. Si un padre
-o tutor detecta que un menor ha registrado datos, puede eliminarlos
-desinstalando la app.
+anuncios de Start.io están configurados para audiencia general. Si un
+padre o tutor detecta que un menor ha registrado datos, puede
+eliminarlos desinstalando la app.
 
 ## 9. Aviso médico / terapéutico
 

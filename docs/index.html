@@ -22,16 +22,25 @@
     a { color: #1a73e8; }
     footer { text-align: center; padding: 24px; font-size: 0.82rem; color: #888; }
     .nota { background: #fff8e1; border-left: 4px solid #f9a825; padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: 0.93rem; }
+    .descarga-box { text-align: center; margin: 20px 0 28px; }
+    .btn-descarga { display: inline-block; padding: 14px 28px; background-color: #1976D2; color: #ffffff !important; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 1rem; box-shadow: 0 4px 10px rgba(25, 118, 210, 0.25); }
+    .btn-descarga:hover { background-color: #1565C0; }
   </style>
 </head>
 <body>
 
 <header>
   <h1>🗣️ SpeakTutor</h1>
-  <p>Política de Privacidad &nbsp;·&nbsp; Última actualización: 19 de noviembre de 2026</p>
+  <p>Política de Privacidad &nbsp;·&nbsp; Última actualización: 23 de noviembre de 2026</p>
 </header>
 
 <main>
+
+  <div class="descarga-box">
+    <a href="https://mega.nz/file/TU_ENLACE_COMPLETO_CON_CLAVE" target="_blank" rel="noopener" class="btn-descarga">
+      📥 Descargar APK oficial para Android (MEGA)
+    </a>
+  </div>
 
   <h2>1. Identificación de la aplicación</h2>
   <p><strong>SpeakTutor: Terapia de Fluidez</strong> (<code>com.itsx.speaktutor</code>) es una aplicación móvil de entrenamiento fonatorio para Android desarrollada por <strong>ITSX / Deadgon48</strong>. La aplicación está diseñada como herramienta de apoyo y práctica complementaria a la terapia del habla profesional; no constituye un dispositivo médico ni reemplaza el diagnóstico o tratamiento clínico.</p>
@@ -40,29 +49,28 @@
   <ul>
     <li><strong>Audio del micrófono:</strong> Se captura en tiempo real exclusivamente para análisis acústico local (detección de bloqueos tónicos/clónicos, métricas de energía RMS y tasa de cruce por cero). El audio <em>no se transmite a ningún servidor externo</em>; los archivos de grabación se guardan únicamente en el almacenamiento interno del dispositivo (<code>filesDir</code>) y el usuario puede eliminarlos en cualquier momento.</li>
     <li><strong>Datos de sesiones clínicas:</strong> Los registros de aciertos, errores, bloqueos y puntuaciones se guardan en <code>SharedPreferences</code> local. No se envían a la nube ni a servidores de terceros.</li>
-    <li><strong>Reconocimiento de voz (STT):</strong> La app utiliza el <code>SpeechRecognizer</code> de Android, que puede usar los servicios de Google Speech-to-Text. Consulta la <a href="https://policies.google.com/privacy" target="_blank">Política de privacidad de Google</a>.</li>
-    <li><strong>Identificadores del dispositivo (ID de publicidad):</strong> La app integra el SDK de Google AdMob (<code>play-services-ads</code>), que puede recopilar el <em>Android Advertising ID (AAID)</em> con fines de publicidad personalizada. El usuario puede inhabilitarlo en <em>Ajustes › Google › Anuncios</em>.</li>
+    <li><strong>Reconocimiento de voz (STT):</strong> La app utiliza el <code>SpeechRecognizer</code> de Android, que puede usar los servicios de Google Speech-to-Text. Consulta la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de privacidad de Google</a>.</li>
+    <li><strong>Identificadores del dispositivo (ID de publicidad):</strong> La app integra el SDK de <strong>Start.io</strong> (<code>com.startapp:inapp-sdk</code>), que puede recopilar el <em>Android Advertising ID (AAID)</em> e información técnica básica del dispositivo con fines de publicidad y medición de anuncios. El usuario puede inhabilitarlo en <em>Ajustes › Google › Anuncios</em>.</li>
   </ul>
 
   <h2>3. Finalidad del tratamiento</h2>
   <ul>
     <li>Proporcionar retroalimentación de biofeedback acústico en tiempo real durante los ejercicios de fluidez.</li>
     <li>Almacenar el historial de progreso local para personalizar los ejercicios mediante el motor adaptativo.</li>
-    <li>Mostrar anuncios publicitarios mediante Google AdMob para financiar el desarrollo de la app.</li>
+    <li>Mostrar anuncios publicitarios (banners y videos recompensados opcionales) mediante <strong>Start.io</strong> para financiar el desarrollo de la app.</li>
   </ul>
 
-  <h2>4. Publicidad (Google AdMob)</h2>
-  <p>SpeakTutor muestra banners publicitarios suministrados por <strong>Google AdMob</strong>. AdMob puede utilizar el ID de publicidad para mostrar anuncios personalizados. Más información: <a href="https://support.google.com/admob/answer/6128543" target="_blank">Política de privacidad de AdMob</a>.</p>
-  <p>Si la app se usa en la Unión Europea o el Reino Unido, se implementa el <strong>SDK Google UMP</strong> para solicitar consentimiento antes de cargar anuncios personalizados (RGPD/GDPR).</p>
+  <h2>4. Publicidad (Start.io)</h2>
+  <p>SpeakTutor muestra banners publicitarios y videos recompensados opcionales suministrados por <strong>Start.io</strong>. Start.io puede utilizar el ID de publicidad del dispositivo para mostrar anuncios relevantes y validar el desbloqueo de recompensas visuales dentro de la app. Más información: <a href="https://www.start.io/policy/privacy-policy/" target="_blank" rel="noopener">Política de privacidad de Start.io</a>.</p>
 
   <h2>5. Datos compartidos con terceros</h2>
   <table>
     <thead>
-      <tr><th>Tercero</th><th>Dato compartido</th><th>Finalidad</th></tr>
+    <tr><th>Tercero</th><th>Dato compartido</th><th>Finalidad</th></tr>
     </thead>
     <tbody>
-      <tr><td>Google AdMob</td><td>ID de publicidad (AAID)</td><td>Publicidad personalizada</td></tr>
-      <tr><td>Google Speech-to-Text</td><td>Audio de voz durante ejercicios STT</td><td>Reconocimiento de habla</td></tr>
+    <tr><td>Start.io</td><td>ID de publicidad (AAID)</td><td>Publicidad y videos recompensados</td></tr>
+    <tr><td>Google Speech-to-Text</td><td>Audio de voz durante ejercicios STT</td><td>Reconocimiento de habla</td></tr>
     </tbody>
   </table>
   <p>Los datos clínicos locales (sesiones, progreso, grabaciones) <strong>no se comparten con terceros</strong>.</p>
@@ -71,14 +79,14 @@
   <ul>
     <li><strong>Acceso y eliminación:</strong> El usuario puede borrar todos los datos locales desinstalando la app o limpiando sus datos en Ajustes del dispositivo.</li>
     <li><strong>Opt-out de publicidad personalizada:</strong> Disponible en <em>Ajustes › Google › Anuncios › Inhabilitar personalización</em>.</li>
-    <li><strong>Usuarios UE/UK:</strong> Se mostrará un diálogo de consentimiento al primer inicio.</li>
+    <li><strong>Respaldo portátil:</strong> El usuario puede exportar o eliminar su expediente clínico en cualquier momento mediante archivos locales <code>.stb</code> o <code>.pdf</code>.</li>
   </ul>
 
   <h2>7. Seguridad</h2>
   <p>Los datos se almacenan en el espacio privado de la app, no accesible a otras aplicaciones. No se implementan servidores propios ni bases de datos en la nube para información personal.</p>
 
   <h2>8. Menores de edad</h2>
-  <p>SpeakTutor no está dirigida específicamente a menores de 13 años. Los anuncios están configurados para audiencia general. Si un padre o tutor detecta uso por parte de un menor, puede eliminar los datos desinstalando la app.</p>
+  <p>SpeakTutor no está dirigida específicamente a menores de 13 años. Los anuncios de Start.io están configurados para audiencia general. Si un padre o tutor detecta uso por parte de un menor, puede eliminar los datos desinstalando la app.</p>
 
   <h2>9. Aviso médico / terapéutico</h2>
   <div class="nota">
@@ -89,7 +97,7 @@
   <p>Cualquier cambio relevante se comunicará actualizando la fecha indicada al inicio de este documento.</p>
 
   <h2>11. Contacto</h2>
-  <p>Para preguntas sobre privacidad abre un issue en <a href="https://github.com/Deadgon48/SPEAKTUTOR" target="_blank">github.com/Deadgon48/SPEAKTUTOR</a>.</p>
+  <p>Para preguntas sobre privacidad abre un issue en <a href="https://github.com/Deadgon48/SPEAKTUTOR" target="_blank" rel="noopener">github.com/Deadgon48/SPEAKTUTOR</a>.</p>
 
 </main>
 
