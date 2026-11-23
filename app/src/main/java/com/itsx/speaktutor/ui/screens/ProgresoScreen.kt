@@ -94,9 +94,108 @@ data class AnaliticasClinicas(
     val promedioContactosLigeros: Int, val latenciaPromedio: Int
 )
 
+data class ApartadoRendimiento(
+    val nombreApartado: String,
+    val promedio: Int,
+    val totalSesiones: Int
+)
+
+data class GrupoModuloRendimiento(
+    val moduloPrincipal: String,
+    val promedioGeneral: Int,
+    val totalSesiones: Int,
+    val apartados: List<ApartadoRendimiento>
+)
+
 // Helper seguro para extraer MM-dd de fechas yyyy-MM-dd HH:mm sin riesgo de IndexOutOfBounds
 private fun formatearFechaCorta(fecha: String): String {
     return if (fecha.length >= 10) fecha.substring(5, 10) else fecha.take(5)
+}
+
+// Clasifica cada registro en (Módulo Principal, Apartado Específico)
+private fun clasificarModuloYApartado(rawModulo: String): Pair<String, String> {
+    val limpio = rawModulo.trim()
+    val lower = limpio.lowercase(Locale.getDefault())
+
+    // Si el módulo ya viene guardado con separador ("Módulo - Apartado" o "Módulo: Apartado")
+    if (limpio.contains(" - ")) {
+        val partes = limpio.split(" - ", limit = 2)
+        return Pair(partes[0].trim(), partes[1].trim())
+    }
+    if (limpio.contains(": ")) {
+        val partes = limpio.split(": ", limit = 2)
+        return Pair(partes[0].trim(), partes[1].trim())
+    }
+
+    return when {
+        lower.contains("koeppen") -> Pair("Biofeedback y Relajación", "Relajación de Koeppen")
+        lower.contains("soplido") -> Pair("Biofeedback y Relajación", "Soplido Sostenido")
+        lower.contains("pluma") -> Pair("Biofeedback y Relajación", "Toque de Pluma")
+        lower.contains("biofeedback") -> Pair("Biofeedback y Relajación", limpio)
+
+        lower.contains("llamada") || lower.contains("simulación") || lower.contains("simulacion") ||
+                lower.contains("situaciones") || lower.contains("cafetería") || lower.contains("cafeteria") ||
+                lower.contains("entrevista") || lower.contains("exposición") || lower.contains("exposicion") ||
+                lower.contains("médico") || lower.contains("medico") || lower.contains("tienda") ||
+                lower.contains("restaurante") || lower.contains("escenario") ->
+            Pair("Simulación de Situaciones", limpio)
+
+        lower.contains("habla estirada") || lower.contains("estirada") ->
+            Pair("Habla Estirada", limpio)
+
+        lower.contains("ritmo y fluidez") || lower.contains("fluidez") ->
+            Pair("Ritmo y Fluidez", limpio)
+
+        lower.contains("metrónomo") || lower.contains("metronomo") ->
+            Pair("Metrónomo de Ritmo", limpio)
+
+        lower.contains("fonológica") || lower.contains("fonologica") ->
+            Pair("Conciencia Fonológica", limpio)
+
+        lower.contains("articulación") || lower.contains("articulacion") || lower.contains("praxias") ->
+            Pair("Tarjetas de Articulación", limpio)
+
+        lower.contains("pronunciación") || lower.contains("pronunciacion") || lower.contains("instante") ->
+            Pair("Pronunciación al Instante", limpio)
+
+        lower.contains("adaptativo") ->
+            Pair("Ejercicios Adaptativos", limpio)
+
+        else -> Pair(limpio, "Práctica General")
+    }
+}
+
+private fun agruparRendimientoPorModulo(sesiones: List<SesionClinica>): List<GrupoModuloRendimiento> {
+    if (sesiones.isEmpty()) return emptyList()
+
+    val clasificados = sesiones.map { sesion ->
+        val (moduloPadre, apartado) = clasificarModuloYApartado(sesion.modulo)
+        Triple(moduloPadre, apartado, sesion)
+    }
+
+    return clasificados
+        .groupBy { it.first }
+        .map { (moduloPadre, listaTriples) ->
+            val promedioModulo = listaTriples.map { it.third.calificacionGlobal }.average().toInt()
+            val apartados = listaTriples
+                .groupBy { it.second }
+                .map { (nombreApartado, itemsApartado) ->
+                    ApartadoRendimiento(
+                        nombreApartado = nombreApartado,
+                        promedio = itemsApartado.map { it.third.calificacionGlobal }.average().toInt(),
+                        totalSesiones = itemsApartado.size
+                    )
+                }
+                .sortedByDescending { it.promedio }
+
+            GrupoModuloRendimiento(
+                moduloPrincipal = moduloPadre,
+                promedioGeneral = promedioModulo,
+                totalSesiones = listaTriples.size,
+                apartados = apartados
+            )
+        }
+        .sortedByDescending { it.promedioGeneral }
 }
 
 // --- 2. MOTOR DE ALMACENAMIENTO Y RESPALDOS (Base de datos local) ---
@@ -565,25 +664,139 @@ fun GraficaEvolucionLatencia(sesiones: List<SesionClinica>) {
 fun RendimientoPorModulo(sesiones: List<SesionClinica>) {
     if (sesiones.isEmpty()) return
 
-    val rendimiento = sesiones
-        .groupBy { it.modulo }
-        .mapValues { entry -> entry.value.map { it.calificacionGlobal }.average().toInt() }
-        .entries.sortedByDescending { it.value }
+    val gruposModulos = remember(sesiones) { agruparRendimientoPorModulo(sesiones) }
 
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text("Rendimiento Promedio por Módulo Clínico", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = MaterialTheme.colorScheme.primary)
-            Spacer(modifier = Modifier.height(12.dp))
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column {
+                Text(
+                    text = "Rendimiento Promedio por Módulo Clínico",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "Toca un módulo para desplegar el rendimiento de cada apartado o escenario:",
+                    fontSize = 11.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
 
-            rendimiento.forEach { (modulo, calificacion) ->
-                Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(modulo, fontSize = 13.sp, fontWeight = FontWeight.Medium)
-                        Text("$calificacion%", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF1976D2))
-                    }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Box(modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp)).background(Color.LightGray)) {
-                        Box(modifier = Modifier.fillMaxWidth(calificacion / 100f).fillMaxHeight().clip(RoundedCornerShape(4.dp)).background(Color(0xFF1976D2)))
+            gruposModulos.forEach { grupo ->
+                var expandido by remember { mutableStateOf(grupo.apartados.size > 1) }
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable { expandido = !expandido },
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                ) {
+                    Column(modifier = Modifier.padding(12.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f).padding(end = 8.dp)) {
+                                Text(
+                                    text = grupo.moduloPrincipal,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = "${grupo.totalSesiones} ${if (grupo.totalSesiones == 1) "sesión" else "sesiones"} · ${grupo.apartados.size} ${if (grupo.apartados.size == 1) "apartado" else "apartados"}",
+                                    fontSize = 11.sp,
+                                    color = Color.Gray
+                                )
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = "${grupo.promedioGeneral}%",
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = Color(0xFF1976D2)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Icon(
+                                    imageVector = if (expandido) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                                    contentDescription = "Ver apartados",
+                                    tint = Color.Gray,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(8.dp)
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(Color(0xFF1976D2).copy(alpha = 0.18f))
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth((grupo.promedioGeneral / 100f).coerceIn(0f, 1f))
+                                    .fillMaxHeight()
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .background(Color(0xFF1976D2))
+                            )
+                        }
+
+                        AnimatedVisibility(visible = expandido) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 10.dp, start = 8.dp, end = 4.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
+                                grupo.apartados.forEach { apartado ->
+                                    Column(modifier = Modifier.fillMaxWidth()) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Text(
+                                                text = "↳ ${apartado.nombreApartado} (${apartado.totalSesiones})",
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Medium,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                modifier = Modifier.weight(1f).padding(end = 8.dp)
+                                            )
+                                            Text(
+                                                text = "${apartado.promedio}%",
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color(0xFF00796B)
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.height(3.dp))
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(5.dp)
+                                                .clip(RoundedCornerShape(3.dp))
+                                                .background(Color(0xFF00796B).copy(alpha = 0.15f))
+                                        ) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxWidth((apartado.promedio / 100f).coerceIn(0f, 1f))
+                                                    .fillMaxHeight()
+                                                    .clip(RoundedCornerShape(3.dp))
+                                                    .background(Color(0xFF00796B))
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -775,11 +988,13 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     val pHeader = Paint().apply { color = AndroidColor.rgb(27, 94, 32); style = Paint.Style.FILL }
     val pTextWhite = Paint().apply { color = AndroidColor.WHITE; textSize = 20f; typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) }
     val pTitle = Paint().apply { color = AndroidColor.DKGRAY; textSize = 14f; typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) }
-    val pBody = Paint().apply { color = AndroidColor.BLACK; textSize = 11f }
+    val pSubTitle = Paint().apply { color = AndroidColor.rgb(25, 118, 210); textSize = 11.5f; typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) }
+    val pBody = Paint().apply { color = AndroidColor.BLACK; textSize = 10.5f }
+    val pSmallMuted = Paint().apply { color = AndroidColor.DKGRAY; textSize = 9f }
     val pBox = Paint().apply { color = AndroidColor.rgb(232, 245, 233); style = Paint.Style.FILL }
     val pLine = Paint().apply { color = AndroidColor.LTGRAY; strokeWidth = 1f }
     val pGrid = Paint().apply { color = AndroidColor.LTGRAY; strokeWidth = 1f; style = Paint.Style.STROKE }
-    val pAxisText = Paint().apply { color = AndroidColor.DKGRAY; textSize = 8.5f }
+    val pAxisText = Paint().apply { color = AndroidColor.DKGRAY; textSize = 8f }
 
     // PÁGINA 1
     canvas.drawRect(0f, 0f, 595f, 60f, pHeader)
@@ -813,41 +1028,57 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     dibujarBloqueTexto("2. Objetivos Terapéuticos SMART", perfil.objetivosSmart, 210f)
     document.finishPage(page)
 
-    // PÁGINA 2
+    // PÁGINA 2: EVOLUCIÓN DE FLUIDEZ Y ANÁLISIS MULTIDIMENSIONAL ACTUALIZADO
     numeroPagina++
     pageInfo = PdfDocument.PageInfo.Builder(595, 842, numeroPagina).create()
     page = document.startPage(pageInfo)
     canvas = page.canvas
 
     canvas.drawText("5. Gráfica de Evolución de Fluidez (Calificación Global %)", 40f, 45f, pTitle)
-    canvas.drawRect(RectF(40f, 55f, 555f, 205f), pBox)
+    canvas.drawRoundRect(RectF(40f, 55f, 555f, 235f), 8f, 8f, pBox)
 
-    val chartLeft = 75f
-    val chartTop = 70f
+    val chartLeft = 80f
+    val chartTop = 80f
     val chartRight = 530f
-    val chartBottom = 175f
+    val chartBottom = 195f
     val chartWidth = chartRight - chartLeft
     val chartHeight = chartBottom - chartTop
 
-    val pDataLabel = Paint().apply { color = AndroidColor.rgb(13, 71, 161); textSize = 8f; typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) }
+    val pDataLabel = Paint().apply {
+        color = AndroidColor.rgb(13, 71, 161)
+        textSize = 8f
+        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        textAlign = Paint.Align.CENTER
+    }
+    val pDateLabel = Paint().apply {
+        color = AndroidColor.DKGRAY
+        textSize = 7.5f
+        textAlign = Paint.Align.CENTER
+    }
 
     canvas.drawLine(chartLeft, chartBottom, chartRight, chartBottom, pGrid)
     canvas.drawLine(chartLeft, (chartTop + chartBottom) / 2f, chartRight, (chartTop + chartBottom) / 2f, pGrid)
     canvas.drawLine(chartLeft, chartTop, chartRight, chartTop, pGrid)
     canvas.drawLine(chartLeft, chartTop, chartLeft, chartBottom, pGrid)
 
-    canvas.drawText("100%", chartLeft - 30f, chartTop + 4f, pAxisText)
-    canvas.drawText("50%", chartLeft - 25f, (chartTop + chartBottom) / 2f + 4f, pAxisText)
-    canvas.drawText("0%", chartLeft - 20f, chartBottom + 4f, pAxisText)
+    canvas.drawText("100%", chartLeft - 32f, chartTop + 4f, pAxisText)
+    canvas.drawText("50%", chartLeft - 27f, (chartTop + chartBottom) / 2f + 4f, pAxisText)
+    canvas.drawText("0%", chartLeft - 22f, chartBottom + 4f, pAxisText)
 
     val sesionesRev = sesiones.reversed()
     if (sesionesRev.isNotEmpty()) {
         val stepXPdf = if (sesionesRev.size > 1) chartWidth / (sesionesRev.size - 1) else chartWidth / 2f
-        val pLineChart = Paint().apply { color = AndroidColor.rgb(25, 118, 210); strokeWidth = 3f; style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND }
+        val pLineChart = Paint().apply { color = AndroidColor.rgb(25, 118, 210); strokeWidth = 2.5f; style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND }
         val pPoint = Paint().apply { color = AndroidColor.rgb(13, 71, 161); style = Paint.Style.FILL }
+
+        // Espaciado mínimo de 42px entre etiquetas para que nunca se encimen
+        val maxEtiquetasCabida = (chartWidth / 42f).toInt().coerceAtLeast(1)
+        val saltoEtiquetas = ((sesionesRev.size + maxEtiquetasCabida - 1) / maxEtiquetasCabida).coerceAtLeast(1)
 
         var prevX = -1f
         var prevY = -1f
+        var contadorEtiquetas = 0
+
         sesionesRev.forEachIndexed { index, sesion ->
             val valor = sesion.calificacionGlobal.toFloat()
             val x = if (sesionesRev.size > 1) chartLeft + (index * stepXPdf) else chartLeft + chartWidth / 2f
@@ -856,49 +1087,109 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
             if (prevX != -1f) {
                 canvas.drawLine(prevX, prevY, x, y, pLineChart)
             }
-            canvas.drawCircle(x, y, 4f, pPoint)
+            canvas.drawCircle(x, y, 3.8f, pPoint)
 
-            if (sesionesRev.size <= 12 || index % 2 == 0 || index == sesionesRev.lastIndex) {
-                canvas.drawText("${sesion.calificacionGlobal}%", x - 8f, (y - 7f).coerceAtLeast(chartTop + 8f), pDataLabel)
-                canvas.drawText(formatearFechaCorta(sesion.fecha), x - 11f, chartBottom + 13f, pAxisText)
+            if (index % saltoEtiquetas == 0 || index == sesionesRev.lastIndex) {
+                val offsetYValor = if (contadorEtiquetas % 2 == 0) -8f else -17f
+                val posYValor = (y + offsetYValor).coerceIn(chartTop + 8f, chartBottom - 6f)
+                canvas.drawText("${sesion.calificacionGlobal}%", x, posYValor, pDataLabel)
+                canvas.drawText(formatearFechaCorta(sesion.fecha), x, chartBottom + 14f, pDateLabel)
+                contadorEtiquetas++
             }
             prevX = x
             prevY = y
         }
     } else {
-        canvas.drawText("No hay sesiones registradas para mostrar en la gráfica.", chartLeft + 15f, chartTop + 50f, pBody)
+        canvas.drawText("No hay sesiones registradas para mostrar en la gráfica.", chartLeft + 15f, chartTop + 55f, pBody)
     }
 
-    val yM = 225f
-    canvas.drawText("7. Análisis Multidimensional de Habilidades", 40f, yM, pTitle)
+    // SECCIÓN 7: ANÁLISIS MULTIDIMENSIONAL ACTUALIZADO CON TODOS LOS MÓDULOS
+    val yM = 265f
+    canvas.drawText("7. Análisis Multidimensional de Habilidades (Todos los Módulos)", 40f, yM, pTitle)
     canvas.drawLine(40f, yM + 6f, 555f, yM + 6f, pLine)
 
-    val ptAvanceFonologia = sesiones.filter { it.modulo.contains("Fonológica") }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
-    val ptAvanceEstirada = sesiones.filter { it.modulo.contains("Habla Estirada") }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
-    val ptAvanceLlamadas = sesiones.filter { it.modulo.contains("Llamada") }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
-    val ptAvancePraxias = sesiones.filter { it.modulo.contains("Praxias") }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
+    val ptAvanceTono = sesiones.filter {
+        it.modulo.contains("Praxias", ignoreCase = true) ||
+                it.modulo.contains("Koeppen", ignoreCase = true) ||
+                it.modulo.contains("Soplido", ignoreCase = true) ||
+                it.modulo.contains("Pluma", ignoreCase = true) ||
+                it.modulo.contains("Biofeedback", ignoreCase = true)
+    }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
 
-    val latenciaPdf = sesiones.map { it.latenciaMediaMs }.average().takeIf { !it.isNaN() } ?: 0.0
-    val valFluidez = (ptAvanceEstirada / 100f).toFloat().coerceIn(0.1f, 1f)
+    val ptAvanceFonologia = sesiones.filter {
+        it.modulo.contains("Fonológica", ignoreCase = true) ||
+                it.modulo.contains("Fonologica", ignoreCase = true) ||
+                it.modulo.contains("Articulación", ignoreCase = true) ||
+                it.modulo.contains("Articulacion", ignoreCase = true) ||
+                it.modulo.contains("Pronunciación", ignoreCase = true) ||
+                it.modulo.contains("Pronunciacion", ignoreCase = true) ||
+                it.modulo.contains("Instante", ignoreCase = true)
+    }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
+
+    val ptAvanceFluidez = sesiones.filter {
+        it.modulo.contains("Habla Estirada", ignoreCase = true) ||
+                it.modulo.contains("Estirada", ignoreCase = true) ||
+                it.modulo.contains("Fluidez", ignoreCase = true) ||
+                it.modulo.contains("Metrónomo", ignoreCase = true) ||
+                it.modulo.contains("Metronomo", ignoreCase = true) ||
+                it.modulo.contains("Adaptativo", ignoreCase = true)
+    }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
+
+    val ptAvanceSimulacion = sesiones.filter {
+        it.modulo.contains("Simulación", ignoreCase = true) ||
+                it.modulo.contains("Simulacion", ignoreCase = true) ||
+                it.modulo.contains("Situaciones", ignoreCase = true) ||
+                it.modulo.contains("Llamada", ignoreCase = true)
+    }.map { it.calificacionGlobal }.average().takeIf { !it.isNaN() } ?: 0.0
+
+    val sesionesConPsicosocialPdf = sesiones.filter { it.impactoPsicosocial > 0 }
+    val ptAvanceConfianza = if (sesionesConPsicosocialPdf.isNotEmpty()) {
+        sesionesConPsicosocialPdf.map { it.impactoPsicosocial }.average()
+    } else ptAvanceSimulacion
+
+    val sesionesConLatenciaPdf = sesiones.filter { it.latenciaMediaMs > 0 }
+    val latenciaPdf = if (sesionesConLatenciaPdf.isNotEmpty()) {
+        sesionesConLatenciaPdf.map { it.latenciaMediaMs }.average()
+    } else 0.0
+
+    val ptRitmoPct = if (sesionesConLatenciaPdf.isNotEmpty()) {
+        ((1f - (latenciaPdf / 2500f).toFloat()) * 100f).coerceIn(10f, 100f).toInt()
+    } else if (sesiones.isNotEmpty()) {
+        ptAvanceFluidez.toInt().coerceAtLeast(10)
+    } else 0
+
+    val valFluidez = (ptAvanceFluidez / 100f).toFloat().coerceIn(0.1f, 1f)
     val valPronunciacion = (ptAvanceFonologia / 100f).toFloat().coerceIn(0.1f, 1f)
-    val valTono = (ptAvancePraxias / 100f).toFloat().coerceIn(0.1f, 1f)
-    val valSimulacion = (ptAvanceLlamadas / 100f).toFloat().coerceIn(0.1f, 1f)
-    val valRitmo = (1f - (latenciaPdf / 2500f).toFloat()).coerceIn(0.1f, 1f)
-    val radarValues = listOf(valFluidez, valPronunciacion, valRitmo, valTono, valSimulacion)
+    val valTono = (ptAvanceTono / 100f).toFloat().coerceIn(0.1f, 1f)
+    val valConfianza = (ptAvanceConfianza / 100f).toFloat().coerceIn(0.1f, 1f)
+    val valRitmo = (ptRitmoPct / 100f).toFloat().coerceIn(0.1f, 1f)
+    val radarValues = listOf(valFluidez, valPronunciacion, valRitmo, valTono, valConfianza)
 
-    canvas.drawText("• Conciencia Fonológica (Articulación): ${ptAvanceFonologia.toInt()}%", 50f, yM + 26f, pBody)
-    canvas.drawText("• Habla Estirada (Control de Velocidad): ${ptAvanceEstirada.toInt()}%", 50f, yM + 42f, pBody)
-    canvas.drawText("• Praxias Faciales (Tono/Relajación): ${ptAvancePraxias.toInt()}%", 50f, yM + 58f, pBody)
-    canvas.drawText("• Simulador (Desensibilización): ${ptAvanceLlamadas.toInt()}%", 50f, yM + 74f, pBody)
+    var yAxisList = yM + 26f
+    canvas.drawText("• Fluidez y Control Temporal (Habla Estirada, Ritmo, Metrónomo): ${ptAvanceFluidez.toInt()}%", 45f, yAxisList, pBody)
+    yAxisList += 18f
+    canvas.drawText("• Articulación y Fonología (Fonológica, Tarjetas, Pronunciación): ${ptAvanceFonologia.toInt()}%", 45f, yAxisList, pBody)
+    yAxisList += 18f
+    canvas.drawText("• Control Motor y Relajación (Biofeedback: Koeppen/Soplido/Pluma): ${ptAvanceTono.toInt()}%", 45f, yAxisList, pBody)
+    yAxisList += 18f
+    canvas.drawText("• Desensibilización y Confianza (Simulación, Llamadas, OASES): ${ptAvanceConfianza.toInt()}%", 45f, yAxisList, pBody)
+    yAxisList += 18f
+    canvas.drawText("• Agilidad de Inicio Vocal (Ritmo / Latencia ${latenciaPdf.toInt()} ms): $ptRitmoPct%", 45f, yAxisList, pBody)
 
-    val cx = 450f
-    val cy = yM + 60f
-    val rMax = 42f
+    // Radar ampliado con etiquetas centradas sin traslapes
+    val cx = 468f
+    val cy = yM + 75f
+    val rMax = 48f
     val pRadarGrid = Paint().apply { color = AndroidColor.LTGRAY; style = Paint.Style.STROKE; strokeWidth = 1f }
     val pRadarFill = Paint().apply { color = AndroidColor.argb(80, 25, 118, 210); style = Paint.Style.FILL }
     val pRadarLine = Paint().apply { color = AndroidColor.rgb(25, 118, 210); style = Paint.Style.STROKE; strokeWidth = 2f }
-    val pRadarText = Paint().apply { color = AndroidColor.DKGRAY; textSize = 7.5f; typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) }
-    val radarLabels = listOf("Fluidez", "Articulación", "Ritmo", "Tono", "Simulador")
+    val pRadarText = Paint().apply {
+        color = AndroidColor.DKGRAY
+        textSize = 7.5f
+        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        textAlign = Paint.Align.CENTER
+    }
+    val radarLabels = listOf("Fluidez", "Articulación", "Ritmo", "Tono", "Confianza")
 
     for (step in 1..4) {
         val stepR = rMax * (step / 4f)
@@ -925,8 +1216,8 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
         val endY = cy + rMax * Math.sin(angle).toFloat()
         canvas.drawLine(cx, cy, endX, endY, pRadarGrid)
 
-        val labelX = cx + (rMax + 15f) * Math.cos(angle).toFloat() - 14f
-        val labelY = cy + (rMax + 11f) * Math.sin(angle).toFloat() + 3f
+        val labelX = cx + (rMax + 18f) * Math.cos(angle).toFloat()
+        val labelY = cy + (rMax + 14f) * Math.sin(angle).toFloat() + 3f
         canvas.drawText(radarLabels[i], labelX, labelY, pRadarText)
     }
     pathVal.close()
@@ -936,8 +1227,13 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     val tonicosTotales = sesiones.sumOf { it.bloqueosTonicos }
     val clonicosTotales = sesiones.sumOf { it.bloqueosClonicos }
     val tiempoTotal = registrosTiempo.values.sum()
-    canvas.drawText("Incidencias Acústicas Históricas:", 50f, yM + 104f, pTitle)
-    canvas.drawText("Bloqueos Tónicos: $tonicosTotales   |   Bloqueos Clónicos: $clonicosTotales   |   Tiempo en app: $tiempoTotal min", 50f, yM + 122f, pBody.apply { color = AndroidColor.RED })
+    canvas.drawText("Incidencias Acústicas Históricas:", 45f, yM + 142f, pTitle)
+    canvas.drawText(
+        "Bloqueos Tónicos: $tonicosTotales   |   Bloqueos Clónicos: $clonicosTotales   |   Tiempo total en app: $tiempoTotal min",
+        45f,
+        yM + 160f,
+        pBody.apply { color = AndroidColor.rgb(183, 28, 28) }
+    )
     pBody.color = AndroidColor.BLACK
 
     document.finishPage(page)
@@ -954,9 +1250,9 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
 
     pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
     canvas.drawText("Fecha", 40f, ySesiones, pBody)
-    canvas.drawText("Módulo", 130f, ySesiones, pBody)
-    canvas.drawText("C.Ligeros", 300f, ySesiones, pBody)
-    canvas.drawText("Tón/Clón", 380f, ySesiones, pBody)
+    canvas.drawText("Módulo / Apartado", 130f, ySesiones, pBody)
+    canvas.drawText("C.Ligeros", 335f, ySesiones, pBody)
+    canvas.drawText("Tón/Clón", 410f, ySesiones, pBody)
     canvas.drawText("Éxito", 500f, ySesiones, pBody)
     pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
     ySesiones += 20f
@@ -975,18 +1271,18 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
 
             pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
             canvas.drawText("Fecha", 40f, ySesiones, pBody)
-            canvas.drawText("Módulo", 130f, ySesiones, pBody)
-            canvas.drawText("C.Ligeros", 300f, ySesiones, pBody)
-            canvas.drawText("Tón/Clón", 380f, ySesiones, pBody)
+            canvas.drawText("Módulo / Apartado", 130f, ySesiones, pBody)
+            canvas.drawText("C.Ligeros", 335f, ySesiones, pBody)
+            canvas.drawText("Tón/Clón", 410f, ySesiones, pBody)
             canvas.drawText("Éxito", 500f, ySesiones, pBody)
             pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
             ySesiones += 20f
         }
 
         canvas.drawText(sesion.fecha.take(16), 40f, ySesiones, pBody)
-        canvas.drawText(sesion.modulo.take(20), 130f, ySesiones, pBody)
-        canvas.drawText("${sesion.contactosLigerosPct}%", 310f, ySesiones, pBody)
-        canvas.drawText("${sesion.bloqueosTonicos}/${sesion.bloqueosClonicos}", 390f, ySesiones, pBody)
+        canvas.drawText(sesion.modulo.take(32), 130f, ySesiones, pBody)
+        canvas.drawText("${sesion.contactosLigerosPct}%", 345f, ySesiones, pBody)
+        canvas.drawText("${sesion.bloqueosTonicos}/${sesion.bloqueosClonicos}", 420f, ySesiones, pBody)
         canvas.drawText("${sesion.calificacionGlobal}%", 500f, ySesiones, pBody)
         ySesiones += 18f
     }
@@ -1030,7 +1326,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     }
     document.finishPage(page)
 
-    // PÁGINA 5: DAF/FAF Y GRÁFICAS DE TENSIÓN
+    // PÁGINA 5: DAF/FAF Y GRÁFICAS DE TENSIÓN CON ETIQUETAS ESPACIADAS
     numeroPagina++
     pageInfo = PdfDocument.PageInfo.Builder(595, 842, numeroPagina).create()
     page = document.startPage(pageInfo)
@@ -1044,15 +1340,26 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     dibujarBloqueTexto("", fafText, 85f)
 
     canvas.drawText("Distribución Histórica de Bloqueos (Tónicos vs Clónicos)", 40f, 220f, pTitle)
-    canvas.drawRect(RectF(40f, 235f, 555f, 430f), pBox)
+    canvas.drawRoundRect(RectF(40f, 235f, 555f, 440f), 8f, 8f, pBox)
 
     val pBarTonico = Paint().apply { color = AndroidColor.rgb(211, 47, 47); style = Paint.Style.FILL }
     val pBarClonico = Paint().apply { color = AndroidColor.rgb(194, 24, 91); style = Paint.Style.FILL }
+    val pBarLabel = Paint().apply {
+        color = AndroidColor.DKGRAY
+        textSize = 7.5f
+        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        textAlign = Paint.Align.CENTER
+    }
+    val pBarDate = Paint().apply {
+        color = AndroidColor.DKGRAY
+        textSize = 7f
+        textAlign = Paint.Align.CENTER
+    }
 
     val chartLeft5 = 75f
-    val chartTop5 = 255f
+    val chartTop5 = 260f
     val chartRight5 = 530f
-    val chartBottom5 = 395f
+    val chartBottom5 = 405f
     val chartHeight5 = chartBottom5 - chartTop5
     val chartWidth5 = chartRight5 - chartLeft5
 
@@ -1067,13 +1374,14 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     canvas.drawText("${(maxBloqueos / 2).toInt()}", chartLeft5 - 22f, (chartTop5 + chartBottom5) / 2f + 4f, pAxisText)
     canvas.drawText("0", chartLeft5 - 18f, chartBottom5 + 4f, pAxisText)
 
-    val sesionesBarras = sesiones.take(15).reversed()
+    val sesionesBarras = sesiones.take(12).reversed()
     if (sesionesBarras.isNotEmpty()) {
         val stepX5 = chartWidth5 / sesionesBarras.size
-        val barWidth5 = (stepX5 * 0.55f).coerceAtMost(32f)
+        val barWidth5 = (stepX5 * 0.50f).coerceAtMost(28f)
 
         sesionesBarras.forEachIndexed { i, sesion ->
-            val x = chartLeft5 + (i * stepX5) + (stepX5 - barWidth5) / 2f
+            val centerX = chartLeft5 + (i * stepX5) + (stepX5 / 2f)
+            val x = centerX - (barWidth5 / 2f)
             val hTonico = (sesion.bloqueosTonicos / maxBloqueos) * chartHeight5
             val hClonico = (sesion.bloqueosClonicos / maxBloqueos) * chartHeight5
 
@@ -1083,36 +1391,36 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
             canvas.drawRect(x, topTotal, x + barWidth5, topTonico, pBarClonico)
 
             val totalB = sesion.bloqueosTonicos + sesion.bloqueosClonicos
-            canvas.drawText("$totalB", x + (barWidth5 / 2f) - 4f, (topTotal - 4f).coerceAtLeast(chartTop5 + 8f), pAxisText)
-            canvas.drawText(formatearFechaCorta(sesion.fecha), x + (barWidth5 / 2f) - 11f, chartBottom5 + 12f, pAxisText)
+            canvas.drawText("$totalB", centerX, (topTotal - 5f).coerceAtLeast(chartTop5 + 8f), pBarLabel)
+            canvas.drawText(formatearFechaCorta(sesion.fecha), centerX, chartBottom5 + 14f, pBarDate)
         }
     } else {
         canvas.drawText("Sin datos de bloqueos registrados.", chartLeft5 + 15f, chartTop5 + 60f, pBody)
     }
 
-    canvas.drawRect(75f, 445f, 90f, 460f, pBarTonico)
-    canvas.drawText("Bloqueos Tónicos", 98f, 457f, pBody)
-    canvas.drawRect(225f, 445f, 240f, 460f, pBarClonico)
-    canvas.drawText("Bloqueos Clónicos", 248f, 457f, pBody)
+    canvas.drawRect(75f, 455f, 90f, 470f, pBarTonico)
+    canvas.drawText("Bloqueos Tónicos", 98f, 467f, pBody)
+    canvas.drawRect(225f, 455f, 240f, 470f, pBarClonico)
+    canvas.drawText("Bloqueos Clónicos", 248f, 467f, pBody)
 
     document.finishPage(page)
 
-    // PÁGINA 6: ANÁLISIS AVANZADO (LATENCIA Y RENDIMIENTO POR MÓDULO)
+    // PÁGINA 6: ANÁLISIS AVANZADO (LATENCIA ESPACIADA Y RENDIMIENTO JERÁRQUICO POR MÓDULO/APARTADO)
     numeroPagina++
     pageInfo = PdfDocument.PageInfo.Builder(595, 842, numeroPagina).create()
     page = document.startPage(pageInfo)
     canvas = page.canvas
 
-    canvas.drawText("11. Análisis Avanzado de Latencia y Módulos", 40f, 45f, pTitle)
+    canvas.drawText("11. Análisis Avanzado de Latencia y Módulos Clínicos", 40f, 45f, pTitle)
     canvas.drawLine(40f, 55f, 555f, 55f, pLine)
 
     canvas.drawText("Evolución de Latencia de Fonación (Milisegundos)", 40f, 75f, pTitle)
-    canvas.drawRect(RectF(40f, 85f, 555f, 235f), pBox)
+    canvas.drawRoundRect(RectF(40f, 85f, 555f, 245f), 8f, 8f, pBox)
 
-    val chartLeft6 = 75f
-    val chartTop6 = 100f
+    val chartLeft6 = 82f
+    val chartTop6 = 105f
     val chartRight6 = 530f
-    val chartBottom6 = 205f
+    val chartBottom6 = 210f
     val chartHeight6 = chartBottom6 - chartTop6
     val chartWidth6 = chartRight6 - chartLeft6
 
@@ -1124,29 +1432,42 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     val sesionesLatRev = sesiones.reversed()
     val maxLatencia = (sesionesLatRev.maxOfOrNull { it.latenciaMediaMs.toFloat() } ?: 2000f).coerceAtLeast(1000f)
 
-    canvas.drawText("${maxLatencia.toInt()}ms", chartLeft6 - 38f, chartTop6 + 4f, pAxisText)
-    canvas.drawText("${(maxLatencia / 2).toInt()}ms", chartLeft6 - 38f, (chartTop6 + chartBottom6) / 2f + 4f, pAxisText)
-    canvas.drawText("0ms", chartLeft6 - 25f, chartBottom6 + 4f, pAxisText)
+    canvas.drawText("${maxLatencia.toInt()}ms", chartLeft6 - 40f, chartTop6 + 4f, pAxisText)
+    canvas.drawText("${(maxLatencia / 2).toInt()}ms", chartLeft6 - 40f, (chartTop6 + chartBottom6) / 2f + 4f, pAxisText)
+    canvas.drawText("0ms", chartLeft6 - 26f, chartBottom6 + 4f, pAxisText)
 
     if (sesionesLatRev.isNotEmpty()) {
         val stepX6 = if (sesionesLatRev.size > 1) chartWidth6 / (sesionesLatRev.size - 1) else chartWidth6 / 2f
-        val pLineLatencia = Paint().apply { color = AndroidColor.rgb(245, 124, 0); strokeWidth = 3f; style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND }
+        val pLineLatencia = Paint().apply { color = AndroidColor.rgb(245, 124, 0); strokeWidth = 2.5f; style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND }
         val pPointLatencia = Paint().apply { color = AndroidColor.rgb(230, 81, 0); style = Paint.Style.FILL }
-        val pLatLabel = Paint().apply { color = AndroidColor.rgb(230, 81, 0); textSize = 7.5f; typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) }
+        val pLatLabel = Paint().apply {
+            color = AndroidColor.rgb(230, 81, 0)
+            textSize = 7.5f
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            textAlign = Paint.Align.CENTER
+        }
+
+        val maxEtiquetasLat = (chartWidth6 / 44f).toInt().coerceAtLeast(1)
+        val saltoEtiquetasLat = ((sesionesLatRev.size + maxEtiquetasLat - 1) / maxEtiquetasLat).coerceAtLeast(1)
 
         var prevX = -1f
         var prevY = -1f
+        var contadorLat = 0
+
         sesionesLatRev.forEachIndexed { index, sesion ->
             val valor = sesion.latenciaMediaMs.toFloat()
             val x = if (sesionesLatRev.size > 1) chartLeft6 + (index * stepX6) else chartLeft6 + chartWidth6 / 2f
             val y = chartBottom6 - ((valor / maxLatencia) * chartHeight6)
 
             if (prevX != -1f) canvas.drawLine(prevX, prevY, x, y, pLineLatencia)
-            canvas.drawCircle(x, y, 4f, pPointLatencia)
+            canvas.drawCircle(x, y, 3.8f, pPointLatencia)
 
-            if (sesionesLatRev.size <= 10 || index % 2 == 0 || index == sesionesLatRev.lastIndex) {
-                canvas.drawText("${sesion.latenciaMediaMs}", x - 10f, (y - 6f).coerceAtLeast(chartTop6 + 8f), pLatLabel)
-                canvas.drawText(formatearFechaCorta(sesion.fecha), x - 11f, chartBottom6 + 13f, pAxisText)
+            if (index % saltoEtiquetasLat == 0 || index == sesionesLatRev.lastIndex) {
+                val offsetYLat = if (contadorLat % 2 == 0) -8f else -17f
+                val posYLat = (y + offsetYLat).coerceIn(chartTop6 + 8f, chartBottom6 - 6f)
+                canvas.drawText("${sesion.latenciaMediaMs}", x, posYLat, pLatLabel)
+                canvas.drawText(formatearFechaCorta(sesion.fecha), x, chartBottom6 + 14f, pDateLabel)
+                contadorLat++
             }
             prevX = x
             prevY = y
@@ -1154,29 +1475,52 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     } else {
         canvas.drawText("No hay registros de latencia disponibles.", chartLeft6 + 15f, chartTop6 + 50f, pBody)
     }
-    canvas.drawText("* Valores menores indican mayor rapidez para iniciar la fonación (menos bloqueos iniciales).", 40f, 250f, pBody.apply { color = AndroidColor.GRAY; textSize = 9f })
+    canvas.drawText("* Valores menores indican mayor rapidez para iniciar la fonación (menos bloqueos iniciales).", 40f, 260f, pBody.apply { color = AndroidColor.GRAY; textSize = 9f })
 
-    pBody.color = AndroidColor.BLACK; pBody.textSize = 11f
-    canvas.drawText("Rendimiento Promedio por Módulo Clínico", 40f, 290f, pTitle)
+    pBody.color = AndroidColor.BLACK; pBody.textSize = 10.5f
+    canvas.drawText("Rendimiento Promedio por Módulo Clínico y Apartado", 40f, 290f, pTitle)
+    canvas.drawLine(40f, 296f, 555f, 296f, pLine)
 
-    val rendimientoModulos = sesiones.groupBy { it.modulo }
-        .mapValues { entry -> entry.value.map { it.calificacionGlobal }.average().toInt() }
-        .entries.sortedByDescending { it.value }
-
-    var yModulo = 320f
+    val gruposModulosPdf = agruparRendimientoPorModulo(sesiones)
+    var yModulo = 318f
     val pBarModBG = Paint().apply { color = AndroidColor.LTGRAY; style = Paint.Style.FILL }
     val pBarModFG = Paint().apply { color = AndroidColor.rgb(25, 118, 210); style = Paint.Style.FILL }
+    val pBarSubFG = Paint().apply { color = AndroidColor.rgb(0, 121, 107); style = Paint.Style.FILL }
 
-    for ((modulo, calificacion) in rendimientoModulos) {
-        canvas.drawText(modulo.take(30), 40f, yModulo + 10f, pBody)
-        canvas.drawText("$calificacion%", 210f, yModulo + 10f, pBody.apply { typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) })
-        pBody.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+    for (grupo in gruposModulosPdf) {
+        // Verifica espacio antes de dibujar el bloque del módulo
+        val alturaNecesaria = 24f + (grupo.apartados.size * 18f) + 8f
+        if (yModulo + alturaNecesaria > 790f) {
+            document.finishPage(page)
+            numeroPagina++
+            pageInfo = PdfDocument.PageInfo.Builder(595, 842, numeroPagina).create()
+            page = document.startPage(pageInfo)
+            canvas = page.canvas
+            canvas.drawText("11. Rendimiento Promedio por Módulo y Apartado (Continuación)", 40f, 45f, pTitle)
+            canvas.drawLine(40f, 55f, 555f, 55f, pLine)
+            yModulo = 78f
+        }
 
-        canvas.drawRoundRect(RectF(250f, yModulo, 555f, yModulo + 12f), 4f, 4f, pBarModBG)
-        val anchoBarra = 250f + (305f * (calificacion / 100f))
-        canvas.drawRoundRect(RectF(250f, yModulo, anchoBarra, yModulo + 12f), 4f, 4f, pBarModFG)
+        // Fila principal del Módulo Clínico
+        canvas.drawText("${grupo.moduloPrincipal} (${grupo.totalSesiones} ses.)", 40f, yModulo + 10f, pSubTitle)
+        canvas.drawText("${grupo.promedioGeneral}%", 245f, yModulo + 10f, pSubTitle)
 
-        yModulo += 24f
+        canvas.drawRoundRect(RectF(285f, yModulo, 555f, yModulo + 11f), 4f, 4f, pBarModBG)
+        val anchoBarraMod = 285f + (270f * (grupo.promedioGeneral / 100f).coerceIn(0f, 1f))
+        canvas.drawRoundRect(RectF(285f, yModulo, anchoBarraMod, yModulo + 11f), 4f, 4f, pBarModFG)
+        yModulo += 20f
+
+        // Sub-filas por cada apartado perteneciente al módulo
+        for (apartado in grupo.apartados) {
+            canvas.drawText("↳ ${apartado.nombreApartado.take(28)} (${apartado.totalSesiones})", 54f, yModulo + 8f, pSmallMuted)
+            canvas.drawText("${apartado.promedio}%", 248f, yModulo + 8f, pSmallMuted)
+
+            canvas.drawRoundRect(RectF(285f, yModulo + 1f, 555f, yModulo + 8f), 3f, 3f, pBarModBG)
+            val anchoBarraSub = 285f + (270f * (apartado.promedio / 100f).coerceIn(0f, 1f))
+            canvas.drawRoundRect(RectF(285f, yModulo + 1f, anchoBarraSub, yModulo + 8f), 3f, 3f, pBarSubFG)
+            yModulo += 17f
+        }
+        yModulo += 8f
     }
 
     document.finishPage(page)
@@ -1834,10 +2178,16 @@ fun ProgresoScreen(navController: NavController, onBack: () -> Unit) {
                 item { MiArchivoFonologico(archivoDatos = archivoFonologico) }
                 item { Text("Registro Clínico Completo (${sesiones.size} sesiones)", fontSize = 16.sp, fontWeight = FontWeight.Bold) }
                 items(sesiones) { sesion ->
+                    val (moduloPadre, apartado) = clasificarModuloYApartado(sesion.modulo)
                     Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
                         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(sesion.modulo, fontWeight = FontWeight.Bold, fontSize = 14.sp, modifier = Modifier.weight(1f))
+                                Column(modifier = Modifier.weight(1f).padding(end = 8.dp)) {
+                                    Text(moduloPadre, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                                    if (apartado != moduloPadre) {
+                                        Text("Apartado: $apartado", fontSize = 12.sp, color = MaterialTheme.colorScheme.primary)
+                                    }
+                                }
                                 Text("${sesion.calificacionGlobal}%", fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.primary)
                             }
                             Text(sesion.fecha, fontSize = 12.sp, color = Color.Gray)

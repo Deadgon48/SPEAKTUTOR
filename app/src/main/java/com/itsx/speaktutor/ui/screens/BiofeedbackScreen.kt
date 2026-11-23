@@ -209,10 +209,11 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
     var fallosFuerza by remember { mutableIntStateOf(0) }
     var enCooldownFallo by remember { mutableStateOf(false) }
 
-    // Escala calibrada de 0 a 1000 para que la barra visual (20% azul / 60% verde / 20% rojo) coincida exactamente
-    val nivelSoplido = (metricasDSP.rmsEnergia * 3.5f).coerceIn(0f, 1000f)
-    val LIMITE_INFERIOR = 200f // 20% inferior de la barra (Azul: muy débil)
-    val LIMITE_SUPERIOR = 800f // 80% superior de la barra (Rojo: exceso de fuerza)
+    // Compresión de picos de viento: el aire directo satura el RMS lineal muy rápido
+    val rmsCrudo = metricasDSP.rmsEnergia
+    val nivelSoplido = (kotlin.math.sqrt(rmsCrudo.coerceAtLeast(0f)) * 11f).coerceIn(0f, 1000f)
+    val LIMITE_INFERIOR = 180f // 18% inferior (Azul: muy débil)
+    val LIMITE_SUPERIOR = 900f // 90% superior (Rojo: solo si soplas con mucha fuerza)
 
     val enZonaVerde = nivelSoplido in LIMITE_INFERIOR..LIMITE_SUPERIOR
     val demasiadaFuerza = nivelSoplido > LIMITE_SUPERIOR
@@ -220,17 +221,24 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
     val enZonaVerdeActual by rememberUpdatedState(enZonaVerde)
     val demasiadaFuerzaActual by rememberUpdatedState(demasiadaFuerza)
 
+    var ticksEnRojoContinuos by remember { mutableIntStateOf(0) }
+
     // Bucle cronometrado estable cada 100ms independiente de la frecuencia de actualización del audio
     LaunchedEffect(Unit) {
         while (true) {
             delay(100L)
             if (demasiadaFuerzaActual) {
-                if (!enCooldownFallo) {
+                ticksEnRojoContinuos++
+                // Retrocede suave en lugar de borrar todo el progreso a cero
+                ticksSostenidos = (ticksSostenidos - 2).coerceAtLeast(0)
+
+                // Solo registra fallo si mantiene exceso de fuerza por más de 400ms seguidos
+                if (ticksEnRojoContinuos >= 4 && !enCooldownFallo) {
                     enCooldownFallo = true
                     fallosFuerza++
                 }
-                ticksSostenidos = 0
             } else {
+                ticksEnRojoContinuos = 0
                 enCooldownFallo = false
                 if (enZonaVerdeActual) {
                     ticksSostenidos++
@@ -240,7 +248,6 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
                         vibrarDispositivo(context, 120L)
                     }
                 } else {
-                    // Si baja el aire sin pasarse de fuerza, descuenta gradualmente sin castigar con fallo
                     ticksSostenidos = (ticksSostenidos - 1).coerceAtLeast(0)
                 }
             }
@@ -275,11 +282,11 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
                     .background(Color(0xFFEEEEEE)),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                // Zonas de referencia (20% roja arriba, 60% verde centro, 20% azul abajo)
+                // Zonas de referencia (10% roja arriba, 72% verde centro, 18% azul abajo)
                 Column(modifier = Modifier.fillMaxSize()) {
-                    Box(modifier = Modifier.weight(0.2f).fillMaxWidth().background(Color.Red.copy(alpha = 0.22f)))
-                    Box(modifier = Modifier.weight(0.6f).fillMaxWidth().background(Color.Green.copy(alpha = 0.25f)))
-                    Box(modifier = Modifier.weight(0.2f).fillMaxWidth().background(Color.Blue.copy(alpha = 0.20f)))
+                    Box(modifier = Modifier.weight(0.10f).fillMaxWidth().background(Color.Red.copy(alpha = 0.22f)))
+                    Box(modifier = Modifier.weight(0.72f).fillMaxWidth().background(Color.Green.copy(alpha = 0.25f)))
+                    Box(modifier = Modifier.weight(0.18f).fillMaxWidth().background(Color.Blue.copy(alpha = 0.20f)))
                 }
                 // Indicador dinámico del soplido
                 Box(
@@ -339,17 +346,25 @@ fun EjercicioSoplidoSostenido(metricasDSP: ParametrosAcusticos, context: Context
         Spacer(modifier = Modifier.height(24.dp))
         Button(
             onClick = {
-                val total = exitosTotales + fallosFuerza
-                if (total == 0) {
+                val avanceParcial = ticksSostenidos / 10 // Hasta 4 puntos extra si quedó cerca de completar otro ciclo
+                val puntosAcierto = (exitosTotales * 10) + avanceParcial
+                val puntosTotales = puntosAcierto + fallosFuerza
+
+                if (exitosTotales == 0 && fallosFuerza == 0 && avanceParcial == 0) {
                     Toast.makeText(context, "Realiza al menos un intento antes de guardar", Toast.LENGTH_SHORT).show()
                     return@Button
                 }
-                val calificacion = (exitosTotales * 100) / total
+
+                val calificacion = if (puntosTotales > 0) {
+                    ((puntosAcierto * 100) / puntosTotales).coerceIn(0, 100)
+                } else 0
+
                 ProgresoStorage.guardarSesionMultidimensional(context, "Soplido", exitosTotales, fallosFuerza, calificacion)
                 Toast.makeText(context, "Progreso de Soplido guardado ($calificacion%)", Toast.LENGTH_SHORT).show()
                 exitosTotales = 0
                 fallosFuerza = 0
                 ticksSostenidos = 0
+                ticksEnRojoContinuos = 0
             },
             modifier = Modifier.fillMaxWidth(0.75f)
         ) {
