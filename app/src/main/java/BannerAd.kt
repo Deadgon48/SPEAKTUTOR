@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -22,23 +26,32 @@ private tailrec fun Context.findActivity(): Activity? = when (this) {
 
 @Composable
 fun BannerAd(modifier: Modifier = Modifier) {
-    Log.d("BannerStartIo", "Componiendo BannerAd. MOSTRAR_ANUNCIOS = ${AppConfig.MOSTRAR_ANUNCIOS}")
     if (!AppConfig.MOSTRAR_ANUNCIOS) return
 
+    var bannerVisible by remember { mutableStateOf(false) }
+
     AndroidView(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(50.dp),
+        modifier = if (bannerVisible) {
+            modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        } else {
+            Modifier
+                .fillMaxWidth()
+                .height(0.dp)
+        },
         factory = { ctx ->
             val activity = ctx.findActivity()
             if (activity != null) {
                 Banner(activity, object : BannerListener {
                     override fun onReceiveAd(banner: View?) {
                         Log.d("BannerStartIo", "✅ Banner recibido y listo")
+                        bannerVisible = true
                     }
 
                     override fun onFailedToReceiveAd(banner: View?) {
                         Log.e("BannerStartIo", "❌ Falló la carga: ${banner?.tag ?: "sin inventario o sin red"}")
+                        bannerVisible = false
                     }
 
                     override fun onImpression(banner: View?) {

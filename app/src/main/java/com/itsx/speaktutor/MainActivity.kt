@@ -51,11 +51,10 @@ class MainActivity : ComponentActivity() {
         // Cargar preferencia guardada (Sistema / Claro / Oscuro)
         TemaStorage.inicializar(this)
 
-        // --- INICIALIZAR START.IO ---
-        StartAppSDK.init(this, "210570586", false)
-
         // Desactiva el anuncio automático al abrir la app para no interrumpir la terapia
         StartAppAd.disableSplash()
+
+        StartAppAd.disableAutoInterstitial()
 
         enableEdgeToEdge()
         setContent {

@@ -10,7 +10,7 @@ viewport: width=device-width, initial-scale=1.0
 
 Política de Privacidad · Última actualización: 23 de noviembre de 2026
 
-**[📥 Descargar APK oficial para Android (MEGA)](https://mega.nz/file/Dlhh3LAa#WcaP3549kvbhMxpBK2Me8pfICJpysIknTybCFBp-VCk){target="_blank"}**
+**[📥 Descargar APK oficial para Android (MEGA)](https://mega.nz/file/f0hXlTYa#S1rClNktUTVtRNvbihMpaySUrtncopEc9WdUPF3nUbY){target="_blank"}**
 
 </div>
 

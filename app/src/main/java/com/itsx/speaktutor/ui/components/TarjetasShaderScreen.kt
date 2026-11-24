@@ -292,7 +292,6 @@ fun TarjetasShaderScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 12.dp)
-                    .background(Color.Red.copy(alpha = 0.2f)) // Temporal para diagnóstico
             )
 
             Text(
