@@ -977,6 +977,7 @@ fun GraficaDistribucionBloqueos(tonicos: Int, clonicos: Int) {
 }
 
 // --- 4. GENERADOR DE HISTORIA CLÍNICA ELECTRÓNICA Y PDF CON PAGINACIÓN DINÁMICA ---
+// --- 4. GENERADOR DE HISTORIA CLÍNICA ELECTRÓNICA Y PDF CON PAGINACIÓN DINÁMICA ---
 @RequiresApi(Build.VERSION_CODES.Q)
 fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<SesionClinica>, registrosTiempo: Map<String, Int>): File? {
     val document = PdfDocument()
@@ -1034,7 +1035,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     page = document.startPage(pageInfo)
     canvas = page.canvas
 
-    canvas.drawText("5. Gráfica de Evolución de Fluidez (Calificación Global %)", 40f, 45f, pTitle)
+    canvas.drawText("3. Gráfica de Evolución de Fluidez (Calificación Global %)", 40f, 45f, pTitle)
     canvas.drawRoundRect(RectF(40f, 55f, 555f, 235f), 8f, 8f, pBox)
 
     val chartLeft = 80f
@@ -1071,7 +1072,6 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
         val pLineChart = Paint().apply { color = AndroidColor.rgb(25, 118, 210); strokeWidth = 2.5f; style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND }
         val pPoint = Paint().apply { color = AndroidColor.rgb(13, 71, 161); style = Paint.Style.FILL }
 
-        // Espaciado mínimo de 42px entre etiquetas para que nunca se encimen
         val maxEtiquetasCabida = (chartWidth / 42f).toInt().coerceAtLeast(1)
         val saltoEtiquetas = ((sesionesRev.size + maxEtiquetasCabida - 1) / maxEtiquetasCabida).coerceAtLeast(1)
 
@@ -1103,9 +1103,9 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
         canvas.drawText("No hay sesiones registradas para mostrar en la gráfica.", chartLeft + 15f, chartTop + 55f, pBody)
     }
 
-    // SECCIÓN 7: ANÁLISIS MULTIDIMENSIONAL ACTUALIZADO CON TODOS LOS MÓDULOS
+    // SECCIÓN 4: ANÁLISIS MULTIDIMENSIONAL ACTUALIZADO CON TODOS LOS MÓDULOS
     val yM = 265f
-    canvas.drawText("7. Análisis Multidimensional de Habilidades (Todos los Módulos)", 40f, yM, pTitle)
+    canvas.drawText("4. Análisis Multidimensional de Habilidades (Todos los Módulos)", 40f, yM, pTitle)
     canvas.drawLine(40f, yM + 6f, 555f, yM + 6f, pLine)
 
     val ptAvanceTono = sesiones.filter {
@@ -1176,7 +1176,6 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     yAxisList += 18f
     canvas.drawText("• Agilidad de Inicio Vocal (Ritmo / Latencia ${latenciaPdf.toInt()} ms): $ptRitmoPct%", 45f, yAxisList, pBody)
 
-    // Radar ampliado con etiquetas centradas sin traslapes
     val cx = 468f
     val cy = yM + 75f
     val rMax = 48f
@@ -1244,7 +1243,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     page = document.startPage(pageInfo)
     canvas = page.canvas
 
-    canvas.drawText("8. Registro Clínico Completo (${sesiones.size} Sesiones Registradas)", 40f, 45f, pTitle)
+    canvas.drawText("5. Registro Clínico Completo (${sesiones.size} Sesiones Registradas)", 40f, 45f, pTitle)
     canvas.drawLine(40f, 55f, 555f, 55f, pLine)
     var ySesiones = 75f
 
@@ -1265,7 +1264,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
             page = document.startPage(pageInfo)
             canvas = page.canvas
 
-            canvas.drawText("8. Registro Clínico Completo (Continuación)", 40f, 45f, pTitle)
+            canvas.drawText("5. Registro Clínico Completo (Continuación)", 40f, 45f, pTitle)
             canvas.drawLine(40f, 55f, 555f, 55f, pLine)
             ySesiones = 75f
 
@@ -1294,7 +1293,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     page = document.startPage(pageInfo)
     canvas = page.canvas
 
-    canvas.drawText("9. Mapeo Fonético Estandarizado", 40f, 45f, pTitle)
+    canvas.drawText("6. Mapeo Fonético Estandarizado", 40f, 45f, pTitle)
     canvas.drawText("Evaluación de grafemas y sílabas trabadas según el registro del motor DSP y STT.", 40f, 65f, pBody)
 
     var yFonetica = 95f
@@ -1332,7 +1331,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     page = document.startPage(pageInfo)
     canvas = page.canvas
 
-    canvas.drawText("10. Modulación Acústica y Análisis de Tensión", 40f, 45f, pTitle)
+    canvas.drawText("7. Modulación Acústica y Análisis de Tensión", 40f, 45f, pTitle)
     canvas.drawLine(40f, 55f, 555f, 55f, pLine)
 
     canvas.drawText("Retroalimentación Auditiva (DAF) y Modulación de Frecuencia (FAF)", 40f, 75f, pTitle)
@@ -1411,7 +1410,7 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     page = document.startPage(pageInfo)
     canvas = page.canvas
 
-    canvas.drawText("11. Análisis Avanzado de Latencia y Módulos Clínicos", 40f, 45f, pTitle)
+    canvas.drawText("8. Análisis Avanzado de Latencia y Módulos Clínicos", 40f, 45f, pTitle)
     canvas.drawLine(40f, 55f, 555f, 55f, pLine)
 
     canvas.drawText("Evolución de Latencia de Fonación (Milisegundos)", 40f, 75f, pTitle)
@@ -1488,7 +1487,6 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
     val pBarSubFG = Paint().apply { color = AndroidColor.rgb(0, 121, 107); style = Paint.Style.FILL }
 
     for (grupo in gruposModulosPdf) {
-        // Verifica espacio antes de dibujar el bloque del módulo
         val alturaNecesaria = 24f + (grupo.apartados.size * 18f) + 8f
         if (yModulo + alturaNecesaria > 790f) {
             document.finishPage(page)
@@ -1496,12 +1494,11 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
             pageInfo = PdfDocument.PageInfo.Builder(595, 842, numeroPagina).create()
             page = document.startPage(pageInfo)
             canvas = page.canvas
-            canvas.drawText("11. Rendimiento Promedio por Módulo y Apartado (Continuación)", 40f, 45f, pTitle)
+            canvas.drawText("8. Rendimiento Promedio por Módulo y Apartado (Continuación)", 40f, 45f, pTitle)
             canvas.drawLine(40f, 55f, 555f, 55f, pLine)
             yModulo = 78f
         }
 
-        // Fila principal del Módulo Clínico
         canvas.drawText("${grupo.moduloPrincipal} (${grupo.totalSesiones} ses.)", 40f, yModulo + 10f, pSubTitle)
         canvas.drawText("${grupo.promedioGeneral}%", 245f, yModulo + 10f, pSubTitle)
 
@@ -1510,7 +1507,6 @@ fun exportarHcePdf(context: Context, perfil: PerfilClinico, sesiones: List<Sesio
         canvas.drawRoundRect(RectF(285f, yModulo, anchoBarraMod, yModulo + 11f), 4f, 4f, pBarModFG)
         yModulo += 20f
 
-        // Sub-filas por cada apartado perteneciente al módulo
         for (apartado in grupo.apartados) {
             canvas.drawText("↳ ${apartado.nombreApartado.take(28)} (${apartado.totalSesiones})", 54f, yModulo + 8f, pSmallMuted)
             canvas.drawText("${apartado.promedio}%", 248f, yModulo + 8f, pSmallMuted)
